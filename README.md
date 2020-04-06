@@ -12,6 +12,16 @@ Aphantopus hyperantus (Ringlet) was the first genome available ([NCBI link](http
 
 Whole genome resequencing data was generated for 38 & 40 modern individuals (sampled 2016-2017 & 2019) from a core and expanding population. Museum data was generated from 48 individuals + resequencing of a subset of individuals to increase read coverage. 
 
+## Note on renaming files
+
+Liverpool raw data is named with digits and a dash before the sample names. e.g. 33-AH-01-1900-47_191121_L001_R2.fastq.gz
+The easiest way to rename them is with the Perl rename (note that the native linux rename works the same as mv and is not so useful in this case). 
+Install the perl script (a version curated [here](https://github.com/subogero/rename)). On bluecp3 I've installed this in my software folder: /newhome/aj18951/software/rename-master/rename.
+
+This works with the sed syntax. e.g. this will remove numbers plus dash from the start of the file names: 
+
+../../software/rename-master/rename 's/^[0-9]+-//' *
+
 ## Pipeline
 
 ### 1. Demultiplex and Adapter trimming
