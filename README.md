@@ -86,9 +86,6 @@ cutadapt version 1.12
 
 01a_modern_cutadapt_filtering_trimming.sh
 
-01b_museum_trimmomatic_filtering_trimming.sh
-
-01b_modern_trimmomatic_filtering_trimming.sh
 
 ##### *wrapper
 
