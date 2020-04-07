@@ -119,7 +119,7 @@ Reseq data are kept in the following folders:
 
 #### Rename samples before mapping
 
-We don't need the really long names given to the samples by the sequencing facilites. We'll rename samples before proceeding further: 
+We don't need the really long names given to the samples by the sequencing facilities. We'll rename samples before proceeding further: 
 
 Museum
 ```
