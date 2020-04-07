@@ -54,7 +54,7 @@ cutadapt --help
 cutadapt version 1.12
 ```
 
-#####*pipeline
+##### *pipeline
 
 01a_museum_cutadapt_filtering_trimming.sh
 
@@ -64,7 +64,7 @@ cutadapt version 1.12
 
 01b_modern_trimmomatic_filtering_trimming.sh
 
-#####*wrapper
+##### *wrapper
 
 01a_parallel_cutadapt_bluecp3.sh
 
