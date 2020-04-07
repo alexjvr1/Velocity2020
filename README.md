@@ -122,9 +122,15 @@ Reseq data are kept in the following folders:
 
 We don't need the really long names given to the samples by the sequencing facilites. We'll rename samples before proceeding further: 
 
+Museum
 ```
 cd 01a_mus.concat_cutadapt_reads/
 
+#move all the log files into a folder
+mkdir logfiles
+mv *log logfiles
+
+#change the names
 ~/software/rename_master/rename 's/long_name/new_name/' *gz
 
 ##remove all the extra info about lane number and date etc. Final names will bein this format: 
@@ -134,6 +140,36 @@ AH-01-1900-01_R2.concat.fastq.gz  AH-01-1900-18_R1.fastq.gz         AH-01-1900-3
 
 ```
 
+Modern
+```
+I'm mapping simultaneously to mod.core and mod.exp, but I'll keep the cutadapt reads in their different folders. 
+
+cd 01a_modern_cutadapt_reads
+#move all the log files into a folder
+mkdir logfiles
+mv *log logfiles
+
+#change the names
+
+~/software/rename-master/rename 's/R1_001.fastq.gzcutadapt_filtered/mod.core/' *gz
+~/software/rename-master/rename 's/R2_001.fastq.gzcutadapt_filtered/mod.core/' *gz
+
+AH-01-2016-01_mod.core_R1.fastq.gz  AH-01-2016-16_mod.core_R1.fastq.gz  AH-01-2017-29_mod.core_R1.fastq.gz
+AH-01-2016-01_mod.core_R2.fastq.gz  AH-01-2016-16_mod.core_R2.fastq.gz  AH-01-2017-29_mod.core_R2.fastq.gz
+
+
+cd  01a_modern.exp_cutadapt_reads
+#move all the log files into a folder
+mkdir logfiles
+mv *log logfiles
+
+~/software/rename-master/rename 's/R1_001.fastq.gzcutadapt_filtered/mod.exp/' *gz
+~/software/rename-master/rename 's/R2_001.fastq.gzcutadapt_filtered/mod.exp/' *gz
+
+AH-02-2019-42_mod.exp_R1.fastq.gz  AH-02-2019-57_mod.exp_R1.fastq.gz  AH-02-2019-71_mod.exp_R1.fastq.gz
+AH-02-2019-42_mod.exp_R2.fastq.gz  AH-02-2019-57_mod.exp_R2.fastq.gz  AH-02-2019-71_mod.exp_R2.fastq.gz
+
+```
 
 ### 2. Map to Reference Genome
 
