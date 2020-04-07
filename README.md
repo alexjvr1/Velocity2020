@@ -179,7 +179,7 @@ AH-02-2019-42_mod.exp_R2.fastq.gz  AH-02-2019-57_mod.exp_R2.fastq.gz  AH-02-2019
 
 ### 2. Map to Reference Genome
 
-##### *TIME:*
+#### *TIME:*
 
 
 
