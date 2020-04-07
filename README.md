@@ -22,7 +22,31 @@ This works with the sed syntax. e.g. this will remove numbers plus dash from the
 
 ../../software/rename-master/rename 's/^[0-9]+-//' *
 
-## Pipeline
+## Pipeline for Velocity project from raw data to mapped reads:
+
+The scripts for the final pipeline are outlined below. The scripts are organised in 3 folders within a main folder.
+
+Use this pipeline by running scripts in the pipeline/ folder in the numbered order. These scripts generate submission scripts for each step that can be submitted to the BlueCrystal p3 queue (i.e. qsub script.sh).
+
+Inputs for each step should be submitted via the command line.
+
+```
+|
+-----> pipeline  
+
+        This contains all the scripts that generate submission scripts for BlueCrystal. Options can be specified in the command line. 
+
+|
+-----> wrapper
+    
+        Scripts called by pipeline scripts. Wrapper scripts for generating Queue request and specifying inputs from command line for                the tools to be called.     
+        
+|
+-----> tools
+        
+        Scripts of tools or functions used in each step. These are called by the wrapper script
+```
+
 
 ### 1. Demultiplex and Adapter trimming
 
@@ -91,8 +115,25 @@ Reseq data are kept in the following folders:
 
 01a_mus.concat_cutadapt_reads  ## concatenated museum1 and museum2 + all samples that didn't have reseq data added. I'll point to this folder when mapping
 
-02a_museum2_mapped  ##see below
+02a_museum_mapped  ##see below. This contains all data including concatenated reseq samples. 
 ```
+
+#### Rename samples before mapping
+
+We don't need the really long names given to the samples by the sequencing facilites. We'll rename samples before proceeding further: 
+
+```
+cd 01a_mus.concat_cutadapt_reads/
+
+~/software/rename_master/rename 's/long_name/new_name/' *gz
+
+##remove all the extra info about lane number and date etc. Final names will bein this format: 
+
+AH-01-1900-01_R1.concat.fastq.gz  AH-01-1900-17_R2.fastq.gz         AH-01-1900-34_R1.concat.fastq.gz
+AH-01-1900-01_R2.concat.fastq.gz  AH-01-1900-18_R1.fastq.gz         AH-01-1900-34_R2.concat.fastq.gz
+
+```
+
 
 ### 2. Map to Reference Genome
 
@@ -120,8 +161,8 @@ mkdir 02a_modern_mapped
 
 #Check that you're pointing to the correct reference genome
 
-#Check that the file separator makes sense. This will be different for the musuem and modern samples because the samples are named differently. On the line: 
-##sample_name=`echo ${NAME1} | awk -F "_L007" '{print $1}'`
+#Check that the file separator makes sense: 
+##sample_name=`echo ${NAME1} | awk -F "_R" '{print $1}'`
 #Change the -F "xxx" according to the file names. 
 #e.g the above works for files named as follows: 
 #HS-01-2016-26_L007_cutadapt_filtered_R2.fastq.gz
@@ -130,9 +171,9 @@ mkdir 02a_modern_mapped
 
 *pipeline*
 
-02_MapwithBWAmem.ARRAY_museum.sh
+[02_MapwithBWAmem.ARRAY_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02_MapwithBWAmem.ARRAY_museum.sh)
 
-02_MapwithBWAmem.ARRAY_modern.sh
+[02_MapwithBWAmem.ARRAY_modern.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02_MapwithBWAmem.ARRAY_modern.sh)
 
 Check that everything has mapped correctly by checking the file sizes. If the mapping is cut short (e.g. by exceeding the requested walltime) the partial bam file will look complete and can be indexed. But the bam file size will be small (~500kb) and empty when you look at it.
 ```
