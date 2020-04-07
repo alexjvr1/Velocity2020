@@ -199,9 +199,11 @@ ls 01a_modern_cutadapt_reads/*R2* >> R2.modern.names
 ls 01a_modern.exp_cutadapt_reads/*R2* >> R2.modern.names 
 
 
-#make output directories
+#make output directories. Remember to add the additional folders in the 02a_modern_mapped folder as the output will be written there. 
 mkdir 02a_museum_mapped
 mkdir 02a_modern_mapped
+mkdir 02a_modern_mapped/01a_modern_cutadapt_reads
+mkdir 02a_modern_mapped/01a_modern.exp_cutadapt_reads
 
 #Check that you're pointing to the correct reference genome
 
