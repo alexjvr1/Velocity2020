@@ -288,6 +288,25 @@ Index the bam files with the script [index.bamfiles.sh](https://github.com/alexj
 
 #### 3a. MapDamage run on museum data
 
+[MapDamage2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3694634/) is a package used to estimate and correct for Cytosine deamination (or any other transition/transversion bias in the data). This is a problem anticipated for ancient DNA, and possibly for museum data.
+
+This needs to be locally installed on BlueCrystal. Follow the instructions in the tutorial
+
+MapDamage will be run in the 02a_museum_mapped folder. 
+
+
+1. Create a file listing all the bamfiles
+```
+
+ls *bam > bamfiles.mus.names
+```
+
+2. Copy the script [03a_mapDamage_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/03a_mapDamage_museum.sh) to the 02a_museum_mapped folder. Change the job name, the number of threads, and check the path to the reference genome.
+
+Submit to queue.
+
+Analyse output stats
+
 #### 3b. Downsample modern data to the same coverage as in the museum samples
 
 
