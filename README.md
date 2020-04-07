@@ -20,7 +20,9 @@ Install the perl script (a version curated [here](https://github.com/subogero/re
 
 This works with the sed syntax. e.g. this will remove numbers plus dash from the start of the file names: 
 
+```
 ../../software/rename-master/rename 's/^[0-9]+-//' *
+```
 
 ## Pipeline for Velocity project from raw data to mapped reads:
 
