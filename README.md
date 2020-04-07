@@ -52,10 +52,12 @@ Inputs for each step should be submitted via the command line.
 
 ### 1. Demultiplex and Adapter trimming
 
-#### *TIME*
+#### *TIME:*
 
 This runs in 1-2 hours for the full dataset (museum + modern)
 
+
+#### *METHOD:*
 
 Modern samples arrive demultiplexed by the sequencing facility, but Museum samples need to be demultiplexed. 
 
@@ -177,9 +179,11 @@ AH-02-2019-42_mod.exp_R2.fastq.gz  AH-02-2019-57_mod.exp_R2.fastq.gz  AH-02-2019
 
 ### 2. Map to Reference Genome
 
-##### *TIME*
+##### *TIME:*
 
 
+
+#### *METHOD:*
 
 It is more efficient to run this code in local directory before submitting to queue
 
