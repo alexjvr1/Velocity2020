@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N E3.mod.BWA  ##job name
+#PBS -N E3.BWA.mod  ##job name
 #PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
 #PBS -l mem=16gb #RAM
 #PBS -l walltime=10:00:00 ##wall time.  
