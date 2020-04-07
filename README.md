@@ -81,7 +81,7 @@ Edit the generated script above to submit from your home directory:
 
 ```
 
-To incorporate new data (e.g. resequencing of some individuals to increase mean depth), new fastq files need to be adapter trimmed. Fastq files are concatenated after this using the script [concat.fastq.sh]()
+To incorporate new data (e.g. resequencing of some individuals to increase mean depth), new fastq files need to be adapter trimmed. Fastq files are concatenated after this using the script [concat.fastq.R1.sh](https://github.com/alexjvr1/Velocity2020/blob/master/concat.fastq.R1.sh) and [concat.fastq.R2.sh]()
 
 Reseq data are kept in the following folders:
 ```
