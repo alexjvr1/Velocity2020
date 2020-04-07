@@ -15,7 +15,7 @@ module load apps/samtools-1.8
 
 #Define variables
 
-RefSeq="GCA_902806685.1_iAphHyp1.1_genomic.fna"
+RefSeq=GCA_902806685.1_iAphHyp1.1_genomic.fna
 total_files=`find 01a_mus.concat_cutadapt_reads/ -name '*.fastq.gz' | wc -l`
 
 
