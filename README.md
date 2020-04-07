@@ -96,6 +96,62 @@ Reseq data are kept in the following folders:
 
 ### 2. Map to Reference Genome
 
+It is more efficient to run this code in local directory before submitting to queue
+
+```
+#Index the reference genome if needed. Check whether the *fasta.fai* file exists in the SpeciesName/RefGenome/ folder in your local directory. If not, run the indexing code. 
+
+#index reference genome
+module load apps/bwa-0.7.15
+bwa index RefGenome/*fasta
+
+
+#Create files with input names
+ls 01a_mus.concat_cutadapt_reads/*R1*fastq.gz >> R1.museum.names
+sed -i s:01a_mus.concat_cutadapt_reads/::g R1.museum.names
+
+ls 01a_mus.concat_cutadapt_reads/*R2*fastq.gz >> R2.museum.names
+sed -i s:01a_mus.concat_cutadapt_reads/::g R2.museum.names
+
+
+#make output directories
+mkdir 02a_museum_mapped
+mkdir 02a_modern_mapped
+
+#Check that you're pointing to the correct reference genome
+
+#Check that the file separator makes sense. This will be different for the musuem and modern samples because the samples are named differently. On the line: 
+##sample_name=`echo ${NAME1} | awk -F "_L007" '{print $1}'`
+#Change the -F "xxx" according to the file names. 
+#e.g the above works for files named as follows: 
+#HS-01-2016-26_L007_cutadapt_filtered_R2.fastq.gz
+#we want only the first part of this name to carry through. 
+```
+
+*pipeline*
+
+02_MapwithBWAmem.ARRAY_museum.sh
+
+02_MapwithBWAmem.ARRAY_modern.sh
+
+Check that everything has mapped correctly by checking the file sizes. If the mapping is cut short (e.g. by exceeding the requested walltime) the partial bam file will look complete and can be indexed. But the bam file size will be small (~500kb) and empty when you look at it.
+```
+#To determine file size
+
+du -sh *bam   
+
+#To see bam file
+module load apps/bcftools-1.8
+bcftools view file.bam | head
+Check the output with samtools flagstat
+
+module load apps/samtools-1.8
+samtools flagstat file.bam
+
+#make a flagstat log file for all of the samples
+for i in $(ls *bam); do ls $i >>flagstat.log && samtools flagstat $i >> flagstat.log; done
+Index the bam files with the script index.bamfiles.sh
+```
 ### 3. MapDamage: correct for Cytosine deamination in museum data
 
 #### 3a. MapDamage run on museum data
