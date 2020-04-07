@@ -4,7 +4,7 @@
 #PBS -l mem=16gb #RAM
 #PBS -l walltime=10:00:00 ##wall time.  
 #PBS -j oe  #concatenates error and output files (with prefix job1)
-#PBS -t 1-38
+#PBS -t 1-78
 
 #run job in working directory
 cd $PBS_O_WORKDIR 
@@ -37,8 +37,8 @@ fi
 
 ##Map with BWA MEM and output sorted bam file
 
-sample_name=`echo ${NAME1} | awk -F "_R" '{print $1}'`
+sample_name=`echo ${NAME1} | awk -F "_mod" '{print $1}'`
 echo "[mapping running for] $sample_name"
 printf "\n"
-echo "time bwa mem RefGenome/$REFSEQ 01a_modern_cutadapt_reads/${NAME1} 01a_modern_cutadapt_reads/${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam" >> map.log
-time bwa mem RefGenome/$REFSEQ 01a_modern_cutadapt_reads/${NAME1} 01a_modern_cutadapt_reads/${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam
+echo "time bwa mem RefGenome/$REFSEQ ${NAME1} ${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam" >> map.log
+time bwa mem RefGenome/$REFSEQ ${NAME1} ${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam
