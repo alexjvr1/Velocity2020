@@ -184,11 +184,20 @@ bwa index RefGenome/*fasta
 
 
 #Create files with input names
+## museum
 ls 01a_mus.concat_cutadapt_reads/*R1*fastq.gz >> R1.museum.names
 sed -i s:01a_mus.concat_cutadapt_reads/::g R1.museum.names
 
 ls 01a_mus.concat_cutadapt_reads/*R2*fastq.gz >> R2.museum.names
 sed -i s:01a_mus.concat_cutadapt_reads/::g R2.museum.names
+
+## modern
+#We're pointing to two input folders so I'll leave the path in the sample names folder
+ls 01a_modern_cutadapt_reads/*R1* >> R1.modern.names
+ls 01a_modern.exp_cutadapt_reads/*R1* >> R1.modern.names 
+
+ls 01a_modern_cutadapt_reads/*R2* >> R2.modern.names
+ls 01a_modern.exp_cutadapt_reads/*R2* >> R2.modern.names 
 
 
 #make output directories
