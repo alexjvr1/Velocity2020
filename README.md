@@ -181,11 +181,11 @@ AH-02-2019-42_mod.exp_R2.fastq.gz  AH-02-2019-57_mod.exp_R2.fastq.gz  AH-02-2019
 
 #### *TIME:*
 
-Museum samples ~6 hours for 48 indivs. 
+Museum samples (n=48) ~6 hours 
 
-Modern Core 
+Modern Core (n=38) ~10 hours 
 
-Modern Exp 
+Modern Exp (n=40) ~10 hours for all but two samples which had to be restarted. They then ran in 4 hours... 
 
 #### *METHOD:*
 
