@@ -137,11 +137,11 @@ Edit this submission script to submit from your home directory:
 
 #### 1b Concatenate museum reseq data
 
-##### TIME
+##### *TIME*
 
 ~30-40min
 
-##### METHOD
+##### *METHOD*
 
 A subset of individuals (33 per species) have been sequenced twice to increase mean depth. The data from both sequencing runs need to be concatenated together after adapter trimming. We're using these scripts: 
 
@@ -216,11 +216,11 @@ AH-02-2019-42_mod.exp_R2.fastq.gz  AH-02-2019-57_mod.exp_R2.fastq.gz  AH-02-2019
 
 #### 1c Prepare museum data for MapDamage (2.2): Repair PE reads
 
-##### TIME: 
+##### *TIME* 
 
 ~1hour
 
-##### METHOD:
+##### *METHOD*
 
 Museum data is prone to post-mortem damage which we will correct for using MapDamage (see 2.2 below). We need to pre-process the museum reads for this. First we need to correct any problems with the PE files. The most common problem we've found is mismatches between R1 and R2 files e.g. not equal in length or mismatches between names. We can correct for this using BBtools's repair.sh script. 
 
@@ -248,15 +248,29 @@ This will write all the repaired files to: 01c_musPERepaired
 
 #### 1d Prepare museum data for MapDamage (2.2): Merge overlapping PE reads
 
-##### TIME
+##### *TIME*
 
 30-40min
 
-##### METHOD
+##### *METHOD*
 
+MapDamage requires that overlapping PE reads be merged. Our museum libraries were sequenced with 75bp PE kits, except for the final (museum4) library which was sequenced with 50bp PE. 
 
+We know from the library prep that the museum DNA is quite degraded. Thus we expect that the vast majority of the inserts would have overlapping PE sequences. 
 
+We can count and merge these using bbtools' merge script. 
 
+Edit [01d_bbtools_merge_museum_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/blob/master/01d_bbtools_merge_museum_ARRAY.sh) to set up the array submission script. 
+
+Make the output directory and we need the names files again: 
+```
+mkdir 01d_musAll_merged
+
+ls 01c_musPERepaired/*R1*gz >> R1.museum.names.repaired
+ls 01c_musPERepaired/*R2*gz >> R2.museum.names.repaired
+
+sed -i 's:01c_musPERepaired/::g' *repaired
+```
 
 
 
