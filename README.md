@@ -365,6 +365,12 @@ Index the bam files with the script [02a_index.bamfiles.sh](https://github.com/a
 
 #### 2b. MapDamage run on museum data
 
+##### *TIME*
+
+3-4 hours for 48 samples
+
+##### *METHOD*
+
 [MapDamage2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3694634/) is a package used to estimate and correct for Cytosine deamination (or any other transition/transversion bias in the data). This is a problem anticipated for ancient DNA, and possibly for museum data.
 
 This needs to be locally installed on BlueCrystal. Follow the instructions in the tutorial
@@ -382,7 +388,15 @@ ls *bam > bamfiles.mus.names
 
 Submit to queue.
 
-Analyse output stats
+
+Move all the new rescaled bam files to a new folder: 
+```
+mkdir 02b_museum_mapdamage.bams
+mv 02a_museum_processed.mapped/results*/*bam 02b_museum_mapdamage.bams && cd 02b_museum_mapdamage.bams
+
+module load apps/samtools-1.9
+for i in $(ls *bam); do ls $i >> flagstat.log && samtools flagstat $i >> flagstat.log; done
+```
 
 
 
