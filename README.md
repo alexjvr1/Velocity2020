@@ -15,7 +15,7 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
         
         1d. Merge overlapping PE reads in museum data (BBmerge)
         
-#### 2. Map
+#### 2. Map and process
 
         2a. Map museum and modern data to Sanger genome 
         
@@ -272,11 +272,13 @@ ls 01c_musPERepaired/*R2*gz >> R2.museum.names.repaired
 sed -i 's:01c_musPERepaired/::g' *repaired
 ```
 
+### 2. Map and process
 
+Map museum and modern samples to the Sanger reference genome. Thereafter correct the museum bam files using MapDamage, and downsample the modern data to the same final depth as the corrected museum bam files. 
 
-### 2. Map to Reference Genome
+#### 2a Map to Reference Genome
 
-#### *TIME:*
+##### *TIME:*
 
 Museum samples (n=48) ~6 hours 
 
@@ -284,12 +286,12 @@ Modern Core (n=38) ~10 hours
 
 Modern Exp (n=40) ~10 hours for all but two samples which had to be restarted. They then ran in 4 hours... 
 
-#### *METHOD:*
+##### *METHOD:*
 
-It is more efficient to run this code in local directory before submitting to queue
+It is more efficient to run this code in local directory before submitting the mapping script to queue
 
 ```
-#Index the reference genome if needed. Check whether the *fasta.fai* file exists in the SpeciesName/RefGenome/ folder in your local directory. If not, run the indexing code. 
+#Index the reference genome if needed. Check if the *fasta.fai* file exists in the SpeciesName/RefGenome/ folder in your local directory. If not, run the indexing code. 
 
 #index reference genome
 module load apps/bwa-0.7.15
@@ -307,15 +309,19 @@ sed -i s:01a_mus.concat_cutadapt_reads/::g R2.museum.names
 ## modern
 #We're pointing to two input folders so I'll leave the path in the sample names folder
 ls 01a_modern_cutadapt_reads/*R1* >> R1.modern.names
-ls 01a_modern.exp_cutadapt_reads/*R1* >> R1.modern.names 
+ls 01d_musAll_merged/*R1* >> R1.museum.names 
 
 ls 01a_modern_cutadapt_reads/*R2* >> R2.modern.names
-ls 01a_modern.exp_cutadapt_reads/*R2* >> R2.modern.names 
+ls 01d_musAll_merged/*R2* >> R2.museum.names 
 
+sed -i 's:01a_modern_cutadapt_reads/::g' *names
+sed -i 's:01d_musAll_merged/::g' *names
 
-#make output directories. Remember to add the additional folders in the 02a_modern_mapped folder as the output will be written there. 
+#make output directories. 
 mkdir 02a_museum_mapped
 mkdir 02a_modern_mapped
+
+#Add the additional folders in the 02a_modern_mapped folder when working with an EXPANDING species as the output will be written there. 
 mkdir 02a_modern_mapped/01a_modern_cutadapt_reads
 mkdir 02a_modern_mapped/01a_modern.exp_cutadapt_reads
 
@@ -329,11 +335,11 @@ mkdir 02a_modern_mapped/01a_modern.exp_cutadapt_reads
 #we want only the first part of this name to carry through. 
 ```
 
-*pipeline*
+Run the submission scripts: 
 
-[02_MapwithBWAmem.ARRAY_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02_MapwithBWAmem.ARRAY_museum.sh)
+[02a_MapwithBWAmem.ARRAY_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_museum.sh)
 
-[02_MapwithBWAmem.ARRAY_modern.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02_MapwithBWAmem.ARRAY_modern.sh)
+[02a_MapwithBWAmem.ARRAY_modern.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_modern.sh)
 
 Check that everything has mapped correctly by checking the file sizes. If the mapping is cut short (e.g. by exceeding the requested walltime) the partial bam file will look complete and can be indexed. But the bam file size will be small (~500kb) and empty when you look at it.
 ```
@@ -377,13 +383,10 @@ samtools flagstat file.bam
 for i in $(ls *bam); do ls $i >>flagstat.log && samtools flagstat $i >> flagstat.log; done
 ```
 
-Index the bam files with the script [index.bamfiles.sh](https://github.com/alexjvr1/Velocity2020/blob/master/index.bamfiles.sh)
+Index the bam files with the script [2a_index.bamfiles.sh](https://github.com/alexjvr1/Velocity2020/blob/master/2a_index.bamfiles.sh)
 
 
-
-### 3. MapDamage: correct for Cytosine deamination in museum data
-
-#### 3a. MapDamage run on museum data
+#### 2b. MapDamage run on museum data
 
 [MapDamage2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3694634/) is a package used to estimate and correct for Cytosine deamination (or any other transition/transversion bias in the data). This is a problem anticipated for ancient DNA, and possibly for museum data.
 
@@ -398,13 +401,17 @@ MapDamage will be run in the 02a_museum_mapped folder.
 ls *bam > bamfiles.mus.names
 ```
 
-2. Copy the script [03a_mapDamage_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/03a_mapDamage_museum.sh) to the 02a_museum_mapped folder. Change the job name, the number of threads, and check the path to the reference genome.
+2. Copy the script [02b_mapDamage_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/03a_mapDamage_museum.sh) to the 02a_museum_mapped folder. Change the job name, the number of threads, and check the path to the reference genome.
 
 Submit to queue.
 
 Analyse output stats
 
-#### 3b. Downsample modern data to the same coverage as in the museum samples
+
+
+#### 2c. Downsample modern data to the same coverage as in the museum samples
+
+
 
 
 ### 4. ANGSD
