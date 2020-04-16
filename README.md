@@ -425,13 +425,16 @@ Enter these data in the "Rescaled.ProperlyPaired.Q20" column in the Velocity_Map
 Use the [02c_Downsample_mod_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02c_Downsample_mod_ARRAY.sh) script to downsample the modern bam files. Remember to change the job name and the PROP variables and create the input file listing all the modern bams.
 
 
-### 4. ANGSD
+### 3. ANGSD
 
-#### 4a. Set up filters (including min and maxDepth)
+#### 3a. ANGSD filters for SFS
 
-#### 4b. Call GL
+#### 3b. Call GL
 
-#### 4c. SFS
+#### 3c. SFS
+
+
+
 
 #### 4d. Compare downsampled data to full dataset for modern pops (SFS and GL)
 
