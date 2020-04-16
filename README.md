@@ -5,7 +5,7 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
 
 ## Pipeline
 
-[create an anchor](### 1.-Raw-to-cleaned-and-processed-data)
+[### 1. Raw to cleaned and processed data](### 1.-Raw-to-cleaned-and-processed-data)
 
         1a. Trim adapter sequence using cutadapt
         
