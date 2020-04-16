@@ -383,7 +383,7 @@ samtools flagstat file.bam
 for i in $(ls *bam); do ls $i >>flagstat.log && samtools flagstat $i >> flagstat.log; done
 ```
 
-Index the bam files with the script [2a_index.bamfiles.sh](https://github.com/alexjvr1/Velocity2020/blob/master/2a_index.bamfiles.sh)
+Index the bam files with the script [02a_index.bamfiles.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_index.bamfiles.sh)
 
 
 #### 2b. MapDamage run on museum data
@@ -411,7 +411,27 @@ Analyse output stats
 
 #### 2c. Downsample modern data to the same coverage as in the museum samples
 
+Due to the difference in sample quality between museum and modern samples, mean coverage is much higher for the modern data. This may bias the confidence in variant calls downstream. To avoid this problem I will downsample the modern data to the same mean depth as the museum data.
 
+First filter the bam files to include only reads with PHRED quality >20 and properly paired reads using the [02c_Filter_modern_bam_pp.PHRED20.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02c_Filter_modern_bam_pp.PHRED20.sh) script.
+
+We'll need the names file: 
+```
+ls 02a_modern_mapped/*bam >> bamfiles.mod.names
+sed -i 's:02a_modern_mapped/::' bamfiles.mod.names
+```
+
+Use samtools flagstat to calculate the number of properly paired reads in the recalibrated and filtered museum files.
+
+```
+module load apps/samtools-1.8
+for i in $(ls results*/*flt.bam); do ls $i >> mus.flagstat.log && samtools flagstat $i >> mus.flagstat.log; done
+```
+Do the same for the modern samples.
+
+Enter these data in the "Rescaled.ProperlyPaired.Q20" column in the Velocity_MapingStatsPerSpecies_AJvR_20190604.xlsx sheet on Dropbox. Calculate the mean number of museum reads and the proportion of modern reads to downsample to.
+
+Use the [02c_Downsample_mod_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02c_Downsample_mod_ARRAY.sh) script to downsample the modern bam files. Remember to change the job name and the PROP variables and create the input file listing all the modern bams.
 
 
 ### 4. ANGSD
