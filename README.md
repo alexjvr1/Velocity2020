@@ -280,7 +280,7 @@ Map museum and modern samples to the Sanger reference genome. Thereafter correct
 
 ##### *TIME:*
 
-Museum samples (n=48) ~6 hours 
+Museum samples (n=48) ~3 hours 
 
 Modern Core (n=38) ~10 hours 
 
