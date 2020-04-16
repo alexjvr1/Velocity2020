@@ -7,7 +7,7 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
 
 ### 1. Raw to cleaned and processed data
 
-        1a. Trim adapter sequence using cutadapt
+        1a. [Trim adapter sequence using cutadapt]()
         
         1b. Concatenate resequenced museum data (some individuals have been sequenced >1) 
         
@@ -21,7 +21,7 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
         
         2b. Correct museum data for possible deamination (MapDamage -> output = corrected bam file) 
         
-        2c. Downsample modern data to the same depth as the museum data
+        2c. [Downsample modern data to the same depth as the museum data](https://github.com/alexjvr1/Velocity2020/blob/master/README.md#2c-downsample-modern-data-to-the-same-coverage-as-in-the-museum-samples)
         
 #### 3. SNP discovery and filtering
 
