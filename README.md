@@ -357,33 +357,10 @@ samtools flagstat file.bam
 
 #make a flagstat log file for all of the samples
 for i in $(ls *bam); do ls $i >>flagstat.log && samtools flagstat $i >> flagstat.log; done
-Index the bam files with the script index.bamfiles.sh
-```
-
-Check that everything has mapped correctly by checking the file sizes. If the mapping is cut short (e.g. by exceeding the requested walltime) the partial bam file will look complete and can be indexed. But the bam file size will be small (~500kb) and empty when you look at it.
-
-```
-#To determine file size
-
-du -sh *bam   
-
-#To see bam file
-module load apps/bcftools-1.8
-bcftools view file.bam | head
-
-```
-
-
-Check the output with samtools flagstat
-```
-module load apps/samtools-1.8
-samtools flagstat file.bam
-
-#make a flagstat log file for all of the samples
-for i in $(ls *bam); do ls $i >>flagstat.log && samtools flagstat $i >> flagstat.log; done
 ```
 
 Index the bam files with the script [02a_index.bamfiles.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_index.bamfiles.sh)
+
 
 
 #### 2b. MapDamage run on museum data
