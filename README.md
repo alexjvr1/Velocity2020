@@ -25,7 +25,7 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
         
 #### 3. SNP discovery and filtering
 
-   3a. [ANGSD filters for SFS] (ie. no MAF)
+   3a. [ANGSD filters for SFS](README.md#3a-angsd-filters-for-sfs) (ie. no MAF)
         
    3b. [ANGSD filters for population genomics]
         
