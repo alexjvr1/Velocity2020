@@ -5,45 +5,45 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
 
 ## Pipeline
 
-#### 1. Demultiplex and Clean
+#### 1. Raw to cleaned and processed data
 
-        1.1. Trim adapter sequence using cutadapt
+        1a. Trim adapter sequence using cutadapt
         
-        1.2. Concatenate resequenced museum data (some individuals have been sequenced >1) 
+        1b. Concatenate resequenced museum data (some individuals have been sequenced >1) 
         
-        1.3. Repair problems in museum PE data for data from 1.2. (BBrepair)
+        1c. Repair problems in museum PE data for data from 1.2. (BBrepair)
         
-        1.4. Merge overlapping PE reads in museum data (BBmerge)
+        1d. Merge overlapping PE reads in museum data (BBmerge)
         
 #### 2. Map
 
-        2.1. Map museum and modern data to Sanger genome 
+        2a. Map museum and modern data to Sanger genome 
         
-        2.2. Correct museum data for possible deamination (MapDamage -> output = corrected bam file) 
+        2b. Correct museum data for possible deamination (MapDamage -> output = corrected bam file) 
         
-        2.3. Downsample modern data to the same depth as the museum data
+        2c. Downsample modern data to the same depth as the museum data
         
 #### 3. SNP discovery and filtering
 
-        3.1. ANGSD filters for SFS (ie. no MAF)
+        3a. ANGSD filters for SFS (ie. no MAF)
         
-        3.2. ANGSD filters for population genomics
+        3b. ANGSD filters for population genomics
         
-##### 4. Analyses: Outliers
+#### 4. Analyses: Outliers
 
-        4.1. Outlier analysis in ANGSD
+        4a. Outlier analysis in ANGSD
         
-        4.2. Manhattan plot
+        4b. Manhattan plot
         
-        4.3. Table of functions
+        4c. Table of functions
         
-        4.4. Network analysis
+        4d. Network analysis
 
-##### 5. Analysis: Genetic diversity and population structure
+#### 5. Analysis: Genetic diversity and population structure
 
-##### 6. Analysis: LD 
+#### 6. Analysis: LD 
 
-        6.1. ANGSD estimate LD across the genome
+        6a. ANGSD estimate LD across the genome
 
 
 ## DATA: Genome
@@ -68,38 +68,16 @@ This works with the sed syntax. e.g. this will remove numbers plus dash from the
 
 ## Pipeline for Velocity project from raw data to mapped reads:
 
-The scripts for the final pipeline are outlined below. The scripts are organised in 3 folders within a main folder.
+### 1. Raw to cleaned and processed data
 
-Use this pipeline by running scripts in the pipeline/ folder in the numbered order. These scripts generate submission scripts for each step that can be submitted to the BlueCrystal p3 queue (i.e. qsub script.sh).
+#### 1a Demultiplex and Adapter trimming
 
-Inputs for each step should be submitted via the command line.
-
-```
-|
------> pipeline  
-
-        This contains all the scripts that generate submission scripts for BlueCrystal. Options can be specified in the command line. 
-
-|
------> wrapper
-    
-        Scripts called by pipeline scripts. Wrapper scripts for generating Queue request and specifying inputs from command line for                the tools to be called.     
-        
-|
------> tools
-        
-        Scripts of tools or functions used in each step. These are called by the wrapper script
-```
-
-
-### 1. Demultiplex and Adapter trimming
-
-#### *TIME:*
+##### *TIME:*
 
 This runs in 1-2 hours for the full dataset (museum + modern)
 
 
-#### *METHOD:*
+##### *METHOD:*
 
 Modern samples arrive demultiplexed by the sequencing facility, but Museum samples need to be demultiplexed. 
 
@@ -129,18 +107,22 @@ cutadapt --help
 cutadapt version 1.12
 ```
 
-##### *pipeline
+##### Generate submission script
 
-01a_museum_cutadapt_filtering_trimming.sh
+Run the following scripts to generate the submission script
 
-01a_modern_cutadapt_filtering_trimming.sh
+[01a_museum_cutadapt_filtering_trimming.sh](https://github.com/alexjvr1/UKButterflies/blob/master/01a_museum_cutadapt_filtering_trimming.sh)
+
+[01a_modern_cutadapt_filtering_trimming.sh](https://github.com/alexjvr1/Velocity2020/blob/master/01a_modern_cutadapt_filtering_trimming.sh)
 
 
-##### *wrapper
+##### Submission script
+
+The above scripts will generate this: 
 
 01a_parallel_cutadapt_bluecp3.sh
 
-Edit the generated script above to submit from your home directory:
+Edit this submission script to submit from your home directory:
 
 ```
 1. Set all paths to your home directory if necessary. 
@@ -153,7 +135,17 @@ Edit the generated script above to submit from your home directory:
 
 ```
 
-To incorporate new data (e.g. resequencing of some individuals to increase mean depth), new fastq files need to be adapter trimmed. Fastq files are concatenated after this using the script [concat.fastq.R1.sh](https://github.com/alexjvr1/Velocity2020/blob/master/concat.fastq.R1.sh) and [concat.fastq.R2.sh](https://github.com/alexjvr1/Velocity2020/blob/master/concat.fastq.R2.sh)
+#### 1b Concatenate museum reseq data
+
+##### TIME
+
+~30-40min
+
+##### METHOD
+
+A subset of individuals (33 per species) have been sequenced twice to increase mean depth. The data from both sequencing runs need to be concatenated together after adapter trimming. We're using these scripts: 
+
+[1b_concat.fastq.R1.sh](https://github.com/alexjvr1/Velocity2020/blob/master/concat.fastq.R1.sh) and [1b_concat.fastq.R2.sh](https://github.com/alexjvr1/Velocity2020/blob/master/concat.fastq.R2.sh)
 
 Reseq data are kept in the following folders:
 ```
@@ -166,7 +158,8 @@ Reseq data are kept in the following folders:
 02a_museum_mapped  ##see below. This contains all data including concatenated reseq samples. 
 ```
 
-#### Rename samples before mapping
+
+#### Rename samples
 
 We don't need the really long names given to the samples by the sequencing facilities. We'll rename samples before proceeding further: 
 
@@ -218,6 +211,54 @@ AH-02-2019-42_mod.exp_R1.fastq.gz  AH-02-2019-57_mod.exp_R1.fastq.gz  AH-02-2019
 AH-02-2019-42_mod.exp_R2.fastq.gz  AH-02-2019-57_mod.exp_R2.fastq.gz  AH-02-2019-71_mod.exp_R2.fastq.gz
 
 ```
+
+
+
+#### 1c Prepare museum data for MapDamage (2.2): Repair PE reads
+
+##### TIME: 
+
+~1hour
+
+##### METHOD:
+
+Museum data is prone to post-mortem damage which we will correct for using MapDamage (see 2.2 below). We need to pre-process the museum reads for this. First we need to correct any problems with the PE files. The most common problem we've found is mismatches between R1 and R2 files e.g. not equal in length or mismatches between names. We can correct for this using BBtools's repair.sh script. 
+
+[BBtools](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/installation-guide/) can be installed from the downloaded tarball
+
+We have it installed here
+```
+/newhome/bzzjrb/Software/bbmap/
+```
+
+We'll repair the museum data using this script: [01c_bbtools_repair_museum_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/blob/master/01c_bbtools_repair_museum_ARRAY.sh)
+
+The input files will be all the museum fastq files found in 01a_mus.concat_cutadapt_reads
+
+Create two files with names for the inputs in the home directory for the species (e.g. /E3_Aphantopus_hyperantus_2020/): 
+```
+ls 01a_mus.concat_cutadapt_reads/*R1*fastq.gz >> R1.museum.names.torepair
+ls 01a_mus.concat_cutadapt_reads/*R2*fastq.gz >> R2.museum.names.torepair
+
+##remove the file path from the name files. We need only in the input file names. 
+sed -i 's:01a_mus.concat_cutadapt_reads/::g' *torepair
+```
+
+This will write all the repaired files to: 01c_musPERepaired
+
+#### 1d Prepare museum data for MapDamage (2.2): Merge overlapping PE reads
+
+##### TIME
+
+30-40min
+
+##### METHOD
+
+
+
+
+
+
 
 ### 2. Map to Reference Genome
 
