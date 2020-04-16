@@ -7,43 +7,43 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
 
 ### 1. Raw to cleaned and processed data
 
-        1a. [Trim adapter sequence using cutadapt]()
+   1a. [Trim adapter sequence using cutadapt](README.md#1a-demultiplex-and-adapter-trimming)
         
-        1b. Concatenate resequenced museum data (some individuals have been sequenced >1) 
+   1b. [Concatenate resequenced museum data](README.md#1b-concatenate-museum-reseq-data) (some individuals have been sequenced >1)
         
-        1c. Repair problems in museum PE data for data from 1.2. (BBrepair)
+   1c. [Repair problems in museum PE data for data from 1.2. (BBrepair)](README.md#1c-prepare-museum-data-for-mapdamage-22-repair-pe-reads)
         
-        1d. Merge overlapping PE reads in museum data (BBmerge)
+   1d. [Merge overlapping PE reads in museum data (BBmerge)](README.md#1d-prepare-museum-data-for-mapdamage-22-merge-overlapping-pe-reads)
         
-#### 2. [Map and process](README.md#2c-downsample-modern-data-to-the-same-coverage-as-in-the-museum-samples) 
+#### 2. Map and process
 
-        2a. Map museum and modern data to Sanger genome 
+   2a. [Map museum and modern data to Sanger genome](README.md#2a-map-to-reference-genome) 
         
-        2b. Correct museum data for possible deamination (MapDamage -> output = corrected bam file) 
+   2b. [Correct museum data for possible deamination](README.md#2b-mapdamage-run-on-museum-data) (MapDamage -> output = corrected bam file) 
         
-        2c. [Downsample modern data to the same depth as the museum data](README.md#2c-downsample-modern-data-to-the-same-coverage-as-in-the-museum-samples)
+   2c. [Downsample modern data to the same depth as the museum data](README.md#2c-downsample-modern-data-to-the-same-coverage-as-in-the-museum-samples)
         
 #### 3. SNP discovery and filtering
 
-        3a. ANGSD filters for SFS (ie. no MAF)
+   3a. [ANGSD filters for SFS] (ie. no MAF)
         
-        3b. ANGSD filters for population genomics
+   3b. [ANGSD filters for population genomics]
         
 #### 4. Analyses: Outliers
 
-        4a. Outlier analysis in ANGSD
+   4a. [Outlier analysis in ANGSD]
         
-        4b. Manhattan plot
+   4b. [Manhattan plot]
         
-        4c. Table of functions
+   4c. [Table of functions]
         
-        4d. Network analysis
+   4d. [Network analysis]
 
 #### 5. Analysis: Genetic diversity and population structure
 
 #### 6. Analysis: LD 
 
-        6a. ANGSD estimate LD across the genome
+   6a. [ANGSD estimate LD across the genome]
 
 
 ## DATA: Genome
