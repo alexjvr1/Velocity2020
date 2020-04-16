@@ -68,7 +68,7 @@ This works with the sed syntax. e.g. this will remove numbers plus dash from the
 
 ## Pipeline for Velocity project from raw data to mapped reads:
 
-[link](### 1. Raw to cleaned and processed data)
+### 1. Raw to cleaned and processed data
 
 #### 1a Demultiplex and Adapter trimming
 
