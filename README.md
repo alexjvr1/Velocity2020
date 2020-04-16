@@ -429,6 +429,70 @@ Use the [02c_Downsample_mod_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/b
 
 #### 3a. ANGSD filters for SFS
 
+I'm starting with bam files, so there are already some filters on the mapping quality of the sequences. Prior to that there are some crude filters during the demultiplexing and trimming steps.
+
+To speed up the analysis I will split the ANGSD run across the genome; i.e. all indivs will be analysed for regions 0-x in ARRAY1, x-x1 in ARRAY2, etc. For this we need to split the genome up into regions.
+
+Find all the regions (i.e. all chromosomes and contigs) from the reference index file (.fasta.fai):
+
+```
+awk '{print $1}' ../RefGenome/*.fna.fai >> regions
+
+cat regions |wc -l
+>87
+
+##We'll run these in an ARRAY. 
+```
+
+###### *Filters*
+
+-b[filelist]
+
+-remove_bads 1 : remove reads with 255 flag (not primary, failure and duplicate reads) (1=default)
+
+-uniqueOnly 1 : remove reads with multiple best hits
+
+-minMapQ 20 : PHRED 20. This should already be in place during the mapping.
+
+-minQ 20 : PHRED 20 for individual base score.
+
+-only_proper_pairs 1 : include only properly paired reads (default) and should already have been applied to the museum reads prior to this. 
+
+-trim 0 : We're not trimming any data
+
+-baq 1 : estimate base alignment quality using samtools method.
+
+###ALLELE FREQUENCY ESTIMATION
+
+-doMajorMinor 4 : Force Major allele based on reference. The minor allele is then inferred using doMajorMinor 1. This option needs to be used when calculating SFS for multiple populations as ANGSD otherwise determines a minor allele within each population. I.e. this may not be the same across all the populations.
+
+-ref [..fasta] : For doMM 4 above we need to specify a reference genome.
+
+-doMaf 1 : calculate minor allele frequency
+
+-SNP_pval 0.001 : Only work with SNPs with a p-value above [float]
+
+-GL 1 : I will estimate genotype likelihoods using the SAMtools model
+
+-minInd 18 : I will remove loci where less than 18 individuals have been genotyped. There are 19-45 indivs per group (HOD,FOR, South, New). So this number seems quite high, but this is to be more certain of the 5% MAF.
+
+-setMinDepth : Discard site if total depth (across all indivs) is below [int]. Use -doCounts to determine the distribution of depths
+
+-setMaxDepth : Discard site if total depth (across all indivs) is above [int]
+
+-setMinDepthInd 2 : Minimum depth for a locus for an individual. This is only applicable for analyses using counts (-doCounts obligatory)
+
+-setMaxDepthInd [int]: I'll use a max of meanDP + 2xSD of depth.
+
+-doCounts 1 : Count of the nucleotide bases per individual
+
+-dumpCounts 2 : write a file with all the allele counts per position per individual
+
+-rmTriallelic 1 : include only biallelic loci
+
+-checkBamHeaders 1 : check that the bam headers are compatable for all files.
+
+
 #### 3b. Call GL
 
 #### 3c. SFS
