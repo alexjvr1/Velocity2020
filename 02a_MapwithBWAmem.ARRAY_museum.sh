@@ -40,5 +40,5 @@ fi
 sample_name=`echo ${NAME1} | awk -F "_R" '{print $1}'`
 echo "[mapping running for] $sample_name"
 printf "\n"
-echo "time bwa mem RefGenome/$RefSeq 01a_mus.concat_cutadapt_reads/${NAME1} 01a_mus.concat_cutadapt_reads/${NAME2} | samtools sort -o 02a_museum_mapped/${NAME1}.bam" >> map.log
-time bwa mem RefGenome/$RefSeq 01a_mus.concat_cutadapt_reads/${NAME1} 01a_mus.concat_cutadapt_reads/${NAME2} | samtools sort -o 02a_museum_mapped/${NAME1}.bam
+echo "time bwa mem RefGenome/$RefSeq 01d_musAll_merged/${NAME1} 01d_musAll_merged/${NAME2} | samtools sort -o 02a_museum_mapped/${NAME1}.bam" >> map.log
+time bwa mem RefGenome/$RefSeq 01d_musAll_merged/${NAME1} 01d_musAll_merged/${NAME2} | samtools sort -o 02a_museum_mapped/${NAME1}.bam
