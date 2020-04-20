@@ -427,6 +427,7 @@ Use the [02c_Downsample_mod_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/b
 
 ### 3. ANGSD
 
+
 #### 3a. ANGSD filters for SFS
 
 I'm starting with bam files, so there are already some filters on the mapping quality of the sequences. Prior to that there are some crude filters during the demultiplexing and trimming steps.
@@ -496,6 +497,44 @@ cat regions |wc -l
 #### 3b. Call GL
 
 #### 3c. SFS
+
+
+
+#### 3d. ISSUES
+
+##### *1. Input bam files*
+
+I've had problems with reading merged bam files created by BBmerge into R. I've reported the issue [here](https://github.com/ANGSD/angsd/issues/260) - it seems to be the same problem encountered by someone using inputs using miniMap2
+
+```
+[bammer_main] 1 samples in 1 input files
+-> Parsing 1 number of samples
+No data for chromoId=0 chromoname=LR761647.1
+This could either indicate that there really is no data for this chromosome
+Or it could be problem with this program regSize=0 notDone=0
+
+-> Done reading data waiting for calculations to finish
+-> Done waiting for threads
+-> Output filenames:
+	->"angsdput.arg"
+-> Fri Apr 17 16:45:14 2020
+
+-> Arguments and parameters for all analysis are located in .arg file
+-> Total number of sites analyzed: 0
+-> Number of sites retained after filtering: 0 
+[ALL done] cpu-time used =  4.24 sec
+[ALL done] walltime used =  4.00 sec
+```
+
+I thought bbmerge might be the problem, so I will try to read in the example files from: 
+
+1. BBmerge
+
+2. PEAR
+
+3. MapDamage
+
+
 
 
 
