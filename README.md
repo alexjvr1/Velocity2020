@@ -534,6 +534,39 @@ I thought bbmerge might be the problem, so I will try to read in the example fil
 
 3. MapDamage
 
+```
+pwd
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/ANGSDinputTests
+
+#convert example sam to bam  
+samtools view -S -b ~/software/mapDamage/mapdamage/rescale_test/pe_test/pe_rescaled_correct.sam > mapDamage_pe_rescaled_correct.bam
+
+#move the reference fasta file to the same folder and index
+cp ~/software/mapDamage/mapdamage/rescale_test/pe_test/ref.fa .
+module load apps/bwa-0.7.15
+samtools faidx ref.fa
+
+#submit the following script to bluecrystal p3
+
+> cat angsd.test.sh
+#!/bin/bash
+#PBS -N angsd.test  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=20:00:00 ##wall time.  
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+
+
+#run job in working directory
+cd $PBS_O_WORKDIR 
+
+#load modules
+module load languages/gcc-6.1
+angsd=~/bin/angsd/angsd
+
+
+time $angsd -i mapDamage_pe_rescaled_correct.bam -ref ref.fa -GL -out mapdamage.test.out
+```
 
 
 
