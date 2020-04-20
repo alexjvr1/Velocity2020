@@ -23,7 +23,7 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
         
    2c. [Downsample modern data to the same depth as the museum data](README.md#2c-downsample-modern-data-to-the-same-coverage-as-in-the-museum-samples)
         
-#### 3. SNP discovery and filtering
+#### 3. [SNP discovery and filtering](https://github.com/alexjvr1/Velocity2020#3-angsd)
 
    3a. [ANGSD filters for SFS](README.md#3a-angsd-filters-for-sfs) (ie. no MAF)
         
