@@ -496,8 +496,13 @@ cat regions |wc -l
 
 #### 3b. Call GL
 
+
+
+
 #### 3c. SFS
 
+
+#### 4d. Compare downsampled data to full dataset for modern pops (SFS and GL)
 
 
 #### 3d. ISSUES
@@ -526,69 +531,81 @@ Or it could be problem with this program regSize=0 notDone=0
 [ALL done] walltime used =  4.00 sec
 ```
 
-I thought bbmerge might be the problem, so I will try to read in the example files from: 
-
-1. BBmerge
-
-2. PEAR
-
-3. MapDamage
-
-```
-pwd
-/newhome/aj18951/E3_Aphantopus_hyperantus_2020/ANGSDinputTests
-
-#convert example sam to bam  
-samtools view -S -b ~/software/mapDamage/mapdamage/rescale_test/pe_test/pe_rescaled_correct.sam > mapDamage_pe_rescaled_correct.bam
-
-#move the reference fasta file to the same folder and index
-cp ~/software/mapDamage/mapdamage/rescale_test/pe_test/ref.fa .
-module load apps/bwa-0.7.15
-samtools faidx ref.fa
-
-#submit the following script to bluecrystal p3
-
-> cat angsd.test.sh
-#!/bin/bash
-#PBS -N angsd.test  ##job name
-#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
-#PBS -l mem=16gb #RAM
-#PBS -l walltime=20:00:00 ##wall time.  
-#PBS -j oe  #concatenates error and output files (with prefix job1)
-
-
-#run job in working directory
-cd $PBS_O_WORKDIR 
-
-#load modules
-module load languages/gcc-6.1
-angsd=~/bin/angsd/angsd
-
-
-time $angsd -i mapDamage_pe_rescaled_correct.bam -ref ref.fa -GL -out mapdamage.test.out
-```
+The developers have fixed a bug in the program. In addition I need to change the -only_proper_pairs flag to 0 as there are improperly paired reads in the merged file (i.e. reads located on different scaffolds). 
 
 
 
+### 4. ANALYSES
+
+Example papers
+
+[Crested Ibis (Feng et al, Current biology, 2019)](https://www.sciencedirect.com/science/article/pii/S0960982218316099)
+
+[Alpine chipmunts (Bi et al, PLoS Genetics, 2019)](https://journals.plos.org/plosgenetics/article?rev=2&id=10.1371/journal.pgen.1008119)
+
+- Also good example of mapdamage use
+
+- PopGen
+
+- outFlank
+
+[Dryas Monkey (ven der Valk, MBE, 2020)](https://academic.oup.com/mbe/article/37/1/183/5570178)
 
 
-#### 4d. Compare downsampled data to full dataset for modern pops (SFS and GL)
+[Darwins finches (Pachecho, GBE, 2020)](https://academic.oup.com/gbe/article/12/3/136/5735467)
 
-#### 4e. Population structure (PCA)
+- example of using ANGSD to call GL
 
-#### 4f. Diversity stats 
+- diversity stats
 
-#### 4g. Outliers
+[Lynx (Lucena-Perez, MolEcol, 2020)](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15366?casa_token=I6nUZVYLpjAAAAAA%3AjGkueGUyt5AP-RdrD2GeejFl-U2BXVlrXqmYLcck4lOfFy4Yb2jMv3r6ZxXZ9WhGYDcmVDM0oJ8l)
 
-#### 4h. LD analyses
+- Genotype calls
+
+- Pop structure
+
+- Diversity measures
+
+[Killer whale ROH (BioRxiv, Andy Foote & Excoffier)](https://www.biorxiv.org/content/10.1101/2020.04.08.031344v1.abstract)
+
+- ROH
+
+#### 4a. Population structure
+
+NJ phylogeny (Feng et al)
+
+PCA [using ANGSD](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.5231) 
+
+Structure
 
 
-### 5. Map outlier loci
+#### 4b. Diversity stats
 
-Map outlier loci, identify candidates in the area
+Measures of genetic diversity: 
+
+Comparison of the number of heterozygous sites in historic vs current datasets
+
+Fig 3a in Feng et al: Distribution of nucleotide diversity across chromosomes in old vs new in 5Mb windows using nuc.div function in pegas
+
+Fig 3b in Feng et al: Distribution of IBD across chromosomes
+
+
+Deleterious load: See Feng et al. 2019 method
+
+
+Runs of homozygosity: Dryas monkey MS
+
+
+
+
+
+#### 4c. Outliers, Map, and identify candidates in the area. 
 
 Synteny between modern and museum samples. 
 
+#### 4d. LD analyses
+
+#### 4e. 
 
 
 
