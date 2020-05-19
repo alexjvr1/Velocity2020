@@ -603,6 +603,10 @@ Runs of homozygosity: Dryas monkey MS
 
 Synteny between modern and museum samples. 
 
+BLAST with FlyBase & Enrichment analysis using PANTHER  
+
+See [this](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15188?casa_token=X-WHMot7TDcAAAAA%3Abn7IwwiinA44JDoEU-yuVV3iLk4RkXwcCU1av3_hKRG1hgKDNaCzPHbrEGlRCBk5j8bMcIW6ynjT) example paper
+
 #### 4d. LD analyses
 
 #### 4e. 
