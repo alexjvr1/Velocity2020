@@ -508,10 +508,53 @@ The shortest contig is 11048 and longest is 18856181 for Ringlet
 #### 3b. Call GL
 
 Test dataset: 
-GL are called using the samtools method (GL1), and we're only allowing SNPs with a p-value of 0.01 for modern samples, and 0.05 for museum samples. 
+GL are called using the samtools method (GL1), and we're only allowing SNPs with a p-value of 0.001 for modern samples, and 0.05 for museum samples. 
+
+
+Total sites analyzed and kept for each dataset: 
+
+MOD Core
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/logfiles
+
+grep "Total number of sites analyzed" E3_MODC.ANGSD1.ARRAY.o9325111-* | awk -F "analyzed:" '{s+=$2} END {print s}'
+381121498
+
+grep "retained" E3_MODC.ANGSD1.ARRAY.o9325111-* | awk -F "filtering:" '{s+=$2} END {print s}'
+6645193
+```
+
+MOD Exp
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/logfiles
+
+grep "Total number of sites analyzed" E3_MODE.ANGSD1.ARRAY.o9325110-* | awk -F "analyzed:" '{s+=$2} END {print s}'
+379718544
+
+grep "retained" E3_MODE.ANGSD1.ARRAY.o9325110-* | awk -F "filtering:" '{s+=$2} END {print s}'
+5148017
+```
+
+MUS
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/logfiles
+
+grep "Total number of sites analyzed" E3_ANGSD1.ARRAY.o9403374* | awk -F "analyzed:" '{s+=$2} END {print s}'
+346540624
+
+grep "retained" E3_ANGSD1.ARRAY.o9403374* | awk -F "filtering:" '{s+=$2} END {print s}'
+23542320
+```
+
+
 
 ANGSD is performed across all indivs for each contig/scaffold seperately. I then need to merge all of the data into a single file. 
 
+```
+module load languages/gcc-6.1
+
+~/bin/angsd/misc/realSFS cat BA.HOD.*idx -outnames MUS.MERGED
+```
 
 
 #### 3c. SFS
