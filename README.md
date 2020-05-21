@@ -631,13 +631,31 @@ Example papers
 We can calculate several [diversity stats in ANGSD](http://www.popgen.dk/angsd/index.php/Thetas,Tajima,Neutrality_tests) after estimating the SFS for each population: 
 
 ```
-##1. Calculate the SFS from SAF
+##1. Calculate the SFS from SAF. -fold 1 for folded SFS when reference is unknown
 
+~/bin/angsd/misc/realSFS NAME.saf.idx -fold 1 NAME.saf.sfs
 
+## or use the script below and input names in the command line. Where $1 = input saf, and $2= output file name: 
+
+qsub 04a_ANGSD_realSFS_cmdlineInputs.sh -F "NAME.saf.idx NAME.saf.sfs"
+
+##2. Estimate thetas from SFS
+
+~/bin/angsd/misc/realSFS saf2theta NAME.saf.idx -sfs NAME.saf.sfs -outname NAME.THETA.theta.gz
+
+##3. Estimate thetas in windows from the above global theta file
+
+~/bin/angsd/misc/realSFS saf2theta NAME.theta.idx -win 50000 -step 10000 -outnames NAME.THETA.window.gz
+
+#4. Estimate theta per chromosome
+
+~/bin/angsd/misc/realSFS saf2theta NAME.theta.idx
 ```
+
+
 #### Scripts: 
 
-[04a_ANGSD_realSFS_cmdlineInputs.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_realSFS_cmdlineInputs.sh)
+Step1: [04a_ANGSD_realSFS_cmdlineInputs.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_realSFS_cmdlineInputs.sh)
 
 
 
