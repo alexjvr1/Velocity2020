@@ -513,7 +513,7 @@ GL are called using the samtools method (GL1), and we're only allowing SNPs with
 
 Total sites analyzed and kept for each dataset: 
 
-MOD Core
+MOD Core p0.001 per SNP
 ```
 /newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/logfiles
 
@@ -524,7 +524,7 @@ grep "retained" E3_MODC.ANGSD1.ARRAY.o9325111-* | awk -F "filtering:" '{s+=$2} E
 6645193
 ```
 
-MOD Exp
+MOD Exp p0.001 per SNP
 ```
 /newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/logfiles
 
@@ -534,6 +534,22 @@ grep "Total number of sites analyzed" E3_MODE.ANGSD1.ARRAY.o9325110-* | awk -F "
 grep "retained" E3_MODE.ANGSD1.ARRAY.o9325110-* | awk -F "filtering:" '{s+=$2} END {print s}'
 5148017
 ```
+
+*p0.05 per SNP*
+
+MOD Core p0.05 per SNP
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/logfiles
+
+grep "Total number of sites analyzed" E3_MODC.ANGSD1.ARRAY.o9541530-* | awk -F "analyzed:" '{s+=$2} END {print s}'
+381121498
+381142712
+
+grep "retained" E3_MODC.ANGSD1.ARRAY.o9541530-* | awk -F "filtering:" '{s+=$2} END {print s}'
+6645193
+7529770
+```
+
 
 MUS
 ```
