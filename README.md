@@ -651,7 +651,7 @@ We can calculate Tajima's D and Watterson's theta as [diversity stats in ANGSD](
 ```
 ##1. Calculate the SFS from SAF. -fold 1 for folded SFS when reference is unknown
 
-~/bin/angsd/misc/realSFS NAME.saf.idx -fold 1 NAME.saf.sfs
+~/bin/angsd/misc/realSFS NAME.saf.idx -fold 1 > NAME.saf.sfs
 
 ## or use the script below and input names in the command line. Where $1 = input saf, and $2= output file name: 
 
@@ -663,11 +663,11 @@ qsub 04a_ANGSD_realSFS_cmdlineInputs.sh -F "NAME.saf.idx NAME.saf.sfs"
 
 ##3. Estimate thetas in windows from the above global theta file
 
-~/bin/angsd/misc/realSFS saf2theta NAME.theta.idx -win 50000 -step 10000 -outnames NAME.THETA.window.gz
+~/bin/angsd/misc/thetaStat do_stat NAME.theta.idx -win 50000 -step 10000 -outnames NAME.THETA.window.gz
 
 #4. Estimate theta per chromosome
 
-~/bin/angsd/misc/realSFS saf2theta NAME.theta.idx
+~/bin/angsd/misc/thetaStat do_stat NAME.theta.idx
 ```
 
 
@@ -680,13 +680,50 @@ Step1: [04a_ANGSD_realSFS_cmdlineInputs.sh](https://github.com/alexjvr1/Velocity
 
 Comparison of the number of heterozygous sites in historic vs current datasets
 
+Calculate this in ANGSD
+
+Global estimate
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/test_pval0.001_nomaf
+
+~/bin/angsd/misc/realSFS MODC.MERGED.saf.idx > est.ml
+
+module load languages/R-3.6.2-gcc9.1.0
+
+#in R
+a<-scan("est.ml")
+(a[2]/sum(a))*100   ##calculates the percentage of heterozygote sites
+
+0.015% for MODC
+```
+
+How do we do this per individual??? 
+
+
+
+
+
+
 ##### 3. nucleotide diversity in windows
 
+ThetaD from ANGSD window-based approach
+
 Fig 3a in Feng et al: Distribution of nucleotide diversity across chromosomes in old vs new in 5Mb windows using nuc.div function in pegas
+
 
 ##### 4. Runs of Homozygosity 
 
 Runs of homozygosity: Dryas monkey MS
+
+
+Convert output to plink genotype calls: http://www.popgen.dk/angsd/index.php/Plink
+
+Only use indivs with mean depth >> 3x? 
+
+Use Plink to look for ROH in sliding window blocks of 50SNPs with one SNP per xkb (50kb?)
+"allow for a maximum of one heterozygous and five missing calls per window before we considered the ROH to be broken"
+
+
 
 ##### 5. IBD in windows across chromosomes
 
@@ -702,13 +739,22 @@ Deleterious load: See Feng et al. 2019 method
 
 NJ phylogeny (Feng et al)
 
-PCA [using ANGSD](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.5231) 
+PCA [using ANGSD](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.5231). 
+Use PCAngsd for this. We need Beagle output from ANGSD
 
-Structure
+??Structure
 
 
 
 #### 4c. Outliers, Map, and identify candidates in the area. 
+
+PCAngsd as outlier approach
+
+Fst in windows to find outlying regions in ANGSD
+```
+
+```
+
 
 Synteny between modern and museum samples. 
 
@@ -716,9 +762,13 @@ BLAST with FlyBase & Enrichment analysis using PANTHER
 
 See [this](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15188?casa_token=X-WHMot7TDcAAAAA%3Abn7IwwiinA44JDoEU-yuVV3iLk4RkXwcCU1av3_hKRG1hgKDNaCzPHbrEGlRCBk5j8bMcIW6ynjT) example paper
 
+
+
 #### 4d. LD analyses
 
 ngsLD (https://github.com/fgvieira/ngsLD) and plot r2 estimates using fit_LDdecay.R
+
+Can use GL as input
 
 See pigeon paper 
 
