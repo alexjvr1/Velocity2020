@@ -557,9 +557,6 @@ module load languages/gcc-6.1
 ```
 
 
-#### 3c. SFS
-
-
 #### 4d. Compare downsampled data to full dataset for modern pops (SFS and GL)
 
 
@@ -628,16 +625,21 @@ Example papers
 
 - ROH
 
-#### 4a. Population structure
 
-NJ phylogeny (Feng et al)
+#### 4a. Diversity stats
 
-PCA [using ANGSD](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.5231) 
+We can calculate several [diversity stats in ANGSD](http://www.popgen.dk/angsd/index.php/Thetas,Tajima,Neutrality_tests) after estimating the SFS for each population: 
 
-Structure
+```
+##1. Calculate the SFS from SAF
 
 
-#### 4b. Diversity stats
+```
+#### Scripts: 
+
+[04a_ANGSD_realSFS_cmdlineInputs.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_realSFS_cmdlineInputs.sh)
+
+
 
 Measures of genetic diversity: 
 
@@ -654,6 +656,14 @@ Deleterious load: See Feng et al. 2019 method
 Runs of homozygosity: Dryas monkey MS
 
 
+
+#### 4b. Population structure
+
+NJ phylogeny (Feng et al)
+
+PCA [using ANGSD](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.5231) 
+
+Structure
 
 
 
