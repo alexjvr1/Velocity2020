@@ -628,7 +628,9 @@ Example papers
 
 #### 4a. Diversity stats
 
-We can calculate several [diversity stats in ANGSD](http://www.popgen.dk/angsd/index.php/Thetas,Tajima,Neutrality_tests) after estimating the SFS for each population: 
+##### 1. Tajima's D and Watterson's theta
+
+We can calculate Tajima's D and Watterson's theta as [diversity stats in ANGSD](http://www.popgen.dk/angsd/index.php/Thetas,Tajima,Neutrality_tests) after estimating the SFS for each population. When using folded SFS (as we have here) only the TD and WT will be meaningful despite several stats being calculated by these scripts: 
 
 ```
 ##1. Calculate the SFS from SAF. -fold 1 for folded SFS when reference is unknown
@@ -653,25 +655,30 @@ qsub 04a_ANGSD_realSFS_cmdlineInputs.sh -F "NAME.saf.idx NAME.saf.sfs"
 ```
 
 
-#### Scripts: 
+###### Scripts: 
 
 Step1: [04a_ANGSD_realSFS_cmdlineInputs.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_realSFS_cmdlineInputs.sh)
 
 
-
-Measures of genetic diversity: 
+##### 2. observed heterozygosity
 
 Comparison of the number of heterozygous sites in historic vs current datasets
 
+##### 3. nucleotide diversity in windows
+
 Fig 3a in Feng et al: Distribution of nucleotide diversity across chromosomes in old vs new in 5Mb windows using nuc.div function in pegas
+
+##### 4. Runs of Homozygosity 
+
+Runs of homozygosity: Dryas monkey MS
+
+##### 5. IBD in windows across chromosomes
 
 Fig 3b in Feng et al: Distribution of IBD across chromosomes
 
+##### 6. Deleterious load
 
 Deleterious load: See Feng et al. 2019 method
-
-
-Runs of homozygosity: Dryas monkey MS
 
 
 
@@ -694,6 +701,11 @@ BLAST with FlyBase & Enrichment analysis using PANTHER
 See [this](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15188?casa_token=X-WHMot7TDcAAAAA%3Abn7IwwiinA44JDoEU-yuVV3iLk4RkXwcCU1av3_hKRG1hgKDNaCzPHbrEGlRCBk5j8bMcIW6ynjT) example paper
 
 #### 4d. LD analyses
+
+ngsLD (https://github.com/fgvieira/ngsLD) and plot r2 estimates using fit_LDdecay.R
+
+See pigeon paper 
+
 
 #### 4e. 
 
