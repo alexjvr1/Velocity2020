@@ -427,6 +427,14 @@ Use the [02c_Downsample_mod_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/b
 
 ### 3. ANGSD
 
+There seem to be improperly paired reads in my final dataset. To deal with this I need to change the ANGSD flag -only_proper_pairs to 0. 
+
+Also make sure to use the latest commit of ANGSD. 
+
+I'm using: 
+```
+angsd version: 0.933-18-gfd1a21a (htslib: 1.10.2-61-g8859b09) build(May  6 2020 14:42:05)
+```
 
 #### 3a. ANGSD filters for SFS
 
@@ -445,6 +453,8 @@ cat regions |wc -l
 ##We'll run these in an ARRAY. 
 ```
 
+The shortest contig is 11048 and longest is 18856181 for Ringlet
+
 ###### *Filters*
 
 -b[filelist]
@@ -457,7 +467,8 @@ cat regions |wc -l
 
 -minQ 20 : PHRED 20 for individual base score.
 
--only_proper_pairs 1 : include only properly paired reads (default) and should already have been applied to the museum reads prior to this. 
+-only_proper_pairs 0 : NBNB THIS flag is changed to 0 because some of the reads in my final mus files are not properly paired! 
+***OLD FILTER include only properly paired reads (default) and should already have been applied to the museum reads prior to this.  
 
 -trim 0 : We're not trimming any data
 
@@ -475,7 +486,7 @@ cat regions |wc -l
 
 -GL 1 : I will estimate genotype likelihoods using the SAMtools model
 
--minInd 18 : I will remove loci where less than 18 individuals have been genotyped. There are 19-45 indivs per group (HOD,FOR, South, New). So this number seems quite high, but this is to be more certain of the 5% MAF.
+-minInd 18 : I will remove loci where less than 18 individuals have been genotyped. There are 35-40 indivs per group (MUS, MODC, MODE). This number was chosen to ensure we can find MAF of 2-5% (1/(18*2)=2.8%)
 
 -setMinDepth : Discard site if total depth (across all indivs) is below [int]. Use -doCounts to determine the distribution of depths
 
@@ -496,6 +507,10 @@ cat regions |wc -l
 
 #### 3b. Call GL
 
+Test dataset: 
+GL are called using the samtools method (GL1), and we're only allowing SNPs with a p-value of 0.01 for modern samples, and 0.05 for museum samples. 
+
+ANGSD is performed across all indivs for each contig/scaffold seperately. I then need to merge all of the data into a single file. 
 
 
 
