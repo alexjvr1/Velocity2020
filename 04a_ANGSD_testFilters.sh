@@ -22,4 +22,27 @@ I'll start with the basic filters then add one each time.
 
 ## 1. Basic filter set
 
+Filters we have to include: 
+
+-remove_bads 1 : remove reads with 255 flag (not primary, failure and duplicate reads) (1=default)
+
+-uniqueOnly 1 : remove reads with multiple best hits
+
+-minMapQ 20 : PHRED 20. This should already be in place during the mapping.
+
+-minQ 20 : PHRED 20 for individual base score.
+
+-only_proper_pairs 0 : NBNB THIS flag is changed to 0 because some of the reads in my final mus files are not properly paired! ***OLD FILTER include only properly paired reads (default) and should already have been applied to the museum reads prior to this.
+
+-trim 0 : We're not trimming any data
+
+-baq 1 : estimate base alignment quality using samtools method.
+
+###ALLELE FREQUENCY ESTIMATION
+
+-doMajorMinor 4 : Force Major allele based on reference. The minor allele is then inferred using doMajorMinor 1. This option needs to be used when calculating SFS for multiple populations as ANGSD otherwise determines a minor allele within each population. I.e. this may not be the same across all the populations.
+
+-ref [..fasta] : For doMM 4 above we need to specify a reference genome.
+
+
 
