@@ -20,7 +20,29 @@ In the museum data ~63% of the loci are retained using the initial filters (inlc
 I'll use only the largest contig for the analysis. 
 I'll start with the basic filters then add one each time. 
 
-## 1. Basic filter set
+
+## 1. Subset the data to use only largest contig
+
+We can use the [region](http://www.popgen.dk/angsd/index.php/Input#BAM_files) filter in ANGSD (-r) to run the analysis only on one contig. I've chosen the smallest contig: 
+
+LR761675.1: 6196582 bp (6.1Mb)
+
+
+## 2. Depth per individual after basic filtering:
+
+
+needs:
+
+```
+-doCounts 1 -doDepth 1
+```
+
+To calculate depth per individual and for all individuals jointly
+
+
+
+
+### Basic filter set
 
 Filters we have to include: 
 
@@ -46,3 +68,71 @@ Filters we have to include:
 
 
 
+MUS:
+```
+~/bin/angsd/angsd -b MUS.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1:  -doCounts 1 -dumpCounts 2 -doDepth 1
+	-> angsd version: 0.933-18-gfd1a21a (htslib: 1.10.2-61-g8859b09) build(May  6 2020 14:42:05)
+	-> No '-out' argument given, output files will be called 'angsdput'
+[bammer_main] 48 samples in 48 input files
+	-> Parsing 48 number of samples 
+	-> Region lookup 1/1
+	-> Printing at chr: LR761675.1 pos:6174870 chunknumber 5900 contains 488 sitess
+	-> Done reading data waiting for calculations to finish
+	-> Done waiting for threads
+	-> Output filenames:
+		->"angsdput.arg"
+		->"angsdput.pos.gz"
+		->"angsdput.counts.gz"
+		->"angsdput.depthSample"
+		->"angsdput.depthGlobal"
+	-> Tue May 26 15:14:56 2020
+	-> Arguments and parameters for all analysis are located in .arg file
+	-> Total number of sites analyzed: 4837675
+	-> Number of sites retained after filtering: 4836300 
+	[ALL done] cpu-time used =  78.55 sec
+	[ALL done] walltime used =  189.00 sec
+
+```
+
+
+
+
+MOD.CORE
+```
+~/bin/angsd/angsd -b MODC.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1:  -doCounts 1 -dumpCounts 2 -doDepth 1 -out MODC
+
+~/bin/angsd/angsd -b MODC.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1:  -doCounts 1 -dumpCounts 2 -doDepth 1 -out MODC
+	-> angsd version: 0.933-18-gfd1a21a (htslib: 1.10.2-61-g8859b09) build(May  6 2020 14:42:05)
+[bammer_main] 38 samples in 38 input files
+	-> Parsing 38 number of samples 
+	-> Region lookup 1/1
+
+	-> Allocated ~ 10 million nodes to the nodepool, this is not an estimate of the memory usage
+	-> Printing at chr: LR761675.1 pos:6018684 chunknumber 3000 contains 1624 sites
+	-> Done reading data waiting for calculations to finish
+	-> Done waiting for threads
+	-> Output filenames:
+		->"MODC.arg"
+		->"MODC.pos.gz"
+		->"MODC.counts.gz"
+		->"MODC.depthSample"
+		->"MODC.depthGlobal"
+	-> Tue May 26 15:23:20 2020
+	-> Arguments and parameters for all analysis are located in .arg file
+	-> Total number of sites analyzed: 5721913
+	-> Number of sites retained after filtering: 5719993 
+	[ALL done] cpu-time used =  155.34 sec
+	[ALL done] walltime used =  343.00 sec
+```
+
+MOD.EXP
+```
+~/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1:  -doCounts 1 -dumpCounts 2 -doDepth 1 -out MODE
+
+```
+
+
+
+
+
+	-> Output filenames:
