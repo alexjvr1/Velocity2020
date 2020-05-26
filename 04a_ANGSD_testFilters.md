@@ -208,9 +208,9 @@ MUS.depth.t <- t(MUS.depth) ##transpose the frequency table so that indivs are c
 
 ##convert to counts. There are 101 columns for the mus table, so create a vector of 1:100
 
-vect <- rep(1:100)
+vect <- rep(0:100)  #the first column has depth 0
 
-
+MUS.counts <- vect*MUS.count  ##this gives a count of the number of sequences, so we can calculate the mean 
 
 ```
 
