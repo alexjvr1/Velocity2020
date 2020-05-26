@@ -128,11 +128,42 @@ MOD.CORE
 MOD.EXP
 ```
 ~/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1:  -doCounts 1 -dumpCounts 2 -doDepth 1 -out MODE
+	-> angsd version: 0.933-18-gfd1a21a (htslib: 1.10.2-61-g8859b09) build(May  6 2020 14:42:05)
+[bammer_main] 40 samples in 40 input files
+	-> Parsing 40 number of samples 
+	-> Region lookup 1/1
+	-> Printing at chr: LR761675.1 pos:1862919 chunknumber 2700 contains 496 sites
+	-> Allocated ~ 10 million nodes to the nodepool, this is not an estimate of the memory usage
+
+	-> Allocated ~ 20 million nodes to the nodepool, this is not an estimate of the memory usage
+
+	-> Allocated ~ 30 million nodes to the nodepool, this is not an estimate of the memory usage
+	-> Printing at chr: LR761675.1 pos:4345792 chunknumber 6400 contains 530 sitess
+
+
+	-> Printing at chr: LR761675.1 pos:6128202 chunknumber 8900 contains 468 sitess
+	-> Done reading data waiting for calculations to finish
+	-> Done waiting for threads
+	-> Output filenames:
+		->"MODE.arg"
+		->"MODE.pos.gz"
+		->"MODE.counts.gz"
+		->"MODE.depthSample"
+		->"MODE.depthGlobal"
+	-> Tue May 26 15:33:45 2020
+	-> Arguments and parameters for all analysis are located in .arg file
+	-> Total number of sites analyzed: 5701053
+	-> Number of sites retained after filtering: 5697000 
+	[ALL done] cpu-time used =  223.80 sec
+	[ALL done] walltime used =  511.00 sec
 
 ```
 
 
 
+Check overlap of these sites between datasets: 
 
 
-	-> Output filenames:
+
+
+
