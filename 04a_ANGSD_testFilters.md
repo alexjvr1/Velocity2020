@@ -160,9 +160,59 @@ MOD.EXP
 ```
 
 
+#### Check overlap of these sites between datasets & assess depths 
 
-Check overlap of these sites between datasets: 
+copy everything to mac: 
 
+```
+/Users/alexjvr/2018.postdoc/Velocity2020/E3/Test.ANGDSstats/DEPTH
+
+scp bluecp3:/newhome/aj18951/E3*/04*/DEPTH*/* .
+
+##unzip the pos data
+
+gunzip *pos.gz
+
+#print the first two columns (i.e. not depth) to a second file for each dataset so that we can compare them
+
+for i in $(ls *pos); do awk -F "\t" '{print $1,"\t",$2}' $i >> $i2
+
+##how many SNPs in each dataset? 
+
+>wc -l *pos2
+ 
+ 5719994 MODC.pos2
+ 5697001 MODE.pos2
+ 4836301 MUS.pos2
+
+#find the overlap
+#comm compares two sorted files. column 1 prints lines only in file1, line2 = file2, line3 = overlap. Suppress columns with -12
+
+comm -12 MODC.pos2 MODE.pos2 |wc -l
+4,721,101      ###~83% of each dataset
+
+comm -12 MODC.pos2 MUS.pos2 |wc -l
+4,027,018      ###70% MODC, 83% MUS
+
+comm -12 MODE.pos2 MUS.pos2 |wc -l
+4,025,715      ###70% MODC, 83% MUS
+```
+
+
+
+Distribution of depths: 
+```
+##First we need to change the frequency table to a counts table
+
+MUS.depth.t <- t(MUS.depth) ##transpose the frequency table so that indivs are columns and each row is depth. Row1 = depth 0
+
+##convert to counts. There are 101 columns for the mus table, so create a vector of 1:100
+
+vect <- rep(1:100)
+
+
+
+```
 
 
 
