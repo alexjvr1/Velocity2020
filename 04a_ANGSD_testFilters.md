@@ -253,7 +253,7 @@ GlobalDepth Histogram
 
 ![alt.txt][GDH]
 
-[GDH]:(https://user-images.githubusercontent.com/12142475/83019981-bdfb1300-a01f-11ea-99a7-e19a53ea493e.png)
+[GDH]:https://user-images.githubusercontent.com/12142475/83019981-bdfb1300-a01f-11ea-99a7-e19a53ea493e.png
 
 
 
