@@ -199,21 +199,67 @@ comm -12 MODE.pos2 MUS.pos2 |wc -l
 ```
 
 
+Missingness per individual
+```
+##How many 0 coverage sites per sample?
+
+MODC.pos <- read.table("MODC.pos", header=T)
+MODC.res <- colSums(MODC.pos==0)/nrow(MODC.pos)*100   ##percentage of loci that will drop out because of low or no coverage. Assuming 2x limit
+MODC.res  ##38 indivs named 0-37 here
+ ind0TotDepth  ind1TotDepth  ind2TotDepth  ind3TotDepth  ind4TotDepth 
+     32.23030      27.61680      30.20782      28.81853      33.22506 
+ ind5TotDepth  ind6TotDepth  ind7TotDepth  ind8TotDepth  ind9TotDepth 
+     34.02079      32.48880      27.74065      27.25474      48.22835 
+ind10TotDepth ind11TotDepth ind12TotDepth ind13TotDepth ind14TotDepth 
+     26.31533      25.62216      25.86388      26.18867      27.44773 
+ind15TotDepth ind16TotDepth ind17TotDepth ind18TotDepth ind19TotDepth 
+     32.30359      29.77352      27.31704      21.92863      42.87257 
+ind20TotDepth ind21TotDepth ind22TotDepth ind23TotDepth ind24TotDepth 
+     27.73068      32.29497      31.19343      30.51126      26.86881 
+ind25TotDepth ind26TotDepth ind27TotDepth ind28TotDepth ind29TotDepth 
+     29.41853      34.12212      26.58886      34.01071      35.02628 
+ind30TotDepth ind31TotDepth ind32TotDepth ind33TotDepth ind34TotDepth 
+     29.51528      35.99779      24.00923      24.84856      25.33979 
+ind35TotDepth ind36TotDepth ind37TotDepth 
+     22.66097      22.71679      22.70361 
+     
+
+
+
+
+
+
+```
+
+
 
 Distribution of depths: 
 ```
-##First we need to change the frequency table to a counts table
+##In R
+##/Users/alexjvr/2018.postdoc/Velocity2020/E3/Test.ANGDSstats
 
-MUS.depth.t <- t(MUS.depth) ##transpose the frequency table so that indivs are columns and each row is depth. Row1 = depth 0
+MODC.pos <- read.table("MODC.pos.gz", header=T)
+MODE.pos <- read.table("MODE.pos.gz", header=T)
+MUS.pos <- read.table("MUS.pos.gz", header=T)
+pdf("GlobalDepthHistograms.pdf")
+par(mfrow=c(3,1))
+hist((log10(MODC.pos$totDepth)), main="Mod.Core n=38", ylab="frequency", xlab="")
+hist((log10(MODE.pos$totDepth)), main="Mod.Exp n=40", ylab="frequency", xlab="")
+hist((log10(MUS.pos$totDepth)), main="Museum n=48", ylab="frequency", xlab="log10 Depth across all loci")
+dev.off()
+```
 
-##convert to counts. There are 101 columns for the mus table, so create a vector of 1:100
+GlobalDepth Histogram 
 
-vect <- rep(0:100)  #the first column has depth 0
+![alt.txt][GDH]
 
-MUS.counts <- vect*MUS.count  ##this gives a count of the number of sequences, so we can calculate the mean 
+[GDH]:(https://user-images.githubusercontent.com/12142475/83019981-bdfb1300-a01f-11ea-99a7-e19a53ea493e.png)
 
+
+
+How many loci do we lose with a minDP filter? 
 ```
 
 
-
+```
 
