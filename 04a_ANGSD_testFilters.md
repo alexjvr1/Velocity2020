@@ -203,7 +203,7 @@ Missingness per individual
 ```
 ##How many 0 coverage sites per sample?
 
-MODC.pos <- read.table("MODC.pos", header=T)
+MODC.pos <- read.table("MODC.counts.gz", header=T)
 MODC.res <- colSums(MODC.pos==0)/nrow(MODC.pos)*100   ##percentage of loci that will drop out because of low or no coverage. Assuming 2x limit
 MODC.res  ##38 indivs named 0-37 here
  ind0TotDepth  ind1TotDepth  ind2TotDepth  ind3TotDepth  ind4TotDepth 
@@ -223,17 +223,49 @@ ind30TotDepth ind31TotDepth ind32TotDepth ind33TotDepth ind34TotDepth
 ind35TotDepth ind36TotDepth ind37TotDepth 
      22.66097      22.71679      22.70361 
      
+MUS.pos <- read.table("MUS.counts.gz", header=T)
+MODE.pos <- read.table("MODE.counts.gz", header=T)
 
+MODE.res <- colSums(MODE.pos==0)/nrow(MODE.pos)*100 
+MUS.res <- colSums(MUS.pos==0)/nrow(MUS.pos)*100 
 
+library(reshape2)
+MODE.res.melt <- melt(MODE.res)
+MODE.res.melt$pop <- "MODE"
+MODC.res.melt <- melt(MODC.res)
+MODC.res.melt$pop <- "MODC"
+MUS.res.melt <- melt(MUS.res)
+MUS.res.melt$pop <- "MUS"
+indivDepth <- rbind(MODE.res.melt, MODC.res.melt, MUS.res.melt)
+indivDepth$colour <- indivDepth$pop
+indivDepth$colour <- gsub("MODE", "MOD", indivDepth$colour)
+indivDepth$colour <- gsub("MODC", "MOD", indivDepth$colour)
 
-
-
+library(ggplot2)
+pdf("Missingness.PerIndiv.pdf")
+ggplot(indivDepth, aes(y=value, group=pop, colour=pop)) + geom_boxplot() + ggtitle("Ringlet Missingness per individual") + ylab("Missingness (%)") + xlab("Populations")                              
+dev.off()
 
 ```
 
+![alt.txt][missingness]
+
+[missingness]:https://user-images.githubusercontent.com/12142475/83029353-82b21180-a02a-11ea-9322-ae4179e8c2e0.png
 
 
-Distribution of depths: 
+We'll exclude the 6 individuals from MOD.exp that have not sequenced well by removing them from the poplist: 
+
+```
+AH-02-2019-74
+AH-02-2019-75
+AH-02-2019-77
+AH-02-2019-78
+AH-02-2019-79
+AH-02-2019-80
+```
+
+
+Distribution of depths (still with all 40 MODE indivs): 
 ```
 ##In R
 ##/Users/alexjvr/2018.postdoc/Velocity2020/E3/Test.ANGDSstats
@@ -249,15 +281,42 @@ hist((log10(MUS.pos$totDepth)), main="Museum n=48", ylab="frequency", xlab="log1
 dev.off()
 ```
 
-GlobalDepth Histogram 
+totalDepth Histogram 
 
 ![alt.txt][GDH]
 
 [GDH]:https://user-images.githubusercontent.com/12142475/83019981-bdfb1300-a01f-11ea-99a7-e19a53ea493e.png
 
 
+We'll set the maxDP for each population as mean + 2xSD. This is changed in the bash scripts. 
+```
+summary(MODC.pos$totDepth)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    1.0    87.0   117.0   113.1   137.0  6052.0 
+sd(MODC.pos$totDepth)
+[1] 107.3653
 
-How many loci do we lose with a minDP filter? 
+##MAXDEPTH: 113.1+ 2*(107.3)= 328X
+
+summary(MODE.pos$totDepth)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    1.0   144.0   196.0   186.1   221.0 13702.0 
+sd(MODE.pos$totDepth)
+[1] 217.3255
+
+##MAXDEPTH: 186.1+ 2*(217.3)= 621X
+
+
+summary(MUS.pos$totDepth)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00   24.00   50.00   52.22   74.00 5672.00 
+sd(MUS.pos$totDepth)
+[1] 45.88092
+
+##MAXDEPTH: 52.2+ 2*(45.9)= 144X
+```
+
+How many loci do we lose with a maxDP filter? And what is the new overlap between datasets? 
 ```
 
 
