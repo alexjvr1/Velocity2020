@@ -762,14 +762,96 @@ Use PCAngsd for this. We need Beagle output from ANGSD
 #### 4c. Outliers, Map, and identify candidates in the area. 
 
 PCAngsd as outlier approach
+```
 
-Fst in windows to find outlying regions in ANGSD
+
+```
+
+
+
+##### Fst in windows to find outlying regions in ANGSD
+
+ANGSD generates a ML SFS from genotype likelihoods for each population. It then uses the SFS as a prior in an empirical Bayes approach to estimate the posterior probability for all possible allelel frequencies at each site. (Method: Fumagalli et al. 2013) 
 ```
 
 ```
 
+Plot Time vs space Fst plots for each chromosome. I'm using the Ringlet chromosome names as in the genome MS. Each chromosome is shown in two plots - plot1=MODC vs MODE, plot2= MODC vs Mus. 
 
-Synteny between modern and museum samples. 
+Modern graphs
+```
+p1 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761647.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("Mod Core vs Mod Expanding LR761647.1") + theme(axis.title.x = element_blank())
+
+p2 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761648.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("Mod Core vs Mod Expanding LR761648.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p3 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761649.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761649.1") + xlim(0,18830000) + theme(axis.title.x = element_blank())
+
+p4 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761650.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761650.1") + xlim(0,18830000) + theme(axis.title.x = element_blank())
+
+p5 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761651.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761651.1") + xlim(0,18830000) + theme(axis.title.x = element_blank())
+
+
+p6 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761652.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761652.1") + xlim(0,18830000) + theme(axis.title.x = element_blank())
+
+
+p7 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761653.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761653.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p8 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761654.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761654.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p9 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761655.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761655.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p10 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761656.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761656.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+
+p11 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761657.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761657.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p12 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761658.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761658.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p13 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761659.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761659.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p14 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761660.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761660.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p15 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761661.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761661.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+
+p16 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761662.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761662.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+
+p17 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761663.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761663.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p18 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761664.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761664.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p19 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761665.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761665.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p20 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761666.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761666.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+
+p21 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761667.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761667.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p22 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761668.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761668.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p23 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761669.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761669.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p24 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761670.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761670.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p25 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761671.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761671.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+
+p26 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761672.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761672.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+
+p27 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761673.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761673.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p28 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761674.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761674.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+p29 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761675.1"),], aes(x=midpoint, y=fst)) + geom_point() + ggtitle("LR761675.1") + xlim(0,18830000)+ theme(axis.title.x = element_blank())
+
+```
+
+
+
+
+###### Synteny between modern and museum samples. 
 
 BLAST with FlyBase & Enrichment analysis using PANTHER  
 
