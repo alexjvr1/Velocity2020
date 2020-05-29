@@ -135,7 +135,7 @@ dev.off()
 
 pdf("FST8.pdf")
 
-multiplot(p17,p17mus, p18, p18mus, cols=1)
+multiplot(p16,p16mus, p17, p17mus, cols=1)
 
 dev.off()
 
@@ -143,7 +143,7 @@ dev.off()
 
 pdf("FST9.pdf")
 
-multiplot(p19,p19mus, p20, p20mus, cols=1)
+multiplot(p18,p18mus, p19, p19mus, cols=1)
 
 dev.off()
 
@@ -151,7 +151,7 @@ dev.off()
 
 pdf("FST10.pdf")
 
-multiplot(p21,p21mus, p22, p22mus, cols=1)
+multiplot(p20,p20mus, p21, p21mus, cols=1)
 
 dev.off()
 
@@ -159,7 +159,7 @@ dev.off()
 
 pdf("FST11.pdf")
 
-multiplot(p23,p23mus, p24, p24mus, cols=1)
+multiplot(p22,p22mus, p23, p23mus, cols=1)
 
 dev.off()
 
@@ -167,7 +167,7 @@ dev.off()
 
 pdf("FST12.pdf")
 
-multiplot(p25,p25mus, p26, p26mus, cols=1)
+multiplot(p24,p24mus, p25, p25mus, cols=1)
 
 dev.off()
 
@@ -175,7 +175,7 @@ dev.off()
 
 pdf("FST13.pdf")
 
-multiplot(p27,p27mus, p29, p29mus, cols=1)
+multiplot(p26,p26mus, p27, p27mus, cols=1)
 
 dev.off()
 
@@ -183,11 +183,12 @@ dev.off()
 
 pdf("FST14.pdf")
 
-multiplot(p31, p31mus, p32, p32mus, cols=1)
+multiplot(p29, p29mus, p31, p31mus, cols=1)
 
 dev.off()
 
 pdf("FST15.pdf")
 multiplot(p32,p32mus, cols=1)
+dev.off()
 
 ```
