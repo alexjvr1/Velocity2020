@@ -29,7 +29,7 @@ p25 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761665.1"),], aes(x=midPos
 p26 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761671.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761671.1 - PX05/26") +  theme(axis.title.x = element_blank())
 p27 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761670.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761670.1 - PX27") +  theme(axis.title.x = element_blank())
 
-p29 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761661.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761661.1 - PX60") +  theme(axis.title.x = element_blank())
+p29 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761661.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761661.1 - PX29") +  theme(axis.title.x = element_blank())
 p31 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761672.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761672.1 - PX31") +  theme(axis.title.x = element_blank())
 
 p32 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761650.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761650.1 - PX1Z") +  theme(axis.title.x = element_blank())
@@ -69,7 +69,7 @@ p25mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761665.1"),], aes(x=midPo
 p26mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761671.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761671.1 - PX05/26") +  theme(axis.title.x = element_blank())
 p27mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761670.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761670.1 - PX27") +  theme(axis.title.x = element_blank())
 
-p29mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761661.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761661.1 - PX60") +  theme(axis.title.x = element_blank())
+p29mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761661.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761661.1 - PX29") +  theme(axis.title.x = element_blank())
 p31mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761672.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761672.1 - PX31") +  theme(axis.title.x = element_blank())
 
 p32mus <- ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761650.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("LR761650.1 - PX1Z") +  theme(axis.title.x = element_blank())
@@ -183,7 +183,7 @@ dev.off()
 
 pdf("FST14.pdf")
 
-multiplot(p30,p30mus, p31, p31mus, cols=1)
+multiplot(p31, p31mus, p32, p32mus, cols=1)
 
 dev.off()
 
