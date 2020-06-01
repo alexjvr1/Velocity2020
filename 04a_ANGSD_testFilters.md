@@ -325,40 +325,29 @@ How many loci do we lose with a Different filters?
 /newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS
 
 ##################
-MODE - MaxDP
+      MODE 
 ##################
 -> Total number of sites analyzed: 5701053
 -> Number of sites retained after filtering: 5667963 (MAXDP 621X)
 -> Number of sites retained after filtering: 5496763 (MINDP 3x)
+-> Number of sites retained after filtering: 5059904 (MinInd 10) 
+
 
 ##################
-MODC - MaxDP
+      MODC 
 ##################
 -> Total number of sites analyzed: 5721913
 -> Number of sites retained after filtering: 5680716 (MAXDP 328x)
 -> Number of sites retained after filtering: 5537574 (MINDP 3x)
+-> Number of sites retained after filtering: 4708426 (MinInd 10)
 
 ##################
-MUS - MaxDP 166X
+       MUS
 ##################
 -> Total number of sites analyzed: 4837675
 -> Number of sites retained after filtering: 4807320 (MAXDP 166X)
 -> Number of sites retained after filtering: 4253545 (MINDP 3X)
--> Number of sites retained after filtering: 1190194 (MININD 10)
-
-
-#############
-MODC vs MODE
-#############
-
-Overlap of loci?
-
-#############
-MODC vs MUS
-#############
-
-Overlap of loci?
-
+-> Number of sites retained after filtering: 1190194 (MinInd 10)
 ```
 
 
