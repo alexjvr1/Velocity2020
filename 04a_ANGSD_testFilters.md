@@ -319,35 +319,64 @@ sd(MUS.pos$totDepth)
 
 ###### Depth filter
 
-How many loci do we lose with a maxDP filter? And what is the new overlap between datasets? 
+
+How many loci do we lose with a Different filters? 
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS
+
+##################
+MODE - MaxDP
+##################
+-> Total number of sites analyzed: 5701053
+-> Number of sites retained after filtering: 5667963 (MAXDP 621X)
+-> Number of sites retained after filtering: 5496763 (MINDP 3x)
+
+##################
+MODC - MaxDP
+##################
+-> Total number of sites analyzed: 5721913
+-> Number of sites retained after filtering: 5680716 (MAXDP 328x)
+-> Number of sites retained after filtering: 5537574 (MINDP 3x)
+
+##################
+MUS - MaxDP 166X
+##################
+-> Total number of sites analyzed: 4837675
+-> Number of sites retained after filtering: 4807320 (MAXDP 166X)
+-> Number of sites retained after filtering: 4253545 (MINDP 3X)
+-> Number of sites retained after filtering: 1190194 (MININD 10)
+
+
+#############
+MODC vs MODE
+#############
+
+Overlap of loci?
+
+#############
+MODC vs MUS
+#############
+
+Overlap of loci?
+
 ```
 
 
-```
-
-
-
-How many loci do we lose with a minDP=2 filter? 
-```
-
+###### Overlap between datasets: 
 
 ```
+#############
+MODC vs MODE
+#############
 
+Overlap of loci?
 
+#############
+MODC vs MUS
+#############
 
-##### MinInd filter
+Overlap of loci?
 
-How many loci do we lose with the minInd=10 filter? And what is the new overlap between datasets? 
 ```
-
-```
-
-How many loci do we lose with the minInd=18 filter? And what is the new overlap between datasets? 
-```
-
-```
-
-
-
 
 
