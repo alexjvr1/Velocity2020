@@ -316,17 +316,38 @@ sd(MUS.pos$totDepth)
 ##MAXDEPTH: 52.2+ 2*(45.9)= 144X
 ```
 
-How many loci do we lose with the minInd=18 filter? And what is the new overlap between datasets? 
-```
 
-```
-
+###### Depth filter
 
 How many loci do we lose with a maxDP filter? And what is the new overlap between datasets? 
 ```
 
 
 ```
+
+
+
+How many loci do we lose with a minDP=2 filter? 
+```
+
+
+```
+
+
+
+##### MinInd filter
+
+How many loci do we lose with the minInd=10 filter? And what is the new overlap between datasets? 
+```
+
+```
+
+How many loci do we lose with the minInd=18 filter? And what is the new overlap between datasets? 
+```
+
+```
+
+
 
 
 
