@@ -331,6 +331,8 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 5667963 (MAXDP 621X)
 -> Number of sites retained after filtering: 5496763 (MINDP 3x)
 -> Number of sites retained after filtering: 5059904 (MinInd 10) 
+-> Number of sites retained after filtering: 4655316 (MinInd 18)
+
 
 
 ##################
@@ -340,6 +342,8 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 5680716 (MAXDP 328x)
 -> Number of sites retained after filtering: 5537574 (MINDP 3x)
 -> Number of sites retained after filtering: 4708426 (MinInd 10)
+-> Number of sites retained after filtering: 2890825 (MinInd 18)
+
 
 ##################
        MUS
@@ -348,6 +352,7 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 4807320 (MAXDP 166X)
 -> Number of sites retained after filtering: 4253545 (MINDP 3X)
 -> Number of sites retained after filtering: 1190194 (MinInd 10)
+-> Number of sites retained after filtering: 89424 (MinInd 18)
 ```
 
 
