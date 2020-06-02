@@ -333,6 +333,7 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 5059904 (MinInd 10) 
 -> Number of sites retained after filtering: 4655316 (MinInd 18)
 
+-> Number of sites retained after filtering: 4831669 (MAXDP, MINDP, MinInd 10, -C50) 
 
 
 ##################
@@ -344,6 +345,8 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 4708426 (MinInd 10)
 -> Number of sites retained after filtering: 2890825 (MinInd 18)
 
+-> Number of sites retained after filtering: 4507703 (MAXDP, MINDP, MinInd 10, -C50)
+
 
 ##################
        MUS
@@ -353,24 +356,53 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 4253545 (MINDP 3X)
 -> Number of sites retained after filtering: 1190194 (MinInd 10)
 -> Number of sites retained after filtering: 89424 (MinInd 18)
+
+-> Number of sites retained after filtering: 254283 (MAXDP, MINDP, MinInd 10, -C50)
 ```
 
 
 ###### Overlap between datasets: 
 
 ```
+##Prepare outputs: 
+
+##unzip the pos data
+
+gunzip *pos.gz
+
+#print the first two columns (i.e. not depth) to a second file for each dataset so that we can compare them
+
+for i in $(ls *pos); do awk -F "\t" '{print $1,"\t",$2}' $i >> $i.2; done
+for i in $(ls *pos.2); do sort $i >> $i.3; done
+
+#find the overlap
+#comm compares two sorted files. column 1 prints lines only in file1, line2 = file2, line3 = overlap. Suppress columns with -12
+#e.g. 
+
+comm -12 MODC.pos2 MODE.pos2 |wc -l
+
+
 #############
 MODC vs MODE
 #############
 
-Overlap of loci?
+comm -12 MODC.MAXDP.MINDP.pos.2.3 MODE.MAXDP.MINDP.pos.2.3 | wc -l    
+5,423,881										##MAXDP and MINDP (98% of each dataset retained)
+comm -12 MODC.MAXDP.MINDP.MININD10.pos.2.3 MODE.MAXDP.MINDP.MININD10.pos.2.3 | wc -l
+4,476,830										##MAXDP and MINDP & MinIND 10 (90-95% retained)
+comm -12 MODC.MAXDP.MINDP.MININD18.pos.2.3 MODE.MAXDP.MINDP.MININD18.pos.2.3 | wc -l							 
+2,852,432										##MAXDP and MINDP & MinIND 18 (62-98%)								
 
 #############
 MODC vs MUS
 #############
 
-Overlap of loci?
-
+comm -12 MODC.MAXDP.MINDP.pos.2.3 MUS.MAXDP.MINDP.pos.2.3 | wc -l    
+4,231,209										##MAXDP and MINDP (78 - 87% retained)
+comm -12 MODC.MAXDP.MINDP.MININD10.pos.2.3 MUS.MAXDP.MINDP.MININD10.pos.2.3 | wc -l
+244,875											##MAXDP and MINDP & MinIND 10 (5-22%)
+comm -12 MODC.MAXDP.MINDP.MININD18.pos.2.3 MUS.MAXDP.MINDP.MININD18.pos.2.3 | wc -l						 
+63,938											##MAXDP and MINDP & MinIND 18 (1-6%)					
 ```
 
 
