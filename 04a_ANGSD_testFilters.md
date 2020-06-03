@@ -341,8 +341,42 @@ How many loci do we lose with a Different filters?
 
 -> Number of sites retained after filtering: 42814 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001)
 -> Number of sites retained after filtering: 45450 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.01)
+-> Number of sites retained after filtering: 48340 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.05)
 
 -> Number of sites retained after filtering: 52197 (P-val 0.01, No baq) 
+
+110k for the OLD dataset vs ~50k for NEW dataset. What is the difference??
+
+/newhome/aj18951/bin/angsd/angsd 
+-b MODE.poplist 
+-checkBamHeaders 1 
+-ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna 
+-minQ 20 
+-minMapQ 20 
+-uniqueOnly 1 
+-remove_bads 1 
+-only_proper_pairs 0 (1 for original)
+-r LR761675.1: 
+-doCounts 1 
+-dumpCounts 2 
+-doDepth 1 
+-setMaxDepth 621 (new ONLY)
+-setMinDepthInd 2 (old ONLY)
+-setMinDepthInd 3 (new ONLY)
+-C 50 (new ONLY)
+-doMajorMinor 4 
+-GL 1 
+-doMaf 1 
+-doSaf 1 
+-anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna 
+-rmTriallelic 1 
+-SNP_pval 0.05 
+-baq 1 (new ONLY) 
+-out MODE.forSFS.PVAL0.05 
+-doGeno 8 (new ONLY)
+-doPost 1 (new ONLY) 
+
+
 
 ##################
       MODC 
