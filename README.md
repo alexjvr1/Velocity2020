@@ -436,9 +436,7 @@ I'm using:
 angsd version: 0.933-18-gfd1a21a (htslib: 1.10.2-61-g8859b09) build(May  6 2020 14:42:05)
 ```
 
-#### 3a. ANGSD filters for SFS
-
-I'm starting with bam files, so there are already some filters on the mapping quality of the sequences. Prior to that there are some crude filters during the demultiplexing and trimming steps.
+#### Set up analysis
 
 To speed up the analysis I will split the ANGSD run across the genome; i.e. all indivs will be analysed for regions 0-x in ARRAY1, x-x1 in ARRAY2, etc. For this we need to split the genome up into regions.
 
@@ -456,6 +454,11 @@ cat regions |wc -l
 The shortest contig is 11048 and longest is 18856181 for Ringlet
 
 ###### *Filters*
+
+I'm starting with bam files, so there are already some filters on the mapping quality of the sequences. Prior to that there are some crude filters during the demultiplexing and trimming steps.
+
+
+Other possible filters: 
 
 -b[filelist]
 
@@ -503,6 +506,40 @@ The shortest contig is 11048 and longest is 18856181 for Ringlet
 -rmTriallelic 1 : include only biallelic loci
 
 -checkBamHeaders 1 : check that the bam headers are compatable for all files.
+
+
+
+#### 3a. ANGSD filters for SFS
+
+It's important to include all loci in the SFS. Don't include any filters that'll affect the allele frequencies (e.g. MAF or SNP_pval filters). 
+
+It's also important to polarise the Major/Minor alleles so that they're the same between the populations. 
+
+This is done with -doMajorMinor 4 : Force Major allele based on reference. The minor allele is then inferred using doMajorMinor 1. This option needs to be used when calculating SFS for multiple populations as ANGSD otherwise determines a minor allele within each population. I.e. this may not be the same across all the populations.
+
+The [basic process is](https://github.com/ANGSD/angsd/issues/259): 
+
+1. Estimate SAF for each population (unfolded) 
+```
+
+```
+
+2. unfolded SAF used to produce folded 2D SFS
+```
+realSFS pop1.unfolded.saf.idx pop2.unfolded.saf.idx -fold 1 >folded.sfs
+
+```
+
+3. unfolded SAF and folded SFS used to generate per-site numerator/denominator of Fst (use -fold in realSFS fst index)
+```
+realSFS fst index pop1.unfolded.saf.idx pop2.unfolded.saf.idx -sfs folded.sfs -fold 1 -fstout persite
+
+```
+
+4. sum numerator and denominator in windows
+```
+realSFS fst stat2 persite.fst.idx -win XXXX -step XXXX >window.fst
+```
 
 
 #### 3b. Call GL
