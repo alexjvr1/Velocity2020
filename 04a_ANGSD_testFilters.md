@@ -319,6 +319,10 @@ sd(MUS.pos$totDepth)
 
 ###### Depth filter
 
+/newhome/aj18951/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1: -baq 1 -doCounts 1 -dumpCounts 2 -doDepth 1 -setMaxDepth 621 -setMinDepthInd 3 -C 50 -doMajorMinor 4 -GL 1 -doMaf 1 -doSaf 1 -anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -rmTriallelic 1 -SNP_pval 0.01 -out MODE.forSFS.PVAL0.01 
+
+/newhome/aj18951/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1: -doCounts 1 -dumpCounts 2 -doDepth 1 -setMaxDepth 621 -setMinDepthInd 3 -out MODE.MAXDP 
+
 
 How many loci do we lose with a Different filters? 
 ```
@@ -335,6 +339,8 @@ How many loci do we lose with a Different filters?
 
 -> Number of sites retained after filtering: 4831669 (MAXDP, MINDP, MinInd 10, -C50) 
 
+-> Number of sites retained after filtering: 42814 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001)
+-> Number of sites retained after filtering: 45450 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.01)
 
 ##################
       MODC 
@@ -347,6 +353,8 @@ How many loci do we lose with a Different filters?
 
 -> Number of sites retained after filtering: 4507703 (MAXDP, MINDP, MinInd 10, -C50)
 
+-> Number of sites retained after filtering: 49867 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001) 
+
 
 ##################
        MUS
@@ -358,6 +366,10 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 89424 (MinInd 18)
 
 -> Number of sites retained after filtering: 254283 (MAXDP, MINDP, MinInd 10, -C50)
+
+-> Number of sites retained after filtering: 22575 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001) 
+-> Number of sites retained after filtering: 28705 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.01) 
+-> Number of sites retained after filtering: 33273 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.05)
 ```
 
 
