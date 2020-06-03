@@ -319,10 +319,6 @@ sd(MUS.pos$totDepth)
 
 ###### Depth filter
 
-/newhome/aj18951/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1: -baq 1 -doCounts 1 -dumpCounts 2 -doDepth 1 -setMaxDepth 621 -setMinDepthInd 3 -C 50 -doMajorMinor 4 -GL 1 -doMaf 1 -doSaf 1 -anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -rmTriallelic 1 -SNP_pval 0.01 -out MODE.forSFS.PVAL0.01 
-
-/newhome/aj18951/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1: -doCounts 1 -dumpCounts 2 -doDepth 1 -setMaxDepth 621 -setMinDepthInd 3 -out MODE.MAXDP 
-
 
 How many loci do we lose with a Different filters? 
 ```
@@ -342,6 +338,8 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 42814 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001)
 -> Number of sites retained after filtering: 45450 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.01)
 -> Number of sites retained after filtering: 48340 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.05)
+-> Number of sites retained after filtering: 58816 (noMaxDP and minDP=2)
+
 
 -> Number of sites retained after filtering: 52197 (P-val 0.01, No baq) 
 
@@ -373,8 +371,8 @@ How many loci do we lose with a Different filters?
 -SNP_pval 0.05 
 -baq 1 (new ONLY) 
 -out MODE.forSFS.PVAL0.05 
--doGeno 8 (new ONLY)
--doPost 1 (new ONLY) 
+-doGeno 8 (old ONLY)
+-doPost 1 (old ONLY) 
 
 
 
