@@ -342,6 +342,8 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 42814 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001)
 -> Number of sites retained after filtering: 45450 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.01)
 
+-> Number of sites retained after filtering: 52197 (P-val 0.01, No baq) 
+
 ##################
       MODC 
 ##################
@@ -354,6 +356,10 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 4507703 (MAXDP, MINDP, MinInd 10, -C50)
 
 -> Number of sites retained after filtering: 49867 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.001) 
+-> Number of sites retained after filtering: 54202 (MAXDP, MINDP, rmTriallelic, baq, C,  P-val 0.01)
+
+-> Number of sites retained after filtering: 80191 (Pval 0.01, no minDP)
+
 
 
 ##################
