@@ -341,7 +341,16 @@ How many loci do we lose with a Different filters?
 -> Number of sites retained after filtering: 58816 (noMaxDP and minDP=2)
 
 
--> Number of sites retained after filtering: 52197 (P-val 0.01, No baq) 
+-> Number of sites retained after filtering: 52197 (P-val 0.01, C, No baq)
+
+###The -C filter (adjust for excessive mismatches) is removing 25% of the loci. Why is that? 
+###The baq filter (base alignment quality) is also removing a lot of loci
+###What if we remove the SNP_pval filter? 
+
+
+
+
+
 
 110k for the OLD dataset vs ~50k for NEW dataset. What is the difference??
 
