@@ -515,16 +515,51 @@ It's important to include all loci in the SFS. Don't include any filters that'll
 
 It's also important to polarise the Major/Minor alleles so that they're the same between the populations. 
 
-This is done with -doMajorMinor 4 : Force Major allele based on reference. The minor allele is then inferred using doMajorMinor 1. This option needs to be used when calculating SFS for multiple populations as ANGSD otherwise determines a minor allele within each population. I.e. this may not be the same across all the populations.
+This is done with -doMajorMinor 4 : Force Major allele based on reference. The minor allele is then inferred using doMajorMinor 1 (i.e. from GL). This option needs to be used when calculating SFS for multiple populations as ANGSD otherwise determines a minor allele within each population. I.e. this may not be the same across all the populations.
+
+The order of the filters do not seem to affect the outcome (see https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_testFilters.md)
+
+To add depth filters we need to add -doCount 1. 
+
+NBNB for MUS data we have to select only_proper_pairs 0 - this is because the processing with MapDamage changes the reads in some way so that they all get filtered out if we select only_proper_pairs 1. They should already be filtered for proper_pairs based on prior mapping filters. 
 
 The [basic process is](https://github.com/ANGSD/angsd/issues/259): 
 
-1. Estimate SAF for each population (unfolded) 
+###### 1. Estimate SAF for each population (unfolded) 
+
+MUS
 ```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS/04_SFS/04a_MUS.SAF.sh
+
+/newhome/aj18951/bin/angsd/angsd -b MUS.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1: -GL 1 -doSaf 1 -anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -doCounts 1 -setMinDepthInd 2 -setMaxDepth 144 -doMajorMinor 4 -out MUS -C 50 -baq 1 
+
+-> Total number of sites analyzed: 4786628
+-> Number of sites retained after filtering: 4762287 
+```
+
+MODC
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS/04_SFS/04a_MODC.SAF.sh
+
+/newhome/aj18951/bin/angsd/angsd -b MODC.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 1 -r LR761675.1: -GL 1 -doSaf 1 -anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -doCounts 1 -setMinDepthInd 2 -setMaxDepth 328 -doMajorMinor 4 -out MODC -C 50 -baq 1 
+
+-> Total number of sites analyzed: 5715589
+-> Number of sites retained after filtering: 5621808 
 
 ```
 
-2. unfolded SAF used to produce folded 2D SFS
+MODE
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS/04_SFS/04a_MODE.SAF.sh
+
+/newhome/aj18951/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 1 -r LR761675.1: -GL 1 -doSaf 1 -anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -doCounts 1 -setMinDepthInd 2 -setMaxDepth 621 -doMajorMinor 4 -out MODE -C 50 -baq 1 
+
+-> Total number of sites analyzed: 5688111
+-> Number of sites retained after filtering: 5553623 
+```
+
+
+###### 2. unfolded SAF used to produce folded 2D SFS
 ```
 realSFS pop1.unfolded.saf.idx pop2.unfolded.saf.idx -fold 1 >folded.sfs
 
