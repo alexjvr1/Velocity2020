@@ -577,6 +577,27 @@ realSFS fst stat2 persite.fst.idx -win XXXX -step XXXX >window.fst
 ```
 
 
+GlobalFST 
+
+1. MODC vs MODE
+```
+~/bin/angsd/misc/realSFS fst stats MODE.MODC.persite.fst.idx
+
+-> FST.Unweight[nObs:5498007]:0.020322 Fst.Weight:0.126046
+0.020322	0.126046
+```
+
+2. MODC vs MUS
+```
+~/bin/angsd/misc/realSFS fst stats MUS.MODC.fstout.fst.idx 
+	-> Assuming idxname:MUS.MODC.fstout.fst.idx
+	-> Assuming .fst.gz file: MUS.MODC.fstout.fst.gz
+	-> FST.Unweight[nObs:4738713]:0.091403 Fst.Weight:0.234494
+0.091403	0.234494
+```
+
+
+
 #### 3b. Call GL
 
 Test dataset: 
