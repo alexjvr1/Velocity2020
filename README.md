@@ -563,21 +563,29 @@ MODE
 ```
 realSFS pop1.unfolded.saf.idx pop2.unfolded.saf.idx -fold 1 >folded.sfs
 
+~/bin/angsd/misc/realSFS MODC.saf.idx MODE.saf.idx -fold 1 > MODE.MODC.fold.sfs
+
+~/bin/angsd/misc/realSFS MODC.saf.idx MUS.saf.idx -fold 1 > MUS.MODC.fold.sfs
 ```
 
-3. unfolded SAF and folded SFS used to generate per-site numerator/denominator of Fst (use -fold in realSFS fst index)
+##### 3. unfolded SAF and folded SFS used to generate per-site numerator/denominator of Fst (use -fold in realSFS fst index)
 ```
 realSFS fst index pop1.unfolded.saf.idx pop2.unfolded.saf.idx -sfs folded.sfs -fold 1 -fstout persite
 
+~/bin/angsd/misc/realSFS fst index MODC.saf.idx MUS.saf.idx -sfs MUS.MODC.folded.sfs -fstout MUS.MODC.fstout
+~/bin/angsd/misc/realSFS fst index MODC.saf.idx MODE.saf.idx -sfs MODE.MODC.folded.sfs -fstout MODE.MODC.fstout
 ```
 
-4. sum numerator and denominator in windows
+##### 4. sum numerator and denominator in windows
 ```
 realSFS fst stat2 persite.fst.idx -win XXXX -step XXXX >window.fst
+
+~/bin/angsd/misc/realSFS fst stats2 here.MUS.MODC.fst.idx -win 50000 -step 10000 > slidingwindow.MUS.MODC
+~/bin/angsd/misc/realSFS fst stats2 MODE.MODC.persite.fst.idx -win 50000 -step 10000 > MODE.MODC.slidingwindow
 ```
 
 
-GlobalFST 
+##### GlobalFST 
 
 1. MODC vs MODE
 ```
@@ -597,6 +605,22 @@ GlobalFST
 ```
 
 
+##### Diversity stats with ANGSD (theta)
+
+```
+##MODE
+~/bin/angsd/misc/realSFS MODE.saf.idx -fold 1 > MODE.fold.sfs
+~/bin/angsd/misc/realSFS saf2theta MODE.saf.idx -sfs MODE.fold.sfs -outname MODE.fold.thetas
+ 
+##MODC
+~/bin/angsd/misc/realSFS MODC.saf.idx -fold 1 > MODC.fold.sfs
+~/bin/angsd/misc/realSFS saf2theta MODC.saf.idx -sfs MODC.fold.sfs -outname MODC.fold.thetas
+
+##MUS
+~/bin/angsd/misc/realSFS MUS.saf.idx -fold 1 > MUS.fold.sfs
+~/bin/angsd/misc/realSFS saf2theta MUS.saf.idx -sfs MUS.fold.sfs -outname MUS.fold.thetas
+
+```
 
 #### 3b. Call GL
 
