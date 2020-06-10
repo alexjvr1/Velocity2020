@@ -812,17 +812,52 @@ Comparison of the number of heterozygous sites in historic vs current datasets
 
 Calculate this in ANGSD
 
-Global estimate
+###### 1. Estimate the SFS for each individual separately by modifying the script [04a_ANGSD_INDIV.SAF.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_INDIV.SAF.sh) to first estimate SAF
+
+###### 2. Estimate individual SFS from SAF 
+
+Create a list of all the idx files for each population
 ```
-/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03a_ANGSD_SFS/test_pval0.001_nomaf
+cd HET.per.INDIV
+ls MUS*idx >> MUS.idx.names
+ls MODE*idx >> MODE.idx.names
+ls MODC*idx >> MODC.idx.names
+```
 
-~/bin/angsd/misc/realSFS MODC.MERGED.saf.idx > est.ml
+Modify the script [04a_ANGSD_SFS.INDIV.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_SFS.INDIV.sh) and run in the same folder for each population
 
-module load languages/R-3.6.2-gcc9.1.0
+
+###### 3. Concat all files together and read into R and plot
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS
+
+cat MUS*sfs >> MUS.ALL.sfs
+cat MODC*sfs >> MODC.ALL.sfs
+cat MODE*sfs >> MODE.ALL.sfs
+
+##copy to mac
+scp bluecp3:/newhome/aj18951/E3*/HET.per.INDIV/*ALL.sfs .
+
 
 #in R
-a<-scan("est.ml")
-(a[2]/sum(a))*100   ##calculates the percentage of heterozygote sites
+a<-read.table("MODC.ALL.sfs", header=F)
+b<-read.table("MODE.ALL.sfs", header=F)
+c<- read.table("MUS.ALL.sfs", header=F)
+
+colnames(a) <- c("Hom1", "Het", "Hom2")
+a$pop <- rep("MUS", 1:nrow(a))
+colnames(b) <- c("Hom1", "Het", "Hom2")
+b$pop <- rep("MUS", 1:nrow(b))
+colnames(c) <- c("Hom1", "Het", "Hom2")
+c$pop <- rep("MUS", 1:nrow(c))
+
+abc <- cbind(a,b,c)
+abc$HetFreq <- abc$Het/(abc$Hom1+abc$Het+abc$Hom2)
+
+library(ggplot)
+ggplot(abc, aes(HetFreq, colour=pop)) + geom_box()
+
+Find the heterozygosity for each individual and paste into Table:Ringlet_DiversityStats.xlsx
 
 0.015% for MODC
 ```
