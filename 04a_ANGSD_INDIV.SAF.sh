@@ -34,4 +34,4 @@ time $angsd -i $FILEPATH${INDIV} -checkBamHeaders 1 -minQ $MINQ -minMapQ $minMAP
 -only_proper_pairs 1 -r $REGION -GL 1 -out HET.per.INDIV/$POP.${INDIV} \
 -doSaf 1 -ref ../RefGenome/*fna -anc ../RefGenome/*fna -rmTriallelic 1 \
 -doCounts 1 -dumpCounts 2 -doMajorMinor 4 -doMaf 1\
- -setMinDepthInd $minDP -baq 1 -C 50 -fold 1
+ -setMinDepthInd $minDP -baq 1 -C 50
