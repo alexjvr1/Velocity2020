@@ -822,6 +822,7 @@ cd HET.per.INDIV
 ls MUS*idx >> MUS.idx.names
 ls MODE*idx >> MODE.idx.names
 ls MODC*idx >> MODC.idx.names
+ls MUS*baq2*idx >> MUS.idx.baq2.names  ##I compared the MUS datasets with the two BAQ settings
 ```
 
 Modify the script [04a_ANGSD_SFS.INDIV.sh](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_SFS.INDIV.sh) and run in the same folder for each population
@@ -834,6 +835,7 @@ Modify the script [04a_ANGSD_SFS.INDIV.sh](https://github.com/alexjvr1/Velocity2
 cat MUS*sfs >> MUS.ALL.sfs
 cat MODC*sfs >> MODC.ALL.sfs
 cat MODE*sfs >> MODE.ALL.sfs
+cat MUS*baq2*sfs >> MUS.ALL.baq2.sfs
 
 ##copy to mac
 scp bluecp3:/newhome/aj18951/E3*/HET.per.INDIV/*ALL.sfs .
@@ -843,6 +845,7 @@ scp bluecp3:/newhome/aj18951/E3*/HET.per.INDIV/*ALL.sfs .
 a<-read.table("MODC.ALL.sfs", header=F)
 b<-read.table("MODE.ALL.sfs", header=F)
 c<- read.table("MUS.ALL.sfs", header=F)
+d<-read.table("MUS.ALL.baq2.sfs", header=F)
 
 colnames(a) <- c("Hom1", "Het", "Hom2")
 a$pop <- "MODC"
@@ -850,8 +853,10 @@ colnames(b) <- c("Hom1", "Het", "Hom2")
 b$pop <- "MODE"
 colnames(c) <- c("Hom1", "Het", "Hom2")
 c$pop <- "MUS"
+colnames(d) <- c("Hom1", "Het", "Hom2")
+d$pop <- "MUS.baq2"
 
-abc <- rbind(a,b,c)
+abc <- rbind(a,b,c,d)
 abc$HetFreq <- abc$Het/(abc$Hom1+abc$Het+abc$Hom2)
 
 library(ggplot2)
