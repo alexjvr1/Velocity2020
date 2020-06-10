@@ -58,7 +58,8 @@ Filters we have to include:
 
 -trim 0 : We're not trimming any data
 
--baq 1 : estimate base alignment quality using samtools method.
+-baq 1 : estimate base alignment quality using samtools method. BAQ 1 = more stringent, but might remove too many loci. BAQ 2 = extended BAQ which discovers more variants but include more false positives. See discussions [here](https://github.com/ANGSD/angsd/issues/97) and [here](https://github.com/ANGSD/angsd/issues/106).
+For Ringlet data we don't lose very many loci when using BAQ 1, so I will opt for this more stringent approach (pending Het checks, as there has been at least one report of too many Het sites being removed with BAQ 1 in ancient DNA). 
 
 ###ALLELE FREQUENCY ESTIMATION
 
