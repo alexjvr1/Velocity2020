@@ -845,24 +845,22 @@ b<-read.table("MODE.ALL.sfs", header=F)
 c<- read.table("MUS.ALL.sfs", header=F)
 
 colnames(a) <- c("Hom1", "Het", "Hom2")
-a$pop <- rep("MUS", 1:nrow(a))
+a$pop <- "MODC"
 colnames(b) <- c("Hom1", "Het", "Hom2")
-b$pop <- rep("MUS", 1:nrow(b))
+b$pop <- "MODE"
 colnames(c) <- c("Hom1", "Het", "Hom2")
-c$pop <- rep("MUS", 1:nrow(c))
+c$pop <- "MUS"
 
-abc <- cbind(a,b,c)
+abc <- rbind(a,b,c)
 abc$HetFreq <- abc$Het/(abc$Hom1+abc$Het+abc$Hom2)
 
-library(ggplot)
-ggplot(abc, aes(HetFreq, colour=pop)) + geom_box()
+library(ggplot2)
+ggplot(abc, aes(pop, HetFreq, colour=pop)) + geom_boxplot()
 
-Find the heterozygosity for each individual and paste into Table:Ringlet_DiversityStats.xlsx
+Find the heterozygosity for each individual and paste into Table:Ringlet_DiversityStats.xlsx on Dropbox
 
-0.015% for MODC
 ```
 
-How do we do this per individual??? 
 
 
 
