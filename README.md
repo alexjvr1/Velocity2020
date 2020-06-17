@@ -838,7 +838,7 @@ cat MODE*sfs >> MODE.ALL.sfs
 cat MUS*baq2*sfs >> MUS.ALL.baq2.sfs
 
 ##copy to mac
-scp bluecp3:/newhome/aj18951/E3*/HET.per.INDIV/*ALL.sfs .
+scp bluecp3:/newhome/aj18951/E3*/04*/HET.per.INDIV/*ALL.sfs .
 
 
 #in R
@@ -846,6 +846,8 @@ a<-read.table("MODC.ALL.sfs", header=F)
 b<-read.table("MODE.ALL.sfs", header=F)
 c<- read.table("MUS.ALL.sfs", header=F)
 d<-read.table("MUS.ALL.baq2.sfs", header=F)
+e<-read.table("MODC.ALL.baq2.sfs", header=F)
+f<-read.table("MODE.ALL.baq2.sfs", header=F)
 
 colnames(a) <- c("Hom1", "Het", "Hom2")
 a$pop <- "MODC"
@@ -855,8 +857,12 @@ colnames(c) <- c("Hom1", "Het", "Hom2")
 c$pop <- "MUS"
 colnames(d) <- c("Hom1", "Het", "Hom2")
 d$pop <- "MUS.baq2"
+colnames(e) <- c("Hom1", "Het", "Hom2")
+e$pop <- "MODC.baq2"
+colnames(f) <- c("Hom1", "Het", "Hom2")
+f$pop <- "MODE.baq2"
 
-abc <- rbind(a,b,c,d)
+abc <- rbind(a,b,c,d,e,f)
 abc$HetFreq <- abc$Het/(abc$Hom1+abc$Het+abc$Hom2)
 
 library(ggplot2)
