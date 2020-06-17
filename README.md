@@ -475,7 +475,7 @@ Other possible filters:
 
 -trim 0 : We're not trimming any data
 
--baq 1 : estimate base alignment quality using samtools method.
+-baq 1 : estimate base alignment quality using samtools method. BAQ1 and BAQ2 give me very different final variant counts. BAQ1 is more stringent, but could be removing more loci. BAQ2 has a higher number of false positives. See [here](https://www.biostars.org/p/440490/), and discussion on the ANGSD forum [here](https://github.com/ANGSD/angsd/issues/106) and [here](https://github.com/ANGSD/angsd/issues/97)
 
 ###ALLELE FREQUENCY ESTIMATION
 
