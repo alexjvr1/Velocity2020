@@ -1,5 +1,11 @@
 # Ringlet info and meeting notes
 
+
+Papers to look at: 
+
+Schlötterer lab - Experimental evol: segregating polymorphisms in base. No repeat solutions. 
+
+
 ## Main question
 
 How much selection has there been in space and time? 
@@ -22,7 +28,9 @@ Exp Cairngorm
 
 ## Wolbachia
 
-Wolbachia sweep since 1900
+Wolbachia sweep since 1900. i.e. Wolbachia has spread across the modern populations but low prevalence in museum samples. 
+
+Chance that changes in the nuclear genome = adaptation to wolbachia? e.g. immunity in males
 
 Stef will prioritise this analysis for the paper. 
 
@@ -33,6 +41,8 @@ Stef will prioritise this analysis for the paper.
 1. Fst vs depth
 
 2. Nucleotide diversity vs depth
+
+3. Global depth per locus
 
 
 
@@ -56,6 +66,14 @@ Stef will prioritise this analysis for the paper.
 
 ### Selection 
 
+- How much selection overall? e.g. Petri formula (used by Nick Barton)
+
+Recombination rate x selection coefficient combining p-values
+
+Rs as fxn of Fst
+
+** See ABC selection MS (Beaumont and Bazza - islands of differentiation) 
+
 - Direction, strength and fxn of selection? 
 
 *Table:
@@ -66,16 +84,26 @@ Chr/pos | outlier | comparison (1=MODC-MUC, 2=MODC-MODE, 3=MUS-MODE) | Direction
 
 complementary deletions, inversions, Het advantage? Need LD tests for this
 
+- Z-chromosome
+
+Analyse independently
+
+eg. circadian clock genes, period genes. 
 
 ### Function of outliers
 
 Sam will work on this
 
-Hub genes
+#### 1. Hub genes
 
 Modularity - e.g. cortex genes
 
 Adaptation through large steps ff by refinements in selection? 
+
+#### 2. Set of candidate genes e.g. pesticide and temp related
+
+
+
 
 ### LD vs FST
 
@@ -114,5 +142,5 @@ estimate Ne for all 3 populations
 
 fastSimCoal2 for change in pop size? 
 
-
+e.g. pathway analyses Excoffier et al. 
 
