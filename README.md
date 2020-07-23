@@ -483,13 +483,17 @@ Other possible filters:
 
 -ref [..fasta] : For doMM 4 above we need to specify a reference genome.
 
--doMaf 1 : calculate minor allele frequency
+-doMaf 10 : calculate minor allele. Estimators are added to gether, so doMaf 10 = doMaf 2 (Known major, unknown minor) + doMaf 8 (directly from counts) 
 
--SNP_pval 0.001 : Only work with SNPs with a p-value above [float]
+-doPost 1: calculate posterior probabilities using allele frequencies as prior (or 2 for uniform prior, or 3 for SFS prior)
+
+-SNP_pval 0.05 : Only work with SNPs with a p-value above [float]  ** I'm using 0.05 here because too many loci are removed from the MUS dataset at higher p-values. (see [04a_ANGSD_testFilters.md](https://github.com/alexjvr1/Velocity2020/blob/master/04a_ANGSD_testFilters.md))
 
 -GL 1 : I will estimate genotype likelihoods using the SAMtools model
 
--minInd 18 : I will remove loci where less than 18 individuals have been genotyped. There are 35-40 indivs per group (MUS, MODC, MODE). This number was chosen to ensure we can find MAF of 2-5% (1/(18*2)=2.8%)
+-minInd 18 : I will remove loci where less than 18 individuals have been genotyped. There are 35-40 indivs per group (MUS, MODC, MODE). This number was chosen to ensure we can find MAF of 2-5% (1/(18*2)=2.8%)   
+ 
+ * I excluded the minInd filter in the final dataset as genotype likelihoods should take this into account. 
 
 -setMinDepth : Discard site if total depth (across all indivs) is below [int]. Use -doCounts to determine the distribution of depths
 
