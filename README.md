@@ -626,6 +626,84 @@ realSFS fst stat2 persite.fst.idx -win XXXX -step XXXX >window.fst
 
 ```
 
+
+##### Depth vs Fst and Depth vs nucleotide diversity
+
+I'm concerned that the sequencing depth of the samples might affect the final Fst and nucleotide diversity estimates. This is particularly problematic given the difference in sequencing depth between museum and modern samples. Here I plot depth vs Fst and depth vs nucleotide diversity for each of the datasets. 
+
+Nucleotide diversity and Fst have been estimated above. 
+
+###### 1. Obtain depth estimates: 
+
+ANGSD depth estimates outputs the number of sites with xx depth rather than depth per site. So I'm using the estimates from samtools as a proxy for depth per individual. Althought the filters in ANGSD will change the values a bit, I expect the relative depth between populations and between individuals to stay the same. 
+
+
+samtools.depth.sh found here
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/02b_museum_mapdamage.bams
+```
+
+```
+###########################################
+# (c) Alexandra Jansen van Rensburg
+# last modified 12/07/2019 05:49 
+###########################################
+
+## Index all bamfiles listed in bamlist
+
+#PBS -N E1.index  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=10:00:00 ##wall time.
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+#PBS -t 1-48
+
+#run job in working directory
+cd $PBS_O_WORKDIR
+
+
+#load modules
+
+module load apps/samtools-1.8
+
+##Set up array
+
+NAME=$(sed "${PBS_ARRAYID}q;d" bamlist)
+
+##Run script
+echo "Output depth stats for ${NAME}"
+printf "\n"
+
+echo "time samtools depth ${NAME} > ${NAME}.depth" 
+time samtools depth ${NAME} > ${NAME}.depth
+
+```
+
+Cross reference this with the final set of loci in the SAF to include only this subset of loci. 
+
+```
+
+```
+
+
+Mean depth per sample
+```
+
+```
+
+Mean depth per site
+```
+
+
+```
+
+###### 2. Plot
+```
+
+```
+
+
+
 #### 3b. Call GL
 
 Test dataset: 
