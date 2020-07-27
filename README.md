@@ -681,6 +681,8 @@ time samtools depth ${NAME} > ${NAME}.depth
 
 Cross reference this with the final set of loci in the SAF to include only this subset of loci. 
 
+.counts.gz = depth per individual per site. Columns = indivs, Rows = sites
+.pos.gz = totalDepth per site across all indivs. 
 ```
 
 ```
