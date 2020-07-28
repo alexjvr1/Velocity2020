@@ -564,6 +564,16 @@ MODE
 
 
 ###### 2. unfolded SAF used to produce folded 2D SFS
+
+All SAF need to be combined into one for each population. This can be done with: 
+
+(I can't submit this to queue for some reason, so this is run straight on terminal. Takes ~10-15min for a full population and genome). 
+```
+module load languages/gcc-6.1
+~/bin/angsd/mics/realSFS cat *idx -outnames MODC.MERGED ##or MUS.MERGED or MODE.MERGED
+```
+
+Then generate the folded SFS for each population. 
 ```
 realSFS pop1.unfolded.saf.idx pop2.unfolded.saf.idx -fold 1 >folded.sfs
 
@@ -635,51 +645,7 @@ Nucleotide diversity and Fst have been estimated above.
 
 ###### 1. Obtain depth estimates: 
 
-ANGSD depth estimates outputs the number of sites with xx depth rather than depth per site. So I'm using the estimates from samtools as a proxy for depth per individual. Althought the filters in ANGSD will change the values a bit, I expect the relative depth between populations and between individuals to stay the same. 
-
-
-samtools.depth.sh found here
-```
-/newhome/aj18951/E3_Aphantopus_hyperantus_2020/02b_museum_mapdamage.bams
-```
-
-```
-###########################################
-# (c) Alexandra Jansen van Rensburg
-# last modified 12/07/2019 05:49 
-###########################################
-
-## Index all bamfiles listed in bamlist
-
-#PBS -N E1.index  ##job name
-#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
-#PBS -l mem=16gb #RAM
-#PBS -l walltime=10:00:00 ##wall time.
-#PBS -j oe  #concatenates error and output files (with prefix job1)
-#PBS -t 1-48
-
-#run job in working directory
-cd $PBS_O_WORKDIR
-
-
-#load modules
-
-module load apps/samtools-1.8
-
-##Set up array
-
-NAME=$(sed "${PBS_ARRAYID}q;d" bamlist)
-
-##Run script
-echo "Output depth stats for ${NAME}"
-printf "\n"
-
-echo "time samtools depth ${NAME} > ${NAME}.depth" 
-time samtools depth ${NAME} > ${NAME}.depth
-
-```
-
-Cross reference this with the final set of loci in the SAF to include only this subset of loci. 
+ANGSD estimates depth using the -doCounts 1 -doDepth 1 -dumpCounts 2
 
 .counts.gz = depth per individual per site. Columns = indivs, Rows = sites
 .pos.gz = totalDepth per site across all indivs. 
