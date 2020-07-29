@@ -565,15 +565,7 @@ MODE
 
 ###### 2. unfolded SAF used to produce folded 2D SFS
 
-All SAF need to be combined into one for each population. This can be done with: 
-
-(I can't submit this to queue for some reason, so this is run straight on terminal. Takes ~10-15min for a full population and genome). 
-```
-module load languages/gcc-6.1
-~/bin/angsd/mics/realSFS cat *idx -outnames MODC.MERGED ##or MUS.MERGED or MODE.MERGED
-```
-
-Then generate the folded SFS for each population. 
+Then generate the folded SFS for each population pair per chromosome. If the dataset is smaller this can be run on a merged dataset (realSFS cat xx -fold 1 -outnames pop.saf.out), but this is too memory intensive for the whole genome datasets. 
 ```
 realSFS pop1.unfolded.saf.idx pop2.unfolded.saf.idx -fold 1 >folded.sfs
 
