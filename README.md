@@ -962,12 +962,18 @@ For this we want to estimate genotypes (-GL 1) with confidence (-SNP_pval xx) wi
 
 Basic options used: 
 ```
-time $angsd -b $BamList -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 \
--only_proper_pairs 1 -r $REGION -GL 1 -doGlf 2 -out PCAngsd/$POP.${INDIV} \
+time $angsd -b $POPLIST -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 \
+-only_proper_pairs 1 -r $REGION -GL 1 -doGlf 2 -out PCAngsd/GL.ALL.${REGION}\
 -doSaf 1 -ref ../RefGenome/*fna -anc ../RefGenome/*fna -rmTriallelic 1 \
--doCounts 1 -dumpCounts 2 -doMajorMinor 4 -doMaf 1\
+-doCounts 1 -dumpCounts 2 -doMajorMinor 4 -doMaf 1 -skipTriallelic 1 \
  -setMinDepthInd $minDP setMaxDepth $MAXDP -baq 1 -C 50 \
- -SNP_pval 0.001
+ -SNP_pval 0.001 -doGeno 32 -doPost 1
+
+
+#Where:
+POPLIST = all of the bam files for all of the populations
+REGION=
+
 
 
 ```
