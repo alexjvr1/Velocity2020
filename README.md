@@ -916,6 +916,36 @@ Find the heterozygosity for each individual and paste into Table:Ringlet_Diversi
 
 
 
+##### 2b. Depth vs Fst
+
+Estimate SFS for all three population pairs. And then 
+
+Pop1=MODC
+
+Pop2=MUS
+
+Pop3=MODE
+
+
+04a_ANGSD_FINAL/SFS_and_Fst
+```
+module load languages/gcc-6.1
+~/bin/angsd/misc/realSFS fst index MUS/MUS.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx -sfs MUS.MODE.LR75.test.fold.sfs -fstout MUS.MODE.fstout
+~/bin/angsd/misc/realSFS fst stats  MUS.MODE.fstout.fst.idx 
+
+	-> Assuming idxname:MUS.MODE.fstout.fst.idx
+	-> Assuming .fst.gz file: MUS.MODE.fstout.fst.gz
+	-> FST.Unweight[nObs:4722251]:0.017379 Fst.Weight:0.314412
+0.017379	0.314412
+
+
+
+~/bin/angsd/misc/realSFS fst index MODC/MODC.LR761675.1.saf.idx MUS/MUS.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx -sfs MODC.MUS.LR75.test.fold.sfs -sfs MODC.MODE.LR75.test.fold.sfs -sfs MUS.MODE.LR75.test.fold.sfs -fstout 3pops.fstout
+
+~/bin/angsd/misc/realSFS fst stats 3pops.fstout.fst.idx
+q
+~/bin/angsd/misc/realSFS fst stats2 3pops.fstout.fst.idx -win 50000 -step 10000 > 3pops.slidingwindow.fst
+```
 
 
 
