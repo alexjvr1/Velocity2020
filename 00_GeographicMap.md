@@ -18,20 +18,20 @@ Batch convert all the 100m grid references to Lat,Long [here](https://gridrefere
 Final site info input: E3.Ringlet_SiteInfo
 ```
 Population	Site	Gridref_100m	Lat	Long	Pop	Pop2	pch	Colour
-MODC	Pitton	SU205311	51.07886	-1.7087396	Modern	Mod.C	21	seagreen4
-MODC	CaverelCopse	SU200310	51.077978	-1.7158825	Modern	Mod.C	21	seagreen4
-MODC	CaverelCopse	SU199310	51.077982	-1.71731	Modern	Mod.C	21	seagreen4
-MODC	CaverelCopse	SU195308	51.076197	-1.7230305	Modern	Mod.C	21	seagreen4
-MODC	CaverelCopse	SU191310	51.078009	-1.7287296	Modern	Mod.C	21	seagreen4
-MODC	MartinDownNNR	SU036201	50.980297	-1.9500924	Modern	Mod.C	21	seagreen4
-MODC	MartinDownNNR	SU036203	50.982096	-1.9500905	Modern	Mod.C	21	seagreen4
-MODE	Grantown	NJ033263	57.316975	-3.6071842	Modern	Mod.E	21	seagreen2
-MODE	Dunphail	NJ015481	57.512331	-3.6458164	Modern	Mod.E	21	seagreen2
-MUS	Museum	SU2602308620	50.87649918	-1.631500006	Museum	Museum	22	orange2
-MUS	Museum	SU2987408208	50.87260056	-1.576799989	Museum	Museum	22	orange2
-MUS	Museum	SU2998602236	50.81890106	-1.575700045	Museum	Museum	22	orange2
-MUS	Museum	SU3887021934	50.99549866	-1.44749999	Museum	Museum	22	orange2
-MUS	Museum	SU4197212417	50.90969849	-1.404399991	Museum	Museum	22	orange2
+MODC	Pitton	SU205311	51.07886	-1.7087396	Modern	Mod.C	22	seagreen4
+MODC	CaverelCopse	SU200310	51.077978	-1.7158825	Modern	Mod.C	22	seagreen4
+MODC	CaverelCopse	SU199310	51.077982	-1.71731	Modern	Mod.C	22	seagreen4
+MODC	CaverelCopse	SU195308	51.076197	-1.7230305	Modern	Mod.C	22	seagreen4
+MODC	CaverelCopse	SU191310	51.078009	-1.7287296	Modern	Mod.C	22	seagreen4
+MODC	MartinDownNNR	SU036201	50.980297	-1.9500924	Modern	Mod.C	22	seagreen4
+MODC	MartinDownNNR	SU036203	50.982096	-1.9500905	Modern	Mod.C	22	seagreen4
+MODE	Grantown	NJ033263	57.316975	-3.6071842	Modern	Mod.E	22	seagreen4
+MODE	Dunphail	NJ015481	57.512331	-3.6458164	Modern	Mod.E	22	seagreen4
+MUS	Museum	SU2602308620	50.87649918	-1.631500006	Museum	Museum	22	goldenrod
+MUS	Museum	SU2987408208	50.87260056	-1.576799989	Museum	Museum	22	goldenrod
+MUS	Museum	SU2998602236	50.81890106	-1.575700045	Museum	Museum	22	goldenrod
+MUS	Museum	SU3887021934	50.99549866	-1.44749999	Museum	Museum	22	goldenrod
+MUS	Museum	SU4197212417	50.90969849	-1.404399991	Museum	Museum	22	goldenrod
 
 ```
 
