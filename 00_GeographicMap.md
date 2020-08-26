@@ -75,7 +75,7 @@ summary(UK.coords)
 ##plot map
 pdf("E3.sampleMap_20200826.pdf")
 plot(hill, col = grey(0:100/100), legend = FALSE, main = "UK")
-plot(UK.coords, pch=UK.coords$pch, cex=1, col="black", bg=UK.coords$Colour, add=T)
+plot(UK.coords, pch=UK.coords$pch, cex=2, col="black", bg=UK.coords$Colour, add=T)
 dev.off()
 
 ```
