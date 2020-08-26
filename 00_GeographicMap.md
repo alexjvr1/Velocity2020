@@ -96,3 +96,6 @@ map("worldHires","UK", xlim=c(-2,-1), ylim=c(50.5,51.5), col="gray90", fill=TRUE
 points(UK.coords.Core$Long, UK.coords.Core$Lat, pch=UK.coords.Core$pch, col="black", bg=UK.coords.Core$Colour, cex=2)
 dev.off()
 ```
+
+
+Final map saved in Dropbox folder: E3_FigureS1_SampleMap.pdf
