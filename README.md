@@ -994,6 +994,7 @@ Deleterious load: See Feng et al. 2019 method
 NJ phylogeny (Feng et al)
 
 PCA [using ANGSD](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.5231). 
+
 Use [PCAngsd](http://www.popgen.dk/software/index.php/PCAngsd) for this. We need Beagle output from ANGSD
 
 For this we want to estimate genotypes (-GL 1) with confidence (-SNP_pval xx) with Beagle output (-doGlf 2)
@@ -1001,7 +1002,7 @@ For this we want to estimate genotypes (-GL 1) with confidence (-SNP_pval xx) wi
 Basic options used: 
 ```
 time $angsd -b $POPLIST -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 \
--only_proper_pairs 1 -r $REGION -GL 1 -doGlf 2 -out PCAngsd/GL.ALL.${REGION}\
+-only_proper_pairs 1 -r ${REGION} -GL 1 -doGlf 2 -out PCAngsd/GL.ALL.${REGION}\
 -doSaf 1 -ref ../RefGenome/*fna -anc ../RefGenome/*fna -rmTriallelic 1 \
 -doCounts 1 -dumpCounts 2 -doMajorMinor 4 -doMaf 1 -skipTriallelic 1 \
  -setMinDepthInd $minDP setMaxDepth $MAXDP -baq 1 -C 50 \
@@ -1010,15 +1011,54 @@ time $angsd -b $POPLIST -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -r
 
 #Where:
 POPLIST = all of the bam files for all of the populations
-REGION=
-
-
-
+REGION = chromosome as an array script
 ```
 
+I initially called genotypes for all 3 populations together, but as the GLs are then based on all bam files, I ended up with equal likelihoods for all three genotypes for the majority of the loci. This approach is also fundamentally flawed as the likelihood of the museum data cannot be based on the modern data. 
+
+My new approach is to estimate the GL files for each of the populations separately and then combine the GL files for the loci found in all three datasets. 
+
+I will try this with different filter sets. The -doMM 1 and -doMaf 1 should be the strictest settings. 
+
+1. p-val 0.01, doMajorMinor 4, doMaf 2
+
+2. p-val 0.05; -doMM 1; -doMaf 2
+
+3. p-val 0.05; -doMM 4; -doMaf 1
+
+4. p-val 0.05; -doMM 1; -doMaf 1
+
+5. p-val 0.01; -doMM 1; -doMaf 1
 
 
+-doMaf 1 vs 2 
 
+-doMM 1 vs 4
+
+Before concatenating these files I checked the proportion of equal likelihood genotypes in each dataset. This seemed unaffected by the filter set, and was high for all three datasets. 
+
+These are results for LR7616175.1
+
+MODC: ~50k loci; 38% equal likelihoods
+
+MODE: ~57k loci; 29% equal likelihoods
+
+MUS: ~5.5k loci; 58% equal likelihoods
+
+```
+## Count the number of loci. LR for chromosomes CADX for contigs
+grep LR *beagle |wc -l 
+
+## Check the number of indivs in the beagle file by looking at the top of the file
+
+## Total number of GLs = #loci x #indivs x 3
+
+## Count number of occurrences of equal likelihood
+
+grep -i -o "0.333" *beagle |wc -l
+
+##frequency = #occurrences/Total GLs
+```
 
 
 #### 4c. Outliers, Map, and identify candidates in the area. 
