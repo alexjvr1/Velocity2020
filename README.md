@@ -950,7 +950,46 @@ The above script provides a window-based estimate of Fst across each chromosome.
 
 
 
-The depth estimates need to be obtained using samtools flagstat on the original bamfiles. 
+The depth estimates need to be obtained using samtools flagstat on the original bamfiles. This script writes a depth estimate for each individual for each site
+```
+#!/bin/bash
+###########################################
+# (c) Alexandra Jansen van Rensburg
+# last modified 12/07/2019 05:49 
+###########################################
+
+## Index all bamfiles listed in bamlist
+
+#PBS -N E1.index  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=10:00:00 ##wall time.
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+#PBS -t 1-48
+
+#run job in working directory
+cd $PBS_O_WORKDIR
+
+
+#load modules
+
+module load apps/samtools-1.8
+
+##Set up array
+
+NAME=$(sed "${PBS_ARRAYID}q;d" bamlist)
+
+##Run script
+echo "Output depth stats for ${NAME}"
+printf "\n"
+
+echo "time samtools depth ${NAME} > ${NAME}.depth" 
+time samtools depth ${NAME} > ${NAME}.depth
+```
+
+
+We want to plot variance in depth per site vs Fst and nucleotide diversity. So we need to join each of the depth files together within each pop (e.g. a MUS depth file), where each column is an individual, and each row is a site. At the same time we need to add missing data or gaps where loci do not co-occur between populations. This can all be done in linux: 
+
 ```
 
 ```
@@ -1059,6 +1098,13 @@ grep -i -o "0.333" *beagle |wc -l
 
 ##frequency = #occurrences/Total GLs
 ```
+
+##### Filter Beagle GLs
+
+https://faculty.washington.edu/browning/beagle_utilities/utilities.html
+
+If a genotype has less than xx likelihood it's marked as missing data. But how does this then affect the PCA? 
+
 
 
 #### 4c. Outliers, Map, and identify candidates in the area. 
