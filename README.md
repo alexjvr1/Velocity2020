@@ -987,11 +987,67 @@ echo "time samtools depth ${NAME} > ${NAME}.depth"
 time samtools depth ${NAME} > ${NAME}.depth
 ```
 
+Here I'm extracting chromosome LR..75 and estimating individual depth: 
+```
+#!/bin/bash
+###########################################
+# (c) Alexandra Jansen van Rensburg
+# last modified 12/07/2019 05:49 
+###########################################
 
-We want to plot variance in depth per site vs Fst and nucleotide diversity. So we need to join each of the depth files together within each pop (e.g. a MUS depth file), where each column is an individual, and each row is a site. At the same time we need to add missing data or gaps where loci do not co-occur between populations. This can all be done in linux: 
+## Index all bamfiles listed in bamlist
 
+#PBS -N LR75  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=10:00:00 ##wall time.
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+#PBS -t 1-48
+
+#run job in working directory
+cd $PBS_O_WORKDIR
+
+
+#load modules
+
+module load apps/samtools-1.8
+
+##Set up array
+
+NAME=$(sed "${PBS_ARRAYID}q;d" bamlist)
+
+##Run script
+## && ensures line is complete before starting next command. 
+
+echo "Output depth stats for ${NAME}"
+printf "\n"
+
+echo "time samtools view -b ${NAME} LR761675.1 > ${NAME}.LR75.bam" &&\
+time samtools view -b ${NAME} LR761675.1 > ${NAME}.LR75.bam && \
+echo "time samtools index ${NAME}.LR75.bam" && \
+time samtools index ${NAME}.LR75.bam && \
+echo "time samtools depth ${NAME}.LR75.bam > ${NAME}.LR75.depth" &&\
+time samtools depth ${NAME} > ${NAME}.LR75.depth
 ```
 
+For the modern sampels I'm using the *flt.bam* files as they have been filtered for > PHRED 20 quality scores. 
+
+
+We want to plot variance in depth per site vs Fst and nucleotide diversity. So we need to join each of the depth files together within each pop (e.g. a MUS depth file), where each column is an individual, and each row is a site. At the same time we need to add missing data or gaps where loci do not co-occur between populations. This can all be done in R: 
+
+Multi-merge script from [here](https://www.r-bloggers.com/merging-multiple-data-files-into-one-data-frame/)
+Modified to read tables and to merge (all=T) by including NA for all the missing data (otherwise only the intersecting data will end up in the final file). 
+```
+multmerge = function(mypath){
+filenames=list.files(path=mypath, full.names=TRUE)
+datalist = lapply(filenames, function(x){read.table(file=x,header=T)})
+Reduce(function(x,y) {merge(x,y) all=T}, datalist)
+
+#After running the code to define the function, you are all set to use it. The function takes a path. This path should be the name of a folder #that contains all of the files you would like to read and merge together and only those files you would like to merge. With this in mind, I #have two tips:
+
+#1. Before you use this function, my suggestion is to create a new folder in a short directory (for example, the path for this folder could be #“C://R//mergeme“) and save all of the files you would like to merge in that folder.
+
+#2. In addition, make sure that the column that will do the matching is formatted the same way (and has the same name) in each of the files.
 ```
 
 
