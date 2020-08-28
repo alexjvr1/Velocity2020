@@ -21,3 +21,21 @@ As it is simpler to plot individual mean depth vs Fst/GL/etc, I will use depth e
 
 #### Samtools v.1.8
 
+
+
+### Estimates from ANGSD to plot against depth
+
+#### 1. Fst
+
+
+
+
+#### 2. nucleotide diversity
+
+
+
+
+#### 2. GL
+
+
+
