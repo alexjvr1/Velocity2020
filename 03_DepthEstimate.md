@@ -83,6 +83,7 @@ scp aj18951@bluecrystalp3.acrc.bris.ac.uk:/newhome/aj18951/E3_Aphantopus_hyperan
 #Read into R
 library(ggplot2)
 library(reshape2)
+#The multiplot function from here: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)
 
 fnames <- list.files(pattern="MODC.*depthGlobal")
 tables <- lapply(fnames, read.table, header=F)
@@ -150,7 +151,16 @@ p3.MUS.GlobalDepth <- ggplot(freqs.melt, aes(x=Var1, y=value, colour=Var2)) + ge
 pdf("MUS.GlobalDepth.perChr.pdf")
 p3.MUS.GlobalDepth
 dev.off()
+
+multiplot(p1.MODC.GlobalDepth,p2.MODE.GlobalDepth,p3.MUS.GlobalDepth)
 ```
+
+
+![alt_txt][Global.depth]
+
+[Global.depth]:https://user-images.githubusercontent.com/12142475/92648159-ebbf4b80-f2e0-11ea-8d59-f0029422d52e.png
+
+
 
 The data used here is from the GLs estimated for the SFS on which the Fst calculations are based. 
 
@@ -177,7 +187,7 @@ And plots drawn on mac
 As it is simpler to plot individual mean depth vs Fst/GL/etc, I will also use depth estimates obtained directly from the bam files. 
 
 
-
+Depth was estimated using [this]() script
 
 
 
