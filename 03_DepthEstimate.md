@@ -146,7 +146,7 @@ every_nth = function(n) {
   return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
 }
 
-p3.MUS.GlobalDepth <- ggplot(freqs.melt, aes(x=Var1, y=value, colour=Var2)) + geom_point()+ ggtitle("MODE Distribution of depth across chromosomes") + xlab("Depth") + ylab("Proportion of reads")+scale_x_discrete(breaks=every_nth(n=25))
+p3.MUS.GlobalDepth <- ggplot(freqs.melt, aes(x=Var1, y=value, colour=Var2)) + geom_point()+ ggtitle("MUS Distribution of depth across chromosomes") + xlab("Depth") + ylab("Proportion of reads")+scale_x_discrete(breaks=every_nth(n=25))
 
 pdf("MUS.GlobalDepth.perChr.pdf")
 p3.MUS.GlobalDepth
@@ -158,7 +158,7 @@ multiplot(p1.MODC.GlobalDepth,p2.MODE.GlobalDepth,p3.MUS.GlobalDepth)
 
 ![alt_txt][Global.depth]
 
-[Global.depth]:https://user-images.githubusercontent.com/12142475/92648159-ebbf4b80-f2e0-11ea-8d59-f0029422d52e.png
+[Global.depth]:https://user-images.githubusercontent.com/12142475/92648675-b0714c80-f2e1-11ea-8d19-0e1dbe884a8d.png
 
 
 
@@ -187,8 +187,17 @@ And plots drawn on mac
 As it is simpler to plot individual mean depth vs Fst/GL/etc, I will also use depth estimates obtained directly from the bam files. 
 
 
-Depth was estimated using [this]() script
+I'm initially using only one chromosome: LR761675.1
 
+Depth was estimated for LR..75 using [this](https://github.com/alexjvr1/Velocity2020/blob/master/LR75.depth.sh) script.
+
+This calculates a depth for each individual at each locus. These files are very big as they contain every sequenced locus for an individual. 
+
+1. Extract data only from the loci for which we have Fst estimates. 
+
+2. Combine these files together in the right order (i.e. ensure the bp positions line up and missing data is filled in as 0 or NA).
+
+3. 
 
 
 
@@ -207,4 +216,10 @@ Depth was estimated using [this]() script
 #### 2. GL
 
 
+
+### "ESS" vs Fst
+
+We're attempting to find a way to model the expected Fst so that we can identify possible outlier loci. Mark has written a script to estimate a score (0-1) for each locus based on the GLs which should be correlated with ESS (although it isn't ESS). 
+
+This R script is [here]()
 
