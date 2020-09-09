@@ -71,8 +71,85 @@ The lack of 1x loci is due to the filter (minDP 2x), while the 0x loci is a refl
 And for the global depth for each chromosome (LRxx) for each population. 
 
 ```
+#Copy Global Depth for each population: 
+
+pwd
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DepthEstimates
+
+##MODC
+
+scp aj18951@bluecrystalp3.acrc.bris.ac.uk:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/MODC/*LR*depthGlobal .
+
+#Read into R
+library(ggplot2)
+library(reshape2)
+
+fnames <- list.files(pattern="MODC.*depthGlobal")
+tables <- lapply(fnames, read.table, header=F)
+globalDepth.list <- do.call(rbind, tables) #paste each table below each other, so here we'll have 29 rows. 
+colnames(globalDepth.list) <- paste(0:328, "x", sep="") #coverage starts at 0x
+t.globalDepth <- t(globalDepth.list) #transpose to calculate the proportion of reads at depth x
+freqs <- scale(t.globalDepth, center=F, scale=colSums(t.globalDepth)) #calculate proportions
+colnames(freqs) <- paste("LR",47:75, sep="")
+freqs.melt <- melt(freqs[1:200,])
+freqs.melt$prop <- freqs.melt$value*100
+
+#function to add breaks in the x-axis scale
+every_nth = function(n) {
+  return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
+}
+p1.MODC.GlobalDepth <- ggplot(freqs.melt, aes(x=Var1, y=value, colour=Var2)) + geom_point()+ ggtitle("MODC Distribution of depth across chromosomes") + xlab("Depth") + ylab("Proportion of reads")+scale_x_discrete(breaks=every_nth(n=25))
+
+pdf("MODC.GlobalDepth.perChr.pdf")
+p1.MODC.GlobalDepth
+dev.off()
 
 
+
+##MODE
+
+fnames <- list.files(pattern="MODE.*depthGlobal")
+tables <- lapply(fnames, read.table, header=F)
+globalDepth.list <- do.call(rbind, tables) #paste each table below each other, so here we'll have 29 rows. 
+colnames(globalDepth.list) <- paste(0:621, "x", sep="") #coverage starts at 0x
+t.globalDepth <- t(globalDepth.list) #transpose to calculate the proportion of reads at depth x
+freqs <- scale(t.globalDepth, center=F, scale=colSums(t.globalDepth)) #calculate proportions
+colnames(freqs) <- paste("LR",47:75, sep="")
+freqs.melt <- melt(freqs)
+freqs.melt$prop <- freqs.melt$value*100
+
+every_nth = function(n) {
+  return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
+}
+
+p2.MODE.GlobalDepth <- ggplot(freqs.melt, aes(x=Var1, y=value, colour=Var2)) + geom_point()+ ggtitle("MODE Distribution of depth across chromosomes") + xlab("Depth") + ylab("Proportion of reads")+scale_x_discrete(breaks=every_nth(n=50))
+
+pdf("MODE.GlobalDepth.perChr.pdf")
+p2.MODE.GlobalDepth
+dev.off()
+
+
+##MUS
+
+fnames <- list.files(pattern="MUS.*depthGlobal")
+tables <- lapply(fnames, read.table, header=F)
+globalDepth.list <- do.call(rbind, tables) #paste each table below each other, so here we'll have 29 rows. 
+colnames(globalDepth.list) <- paste(0:144, "x", sep="") #coverage starts at 0x
+t.globalDepth <- t(globalDepth.list) #transpose to calculate the proportion of reads at depth x
+freqs <- scale(t.globalDepth, center=F, scale=colSums(t.globalDepth)) #calculate proportions
+colnames(freqs) <- paste("LR",47:75, sep="")
+freqs.melt <- melt(freqs)
+freqs.melt$prop <- freqs.melt$value*100
+
+every_nth = function(n) {
+  return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
+}
+
+p3.MUS.GlobalDepth <- ggplot(freqs.melt, aes(x=Var1, y=value, colour=Var2)) + geom_point()+ ggtitle("MODE Distribution of depth across chromosomes") + xlab("Depth") + ylab("Proportion of reads")+scale_x_discrete(breaks=every_nth(n=25))
+
+pdf("MUS.GlobalDepth.perChr.pdf")
+p3.MUS.GlobalDepth
+dev.off()
 ```
 
 The data used here is from the GLs estimated for the SFS on which the Fst calculations are based. 
