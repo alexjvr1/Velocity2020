@@ -38,13 +38,16 @@ dev.off()
 
 
 ##MUS 48 indivs
+## The museum sequences are short and all paired, so the coverage is almost exclusively in multiples of 2x
 MUS.sampleDepth <- read.table("MUS.LR761675.1.depthSample", header=F)
 colnames(MUS.sampleDepth) <- paste(rep(0:(ncol(MUS.sampleDepth)-1)), "x", sep="")
 MUS.sampleDepth$Indiv <- paste("Indiv", rep(1:nrow(MUS.sampleDepth)), sep="")
 mdata <- melt(MUS.sampleDepth, id="Indiv")
+mdata$number <- gsub("x","",mdata$numeric)
+mdata.even <- mdata[mdata$number %% 2==0,] ##keep only rows with even coverage
 
 pdf("MUS.depthSample.LR761675.pdf")
-ggplot(mdata[97:480,], aes(x=variable, y=value, group=Indiv, colour=Indiv)) + geom_line() + ggtitle("MUS LR761675 Distribution of sample depth") + xlab("Depth") + ylab("Count")  ##exclude 0x and 1x because of filters
+ggplot(mdata.even[49:480,], aes(x=variable, y=value, group=Indiv, colour=Indiv)) + geom_line() + ggtitle("MUS LR761675 Distribution of sample depth") + xlab("Depth") + ylab("Count")  ##exclude 0x and 1x because of filters
 dev.off()
 ```
 The lack of 1x loci is due to the filter (minDP 2x), while the 0x loci is a reflection of the "gappiness" in the data - i.e. loci not sequenced in that indiv but that occur in at least one other indiv. 
@@ -61,7 +64,8 @@ The lack of 1x loci is due to the filter (minDP 2x), while the 0x loci is a refl
 
 ![alt_txt][MUS.depth]
 
-[MUS.depth]:
+[MUS.depth]:https://user-images.githubusercontent.com/12142475/92608341-214a4180-f2ad-11ea-8470-3522dfea6b99.png
+
 
 
 And for the global depth for each chromosome (LRxx) for each population. 
