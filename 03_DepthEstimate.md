@@ -193,11 +193,35 @@ Depth was estimated for LR..75 using [this](https://github.com/alexjvr1/Velocity
 
 This calculates a depth for each individual at each locus. These files are very big as they contain every sequenced locus for an individual. 
 
-1. Extract data only from the loci for which we have Fst estimates. 
+Rename files using mv. 
+```
+##There are various versions of rename and mv on linux, so first check what is on your system
+#rename --version
+#mv --version
+mv (GNU coreutils) 8.4
+Copyright (C) 2010 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 
-2. Combine these files together in the right order (i.e. ensure the bp positions line up and missing data is filled in as 0 or NA).
+Written by Mike Parker, David MacKenzie, and Jim Meyering.
 
-3. 
+
+#I'm using mv to rename my files
+#e.g. 
+
+for i in $(ls *depth); do mv "$i" "${i/depth/depth.LR75}"; done 
+#where ../xxx/yyy  is the text in the name (xxx), and the replacement text (yyy)
+```
+
+
+1. Combine these files together in the right order (i.e. ensure the bp positions line up and missing data is filled in as 0 or NA).
+
+The size of the files means the easiest way to do this is with a database manager e.g. SQL. But if that isn't on the server the job can be split into batches of indivs and combined using awk or R. 
+
+2. Extract data only from the loci for which we have GLs. 
+
+3. Plot against Fst mid-point (for window based analysis), and for nucleotide diversity
 
 
 
