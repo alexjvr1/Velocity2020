@@ -34,4 +34,4 @@ time samtools view -b ${NAME} LR761675.1 > ${NAME}.LR75.bam && \
 echo "time samtools index ${NAME}.LR75.bam" && \
 time samtools index ${NAME}.LR75.bam && \
 echo "time samtools depth ${NAME}.LR75.bam > ${NAME}.LR75.depth" &&\
-time samtools depth ${NAME} > ${NAME}.LR75.depth
+time samtools depth ${NAME}.LR75.bam > ${NAME}.LR75.depth
