@@ -99,10 +99,16 @@ dev.off()
 
 ![alt_txt][heatmap]
 
-[heatmap]:
+[heatmap]:https://user-images.githubusercontent.com/12142475/93075083-347a5a00-f67d-11ea-8614-0e04e1f48835.png
 
 
-We can see that 1) MODE has a few individuals with very little coverage that we need to remove, 2) MODC the patchiness looks even between loci and individuals, 3) quite sparse data. 
+
+
+We can see that, in order, 1) MODE has a few individuals with very little coverage that we need to remove, but overall very dense coverage. 
+
+2) MODC the patchiness looks even between loci and individuals (apart from a couple indivs), but overall less dense genotyping than in MODE. 
+
+3) MUS has quite sparse data, and clearly quite a few indivs that have genotyped very poorly. 
 
 It's evident that we need to filter on missingness within individuals. We can also see that 0.3 GL is synonymous with missing data. So we can quantify the proportion of missing data within an individual by calculating the proportion of 0.3 GL within one col of each individual. 
 
