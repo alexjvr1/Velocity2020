@@ -229,6 +229,37 @@ The size of the files means the easiest way to do this is with a database manage
 
 #### 1. Fst
 
+Download depth estimated by ANGSD and 3pop Fst file to mac
+
+Draw plots in R
+```
+MODE <- read.table(gzfile("MODE.LR761675.1.pos.gz"), header=T)
+MODC <- read.table(gzfile("MODC.LR761675.1.pos.gz"), header=T)
+MUS <- read.table(gzfile("MUS.LR761675.1.pos.gz"), header=T)
+
+head(MODE)
+#         chr pos totDepth
+#1 LR761675.1   8        2
+#2 LR761675.1   9        2
+#3 LR761675.1  10        2
+#4 LR761675.1  11        2
+#5 LR761675.1  12        4
+#6 LR761675.1  13        4
+
+dim(MODE)
+#[1] 5553628       3
+
+dim(MODC)
+#[1] 5621808       3
+
+dim(MUS)
+#[1] 4762287       3
+
+
+##Plot depth on
+
+```
+
 
 
 
