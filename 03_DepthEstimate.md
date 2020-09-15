@@ -311,12 +311,12 @@ ggplot(MODE.MODC.fst[which(MODE.MODC.fst$totDepth<150),], aes(x=totDepth, y=fst,
 
 ![alt_txt][DP.Fst]
 
-[DP.Fst]:https://user-images.githubusercontent.com/12142475/93212518-9c52a280-f75a-11ea-9241-610e1d6283e4.png
+[DP.Fst]:https://user-images.githubusercontent.com/12142475/93212532-9f4d9300-f75a-11ea-93e5-8de0879b15c7.png
 
 
 ![alt_txt][DP150]
 
-[DP150]:https://user-images.githubusercontent.com/12142475/93212532-9f4d9300-f75a-11ea-93e5-8de0879b15c7.png
+[DP150]:https://user-images.githubusercontent.com/12142475/93212518-9c52a280-f75a-11ea-9241-610e1d6283e4.png
 
 
 
