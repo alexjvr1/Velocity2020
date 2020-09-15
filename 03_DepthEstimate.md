@@ -394,16 +394,21 @@ ggplot(MODE.MODC.theta.depth, aes(x=pos, y=tW.E))+ geom_point()
 ggplot(MODE.MODC.theta.depth, aes(x=pos, y=tW.C))+ geom_point()
 ```
 
+Left = MODC, Right = MODE
+
 
 ![alt_txt][depth.vsTheta]
 
 [depth.vsTheta]:https://user-images.githubusercontent.com/12142475/93225095-c19add00-f769-11ea-9a6e-3208e27aea3f.png
+
+Fig1: Wattersons theta vs depth
 
 
 ![alt_txt][pos.Theta]
 
 [pos.Theta]:https://user-images.githubusercontent.com/12142475/93225087-bf388300-f769-11ea-8257-20ac24ff9fdf.png
 
+Fig2. Wattersons theta across the contig. This shows the biggest variance in theta around the biggest Fst peak, which is also where we have a big variance in sequencing depth. 
 
 
 #### 2. GL
