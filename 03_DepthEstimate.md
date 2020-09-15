@@ -417,12 +417,56 @@ Fig2. Wattersons theta across the contig. This shows the biggest variance in the
 
 We're attempting to find a way to model the expected Fst so that we can identify possible outlier loci. Mark has written a script to estimate a score (0-1) for each locus based on the GLs which should be correlated with ESS (although it isn't ESS). 
 
-This R script is [here]()
+This R script is [here](https://github.com/alexjvr1/Velocity2020/blob/master/ESSforGLs.R)
 
 First we have to write the GL file for CADX..01 for the same filter options used throughout this doc. 
 
-Rerun the script for CADX..01 adding the beagle GL output option: 
+Rerun the script for CADX..01 adding the beagle GL (-doGlf 2) output option: 
 
 ```
+qsub 04a_MODE.SAF_withGL.sh 
 
+#!/bin/bash
+#PBS -N E3_MODE.SAF  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=20:00:00 ##wall time.  
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+##PBS -t 1-87 #array job
+
+#Set filters
+MININD=""
+MINMAF=""
+#PVAL="0.05"
+MINQ="20"
+minMAPQ="20"
+minDP="2"
+maxDP="621"
+POP="MODE"
+C="50"
+POP="MODE"
+POPLIST="MODE.poplist"
+SPECIESDIR="/newhome/aj18951/E3_Aphantopus_hyperantus_2020"
+PP=1 #use all reads. Flag 1 uses only proper pairs, but	MUS has	merged reads. NB to filter for proper pair reads in the bamfiles using samtools before this point
+
+#OUTNAME="MODE"
+
+#run job in working directory
+cd $PBS_O_WORKDIR 
+
+#load modules
+module load languages/gcc-6.1
+angsd=~/bin/angsd/angsd
+
+#Define variables
+#REGION=$(sed "${PBS_ARRAYID}q;d" regions)
+REGION="CADCXM010000001.1"
+
+#estimate SAF for modern expanding population using ANGSD
+
+time $angsd -b $POP.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs $PP -r $REGION \
+-GL 1 -doSaf 1 -anc $SPECIESDIR/RefGenome/*fna -ref $SPECIESDIR/RefGenome/*fna -doCounts 1 -setMinDepthInd 2 -setMaxDepth $maxDP -doMajorMinor 4\
+ -out $SPECIESDIR/04a_ANGSD_FINAL/SFS_and_Fst/$POP/$POP.$REGION.new -C $C -baq 1 -dumpCounts 2 -doDepth 1 -maxDepth $maxDP -doGlf 2
 ```
+
+
