@@ -413,11 +413,16 @@ Fig2. Wattersons theta across the contig. This shows the biggest variance in the
 
 #### 2. GL
 
-
-
 ### "ESS" vs Fst
 
 We're attempting to find a way to model the expected Fst so that we can identify possible outlier loci. Mark has written a script to estimate a score (0-1) for each locus based on the GLs which should be correlated with ESS (although it isn't ESS). 
 
 This R script is [here]()
 
+First we have to write the GL file for CADX..01 for the same filter options used throughout this doc. 
+
+Rerun the script for CADX..01 adding the beagle GL output option: 
+
+```
+
+```
