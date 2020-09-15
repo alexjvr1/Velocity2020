@@ -182,84 +182,141 @@ And plots drawn on mac
 ```
 
 
-#### Samtools v.1.8
-
-As it is simpler to plot individual mean depth vs Fst/GL/etc, I will also use depth estimates obtained directly from the bam files. 
-
-
-I'm initially using only one chromosome: LR761675.1
-
-Depth was estimated for LR..75 using [this](https://github.com/alexjvr1/Velocity2020/blob/master/LR75.depth.sh) script.
-
-This calculates a depth for each individual at each locus. These files are very big as they contain every sequenced locus for an individual. 
-
-Rename files using mv. 
-```
-##There are various versions of rename and mv on linux, so first check what is on your system
-#rename --version
-#mv --version
-mv (GNU coreutils) 8.4
-Copyright (C) 2010 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Written by Mike Parker, David MacKenzie, and Jim Meyering.
-
-
-#I'm using mv to rename my files
-#e.g. 
-
-for i in $(ls *depth); do mv "$i" "${i/depth/depth.LR75}"; done 
-#where ../xxx/yyy  is the text in the name (xxx), and the replacement text (yyy)
-```
-
-
-1. Combine these files together in the right order (i.e. ensure the bp positions line up and missing data is filled in as 0 or NA).
-
-The size of the files means the easiest way to do this is with a database manager e.g. SQL. But if that isn't on the server the job can be split into batches of indivs and combined using awk or R. 
-
-2. Extract data only from the loci for which we have GLs. 
-
-3. Plot against Fst mid-point (for window based analysis), and for nucleotide diversity
-
 
 
 ### Estimates from ANGSD to plot against depth
 
+
+#### Depth from ANGSD
+
+ANGSD outputs the global depth at a site with the -doCounts and -dumpCounts options:
+
+Here I'm using contig CADXM010000001.1
+```
+/newhome/aj18951/bin/angsd/angsd -b MODE.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 1 -r CADCXM010000001.1 -GL 1 -doSaf 1 -anc /newhome/aj18951/E3_Aphantopus_hyperantus_2020/RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -ref /newhome/aj18951/E3_Aphantopus_hyperantus_2020/RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -doCounts 1 -setMinDepthInd 2 -setMaxDepth 621 -doMajorMinor 4 -out /newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/MODE/MODE.CADCXM010000001.1 -C 50 -baq 1 -dumpCounts 2 -doDepth 1 -maxDepth 621 
+
+```
+
+Note that I filter for maxDP based on the population meanDP.
+
+I've set a minDepth per individual at a locus (2x), but no minInd filter for this particular run. 
+
+
+
 #### 1. Fst
+
+ANGSD calculates Fst in windows. To correlate to depth per position I'll make the windows really small. 
+
+```
+#GLs and SAF have previously been estimated for the whole genome. 
+#Data on bluecrystal:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/
+
+##Load necessary modules to run in terminal
+module load languages/gcc-6.1
+
+#call realSFS from ANGSD to estimate 2D-SFS
+~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx > MODC.MODE.CDX01.ml
+
+#prepare for window-based analysis by indexing
+~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -sfs MODC.MODE.CDX01.ml -fstout CDX01.here
+
+#The global Fst is similar to that found for LR75 (unw:0.020322; w:0.126046)
+~/bin/angsd/misc/realSFS fst stats CDX01.here.fst.idx 
+	-> Assuming idxname:CDX01.here.fst.idx
+	-> Assuming .fst.gz file: CDX01.here.fst.gz
+	-> FST.Unweight[nObs:36019]:0.040754 Fst.Weight:0.106320
+0.040754	0.106320
+
+
+#create two window-based outputs to plot: 10bp and 1bp "windows", non-overlapping
+~/bin/angsd/misc/realSFS fst stats2 CDX01.here.fst.idx -win 10 -step 10 > CDX01.window10step10.fst
+~/bin/angsd/misc/realSFS fst stats2 CDX01.here.fst.idx -win 1 -step 1 > CDX01.window1step1.fst
+
+```
+
 
 Download depth estimated by ANGSD and 3pop Fst file to mac
 
+```
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DepthEstimates/IndivDepth
+
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/MODE/MODE.CADCXM010000001.1.pos.gz .
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/MODC/MODC.CADCXM010000001.1.pos.gz .
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/*step1.fst .
+```
+
+Remember to add an extra header (fst) in to the .fst file. 
+
 Draw plots in R
 ```
-MODE <- read.table(gzfile("MODE.LR761675.1.pos.gz"), header=T)
-MODC <- read.table(gzfile("MODC.LR761675.1.pos.gz"), header=T)
-MUS <- read.table(gzfile("MUS.LR761675.1.pos.gz"), header=T)
+library(dplyr)
+library(ggplot2)
 
-head(MODE)
-#         chr pos totDepth
-#1 LR761675.1   8        2
-#2 LR761675.1   9        2
-#3 LR761675.1  10        2
-#4 LR761675.1  11        2
-#5 LR761675.1  12        4
-#6 LR761675.1  13        4
+CDX.fst <- read.table("CDX01.window10step10.fst", header=T)
+colnames(CDX.fst)<- c("region", "chr", "pos", "Nsites", "fst") #change headers so that "pos" header is in all files
+MODE <- read.table(gzfile("MODE.CADCXM010000001.1.pos.gz"), header=T)
+MODC <- read.table(gzfile("MODC.CADCXM010000001.1.pos.gz"), header=T)
 
-dim(MODE)
-#[1] 5553628       3
+MODE$pop <- "MODE"
+MODC$pop <- "MODC"
+MODE.MODC <- bind_rows(MODE, MODC) ##use dplyr to join the two tables together
+MODE.MODC2 <- left_join(MODE, MODC, by="pos", suffix=c(".E", ".C"))
 
-dim(MODC)
-#[1] 5621808       3
-
-dim(MUS)
-#[1] 4762287       3
+MODC.MODE2.fst <- left_join(MODC.MODE2, CDX.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
+MODC.MODE2.fst <- MODC.MODE2.fst[complete.cases(MODC.MODE2.fst),]
 
 
-##Plot depth on
+#Plot depth vs fst
+ggplot(MODE.MODC.fst[complete.cases(MODE.MODC.fst),], aes(y=fst, x=totDepth, colour=pop))+geom_point()
+
+#plot fst and depth across the contig
+#First I'm plotting fst vs pos for each pop, and colouring by depth. 
+
+ggplot(MODC.MODE2.fst, aes(x=pos, y=fst, col=totDepth.E))+geom_point()
+par(new=TRUE)
+ggplot(MODC.MODE2.fst, aes(x=pos, y=fst, col=totDepth.C))+geom_point()
 
 ```
 
+![alt_txt][depth.fst.MODE]
+
+[depth.fst.MODE]:https://user-images.githubusercontent.com/12142475/93209477-19c7e400-f756-11ea-8a75-e3f03c28df40.png
+
+
+![alt_txt][fstvsdepth.MODC]
+
+[fstvsdepth.MODC]:https://user-images.githubusercontent.com/12142475/93209474-17fe2080-f756-11ea-9e5a-1feb119f71c9.png
+
+
+We can see that the really high Fst (>0.6) is associated with low coverage. Let's look at these loci: 
+```
+MODC.MODE2.fst[which(MODC.MODE2.fst$fst>0.6),c("pos", "fst", "totDepth.E", "totDepth.C")]
+        pos      fst totDepth.E totDepth.C
+12823 78265 0.772495         18          9
+13370 78875 0.780562         14         19
+13380 78885 0.783590         13         18
+```
+
+And let's see if there's an overall correlation between depth and Fst: 
+```
+##plot depth vs fst coloured by pop
+MODE.MODC.fst$col <- MODE.MODC.fst$pop
+MODE.MODC.fst$col <- gsub("MODE", "blue",MODE.MODC.fst$col)
+MODE.MODC.fst$col <- gsub("MODC", "green", MODE.MODC.fst$col)
+ggplot(MODE.MODC.fst, aes(x=totDepth, y=fst, col=pop))+geom_point()
+
+##And zoom in on the 0-150x
+ggplot(MODE.MODC.fst[which(MODE.MODC.fst$totDepth<150),], aes(x=totDepth, y=fst, col=pop))+geom_point()
+```
+
+![alt_txt][DP.Fst]
+
+[DP.Fst]:https://user-images.githubusercontent.com/12142475/93212518-9c52a280-f75a-11ea-9241-610e1d6283e4.png
+
+
+![alt_txt][DP150]
+
+[DP150]:https://user-images.githubusercontent.com/12142475/93212532-9f4d9300-f75a-11ea-93e5-8de0879b15c7.png
 
 
 
