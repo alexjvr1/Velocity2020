@@ -320,8 +320,89 @@ ggplot(MODE.MODC.fst[which(MODE.MODC.fst$totDepth<150),], aes(x=totDepth, y=fst,
 
 
 
+It looks like <50x produces Fst > 0.4. I need to rerun SFS estimates with: 
+
+1) MinInd 18, and minIndDepth 2x set 
+
+2) Problematic indivs removed
+
+
 #### 2. nucleotide diversity
 
+Estimate thetas for each population (Still using CADX..01)
+
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_OLD/SFS_and_Fst
+
+module load languages/gcc-6.1
+
+#create folded SFS
+~/bin/angsd/misc/realSFS MODE/MODE.CADCXM010000001.1.saf.idx -fold 1 > MODE/MODE.CADCXM010000001.1.sfs
+~/bin/angsd/misc/realSFS saf2theta MODE/MODE.CADCXM010000001.1.saf.idx -sfs MODE/MODE.CADCXM010000001.1.sfs -outname MODE.CADX01
+
+#calculate thetas with 1bp non-overlapping windows
+~/bin/angsd/misc/thetaStat do_stat MODE.CADX01.thetas.idx -win 1 -step 1
+
+#Information from index file:
+		0	CADCXM010000001.1	43168	8	80
+
+##same for MODC
+~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.saf.idx -fold 1 > MODC/MODC.CADCXM010000001.1.sfs
+~/bin/angsd/misc/realSFS saf2theta MODC/MODC.CADCXM010000001.1.saf.idx -sfs MODC/MODC.CADCXM010000001.1.sfs -outname MODC.CADX01
+
+#calculate thetas with 1bp non-overlapping windows
+~/bin/angsd/misc/thetaStat do_stat MODC.CADX01.thetas.idx -win 1 -step 1
+
+#Information from index file:
+		0	CADCXM010000001.1	49178	8	76
+
+#Copy to Mac
+
+pwd
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/SFS
+
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_OLD/SFS_and_Fst/*pestPG .
+
+##In R (see previous section for Fst tables)
+
+MODC.theta <- read.table("../../SFS/MODC.CADX01.thetas.idx.pestPG", header=F)
+colnames(MODC.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
+
+MODE.theta <- read.table("../../SFS/MODE.CADX01.thetas.idx.pestPG", header=F)
+colnames(MODE.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
+
+MODE.MODC.theta <- left_join(MODE.theta, MODC.theta, by="pos", suffix=c(".E", ".C"))
+MODE.MODC.theta <- MODE.MODC.theta[complete.cases(MODE.MODC.theta),]
+dim(MODE.MODC.theta)
+[1] 36017    27
+
+MODE.MODC.theta.depth <- left_join(MODE.MODC.theta, MODC.MODE2, by="pos")
+MODE.MODC.theta.depth <- MODE.MODC.theta.depth[complete.cases(MODE.MODC.theta.depth),]
+
+dim(MODE.MODC.theta.depth)
+[1] 36017    33
+
+#Check if theta is correlated with depth
+ggplot(MODE.MODC.theta.depth, aes(x=totDepth.C, y=tW.C))+ geom_point()
+ggplot(MODE.MODC.theta.depth, aes(x=totDepth.E, y=tW.E))+ geom_point()
+
+#This shows quite a strange pattern of 0 and 0.2 Wattersons theta. Why would it be so binary? 
+#There is some indication that low Depth results in more noise in the estimates.
+
+#Check if the high Wtheta is concentrated around the Fst peak: 
+ggplot(MODE.MODC.theta.depth, aes(x=pos, y=tW.E))+ geom_point()
+ggplot(MODE.MODC.theta.depth, aes(x=pos, y=tW.C))+ geom_point()
+```
+
+
+![alt_txt][depth.vsTheta]
+
+[depth.vsTheta]:https://user-images.githubusercontent.com/12142475/93225095-c19add00-f769-11ea-9a6e-3208e27aea3f.png
+
+
+![alt_txt][pos.Theta]
+
+[pos.Theta]:https://user-images.githubusercontent.com/12142475/93225087-bf388300-f769-11ea-8257-20ac24ff9fdf.png
 
 
 
