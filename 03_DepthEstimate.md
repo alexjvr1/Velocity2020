@@ -631,3 +631,33 @@ I recovered exactly the same loci for all three datasets (MODC, MODE, MUS) using
 2. Proportion of loci retained after filters? 34% (MUS) and >80% (MOD)
 
 
+#### Create SFS and fst estimates for these new files
+
+On server 
+```
+module load languages/gcc-6.1
+
+#Use the unfolded SAF for each population to create a folded SFS
+#realSFS pop1.unfolded.saf.idx pop2.unfolded.saf.idx -fold 1 >folded.sfs
+
+~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.minDP20.MinIND10.saf.idx MODE/MODE.CADCXM010000001.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MODE.CDX.minDP20.minInd10.sfs
+
+#Use the folded SFS and unfolded SAFs to prepare inputs for Fst calculation
+#realSFS fst index pop1.unfolded.saf.idx pop2.unfolded.saf.idx -sfs folded.sfs -fold 1 -fstout persite
+
+~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.minDP20.MinIND10.saf.idx MODE/MODE.CADCXM010000001.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.CDX.minDP20.minInd10.sfs -fold 1 -fstout MODC.MODE.CDX.minDP20.minInd10.persite
+
+ ~/bin/angsd/misc/realSFS fst stats  MODC.MODE.CDX.minDP20.minInd10.persite.fst.idx 
+	-> Assuming idxname:MODC.MODE.CDX.minDP20.minInd10.persite.fst.idx
+	-> Assuming .fst.gz file: MODC.MODE.CDX.minDP20.minInd10.persite.fst.gz
+	-> FST.Unweight[nObs:11521]:0.016994 Fst.Weight:0.111027
+0.016994	0.111027
+
+
+##Estimate Fst every 1bp (non-overlapping windows)
+#realSFS fst stat2 persite.fst.idx -win XXXX -step XXXX >window.fst
+
+~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.CDX.minDP20.minInd10.persite.fst.idx -win 1 -step 1 > MODC.MODE.minDP20.minInd10.win1bp.fst
+
+
+```
