@@ -657,7 +657,18 @@ module load languages/gcc-6.1
 ##Estimate Fst every 1bp (non-overlapping windows)
 #realSFS fst stat2 persite.fst.idx -win XXXX -step XXXX >window.fst
 
-~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.CDX.minDP20.minInd10.persite.fst.idx -win 1 -step 1 > MODC.MODE.minDP20.minInd10.win1bp.fst
+~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.CDX.minDP20.minInd10.persite.fst.idx -win 1 -step 2 > MODC.MODE.minDP20.minInd10.win1bp.fst
 
-
+win:1 step:1
+nSites:11521 (7%)
 ```
+
+And same for the MODC:MODE LRxx75 dataset
+```
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MODE.LR75.minDP20.minInd10.sfs
+
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.LR75.minDP20.minInd10.sfs -fold 1 -fstout MODC.MODE.LR75.minDP20.minInd10.persite
+
+#using 5,092,713 sites from each pop
+```
+
