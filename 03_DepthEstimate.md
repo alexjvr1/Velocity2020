@@ -470,6 +470,16 @@ time $angsd -b $POP.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 
 ```
 
 
+And plot in R on the mac: 
+```
+
+```
+
+![alt_txt][score.fig]
+
+[score.fig]:https://user-images.githubusercontent.com/12142475/93469115-eddc6800-f8e7-11ea-83e9-117b3a26f73e.png
+
+
 
 ## Filter for missingness and check all depth plots
 
@@ -477,5 +487,104 @@ There is a high level of missingness in the data, and I've identified [individua
 
 
 
+
+I'm using contig CADCXM010000001.1 (152182bp) for the intial tests as these run really quickly
+
+#### How many loci do we recover with minDP and minInd filters compared with minimal filters
+
+I didn't realise that the minDP filters worked on global depth: 
+
+-setMinDepth xx # discard site if total sequencing depth (all indivs together) is below xx
+
+-setMaxDepth xx  # discard site if total depth (all indivs added together) is above xx
+
+-setMinDepthInd xx # Discard individual if sequencing depth is below xx. This filter is only applied to analysis which uses allele count (-doCounts). Thus anything that uses GLs (e.g. SAF estimation) does not use this filter. 
+
+To get around this issue I will use the global depth and minInd to filter: 
+
+-minInd 18
+
+-setMinDepth 36 ##i.e. 2X per individual for the min 18 genotyped individuals. 
+
+
+```
+#!/bin/bash
+#PBS -N E3_MODC.SAF  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=20:00:00 ##wall time.  
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+##PBS -t 1-87 #array job
+
+#Set filters
+N="36"
+MININD="18"
+MINMAF=""
+MINQ="20"
+minMAPQ="20"
+minDP="36"
+maxDP="621"
+POP="MODC"
+C="50"
+POP="MODC"
+POPLIST="MODC.36.poplist"
+SPECIESDIR="/newhome/aj18951/E3_Aphantopus_hyperantus_2020"
+PP=0 #use all reads. Flag 1 uses only proper pairs, but	MUS has	merged reads. NB to filter for proper pair reads in the bamfiles using samtools before this point
+
+#OUTNAME="MODC"
+
+#run job in working directory
+cd $PBS_O_WORKDIR 
+
+#load modules
+module load languages/gcc-6.1
+angsd=~/bin/angsd/angsd
+
+#Define variables
+#REGION=$(sed "${PBS_ARRAYID}q;d" regions)
+REGION="LR761675.1"
+
+#estimate SAF for modern expanding population using ANGSD
+
+time $angsd -b $POP.$N.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs $PP -r $REGION \
+-GL 1 -doSaf 1 -anc $SPECIESDIR/RefGenome/*fna -ref $SPECIESDIR/RefGenome/*fna -doCounts 1 -setMinDepthInd $minDP -setMaxDepth $maxDP -doMajorMinor 4\
+ -out $SPECIESDIR/04b_ANGSD_FINAL/SFS_and_Fst/$POP/$POP.$REGION -C $C -baq 1 -dumpCounts 2 -doDepth 1 -doGlf 2
+```
+
+
+Outputs:
+```
+CADCXM010000001.1 (len=152 kb)
+		Total sites analyzed	minDP2(no minInd)	minDP36.minInd18	minDP20.minInd10	GATK
+MODE (N=33/40) 	54k (36%)		43k			10k			15.5k			15.5k 
+
+MODC (N=36/38)	57k (36%)		49k			8.9k			13.5			13.5k
+
+MUS (N=24/48)	11k (7%)					351			691			691			
+
+
+LR761675 (len=6,196 kb)
+		Total sites analyzed	setminDPInd2	minDP36.minInd18	minDP20.minInd10		GATK
+MODE (N=33/40) 	5.7M (93%)					5.0M			5.3M			5.3M (87%)
+
+MODC (N=36/38)	5.7M (93%)					4.7M			5.2M			5.2M (85%)
+
+MUS (N=24/48)	4.7M (77%)		4.7M			0.1M			2.1M			2.1M (34%)
+
+```
+
+
+#### GL models GATK vs Samtools
+
+I recovered exactly the same loci for all three datasets (MODC, MODE, MUS) using these strict filters. 
+
+
+
+#### Run the same scripts for LR761675.1
+
+1. Diff between GATK and Samtools? None - I recover the same loci
+
+
+2. Proportion of loci retained after filters? 34% (MUS) and >80% (MOD)
 
 
