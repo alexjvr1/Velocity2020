@@ -4,9 +4,13 @@
 ##Score for GLs as proxy for ESS
 ##To be used to test for bias in correlations with Fst
 ########################################################
+#!/usr/bin/env Rscript
+#arg 1= input file *beagle.gz
+#arg 2= output file
 
+args = commandArgs(trailingOnly=TRUE)
 
-geno.lik.raw = read.table("MODC.CADCXM010000001.1.1.GLF2.PVAL.MIMNAF0.05.MININD18.beagle",header=T)
+geno.lik.raw = read.table(gzfile(arg[1]),header=T)
 geno.lik = data.matrix(geno.lik.raw[,-c(1:3)])
 scoremat = matrix(nrow=nrow(geno.lik),ncol=(ncol(geno.lik)/3))
 for(j in 1:nrow(geno.lik)){
@@ -33,6 +37,7 @@ for(j in 1:nrow(geno.lik)){
 plot(scorevec,ylim=c(0,ncol(scoremat)))
 abline(h=ncol(scoremat),col=2,lwd=2)
 abline(h=0,col=2,lwd=2)
+write.table(scorevec, (args[2]),quote=F, sep="\t")
 print(paste("number of individuals is ",ncol(scoremat)))
 print(paste("maximum 'N_eff' is ",max(scorevec)))
 print(paste("minimum 'N_eff' is ",min(scorevec)))
