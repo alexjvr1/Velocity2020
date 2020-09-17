@@ -470,3 +470,12 @@ time $angsd -b $POP.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 
 ```
 
 
+
+## Filter for missingness and check all depth plots
+
+There is a high level of missingness in the data, and I've identified [individuals that sequenced poorly](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md). I'll re-estimate GL scores after removing these indivs. I am also changing the minDP and minInd filters for all of the ANGSD datasets: 
+
+
+
+
+
