@@ -472,7 +472,50 @@ time $angsd -b $POP.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 
 
 And plot in R on the mac: 
 ```
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/SFS
 
+library(dplyr)
+MODE.GL <- read.table(gzfile("../../SFS/MODE.CADCXM010000001.1.new.beagle.gz"), header=T)
+
+head(MODE.GL)
+                  marker allele1 allele2     Ind0   Ind0.1   Ind0.2     Ind1
+1 CADCXM010000001.1_5740       3       0 0.333333 0.333333 0.333333 0.333333
+2 CADCXM010000001.1_5741       1       0 0.333333 0.333333 0.333333 0.333333
+3 CADCXM010000001.1_5742       3       0 0.333333 0.333333 0.333333 0.333333
+4 CADCXM010000001.1_5743       0       1 0.333333 0.333333 0.333333 0.333333
+5 CADCXM010000001.1_5744       2       0 0.333333 0.333333 0.333333 0.333333
+6 CADCXM010000001.1_5745       2       0 0.333333 0.333333 0.333333 0.333333
+
+dim(MODE.GL)
+[1] 43168   123
+
+
+MODE.GL.names <- MODE.GL$marker
+MODE.GL.names <- as.data.frame(MODE.GL.names)
+MODE.GL.names$pos <- MODE.GL$marker
+MODE.GL.names$pos <- gsub("CADCXM010000001.1_", "", MODE.GL.names$pos)
+MODE.GL.names$pos <- as.numeric(MODE.GL.names$pos)
+
+MODE.GL.sub <- (semi_join(MODE.GL.names, CDX.fst, by="pos")) #CDX.fst was created previously
+MODE.GL.fstloci <- (semi_join(MODE.GL, MODE.GL.sub, by="marker"))  ##create the file with fst loci and depth
+
+MODE.fstloci.out <- read.table("../../SFS/MODE.fstloci.out", header=F) 
+head(MODE.fstloci.out)
+  V1        V2
+1  1 0.9999390
+2  2 0.9999390
+3  3 0.9999845
+4  4 0.9999695
+5  5 0.9999845
+6  6 0.9998780
+
+colnames(MODE.fstloci.out)<- c("index", "fst")
+MODE.fstloci.out$pos <- as.numeric(gsub("CADCXM010000001.1_", "", MODE.fstloci.out$marker))
+
+colnames(MODE.fstloci.out) <- c("index", "score", "marker", "pos")
+MODE.MODC.fst3 <- left_join(MODE.MODC.fst.complete, MODE.fstloci.out, by="pos")
+
+ggplot(MODE.MODC.fst3, aes(y=fst, x=score))+ geom_point()
 ```
 
 ![alt_txt][score.fig]
