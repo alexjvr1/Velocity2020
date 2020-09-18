@@ -225,3 +225,16 @@ plot(p6.MUS,xlim=c(0,100), ylim=c(0,20))
 
 We also want to see all the sites where heterozygotes are over- or under-represented. 
 
+
+
+## Missingness in filtered data
+
+We're creating two datasets
+
+1/ maximise number of loci while retaining confidence in the final GLs
+
+2/ Minimise missingness in the dataset: for PCA. PCAngsd can deal with low coverage data, but the PCA is still affected by high rates of missingness. Ideally we want to remove all loci genotyped in <80% of indivs, and all indivs with <80% genotyping rate for a max of 20% missingness in the dataset. 
+
+
+
+
