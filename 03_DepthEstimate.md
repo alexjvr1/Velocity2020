@@ -524,6 +524,44 @@ ggplot(MODE.MODC.fst3, aes(y=fst, x=score))+ geom_point()
 
 
 
+And plot with the minDP10 filter
+```
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/SFS/Score.Mark
+
+Rscript script2.R MODE.CADCXM010000001.1.minDP20.MinIND10.beagle.gz MODE.minDP20.scorevec
+[1] "number of individuals is  33"
+[1] "maximum 'N_eff' is  32.9684065049473"
+[1] "minimum 'N_eff' is  7.74582069797937"
+
+MODE.GL <- read.table(gzfile("MODE.CADCXM010000001.1.minDP20.MinIND10.beagle.gz"), header=T)
+
+dim(MODE.GL)
+[1] 15556   102
+
+#get a list of marker names
+MODE.GL.names <- MODE.GL$marker
+MODE.GL.names <- as.data.frame(MODE.GL.names)
+MODE.GL.names$pos <- MODE.GL$marker
+MODE.GL.names$pos <- gsub("CADCXM010000001.1_", "", MODE.GL.names$pos)
+MODE.GL.names$pos <- as.numeric(MODE.GL.names$pos)
+
+CDX.fst <- read.table("MODC.MODE.CDX.minDP20minInd10.win1bp.fst") #read in Fst.
+
+MODE.score <- read.table("MODE.minDP20.scorevec", header=T)
+MODE.score$pos <- MODE.GL.names$pos  
+colnames(MODE.score) <- c("score", "pos")
+
+ggplot(MODE.GL.sub, aes(y=fst, x=score))+ geom_point()
+```
+
+Based on 11519 bp
+
+![alt_txt][score2]
+
+[score2]:https://user-images.githubusercontent.com/12142475/93649253-769bf680-fa03-11ea-95bb-3853c3c7fc1d.png
+
+
+
 ## Filter for missingness and check all depth plots
 
 There is a high level of missingness in the data, and I've identified [individuals that sequenced poorly](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md). I'll re-estimate GL scores after removing these indivs. I am also changing the minDP and minInd filters for all of the ANGSD datasets: 
