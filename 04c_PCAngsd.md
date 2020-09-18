@@ -35,8 +35,11 @@ dim(MUS.GL.minDP20)
 
 library(reshape2)
 
-###MODE
+#See below for each indiv
+```
 
+### MODE
+```
 imiss_MODE.GL.minDP20 <- MODE.GL.minDP20
 imiss_MODE.GL.minDP20[imiss_MODE.GL.minDP20=="0.333333"] <- NA
 
@@ -104,11 +107,45 @@ Ind29  1.3915897 Ind29
 Ind30  4.7006697 Ind30
 Ind31  2.0929180 Ind31
 Ind32  3.3313262 Ind32
+```
+
+### MODC
+```
+imiss_MODC.GL.minDP20 <- MODC.GL.minDP20
+imiss_MODC.GL.minDP20[imiss_MODC.GL.minDP20=="0.333333"] <- NA
+
+mean(is.na(imiss_MODC.GL.minDP20)) ##calculates the overall proportion of missingness
 
 
-###MODC
+MODC.loci.propNA <- rowMeans(is.na(imiss_MODC.GL.minDP20))*100  ##calculates the proportion of NA in each row, i.e. for each locus
 
-###MUS
+#Remove these loci
+melt.MODC.loci.propNA <- melt(MODC.loci.propNA)
+melt.MODC.loci.propNA$marker <- MODC.GL.minDP20$marker 
+dim(melt.MODC.loci.propNA[which(melt.MODC.loci.propNA$value>20),])  #loci with >20% missingness
+
+
+MODC.markerstoremove <- (melt.MODC.loci.propNA[which(melt.MODC.loci.propNA$value>20),])
+MODC.GL.minDP20.clean <- MODC.GL.minDP20[which(!MODC.GL.minDP20$marker %in% MODC.markerstoremove$marker),]  #remove problematic loci
+dim(MODC.GL.minDP20.clean)
+
+
+
+#Check which indivs have >20% missingness in the clean dataset
+imiss_MODC.GL.minDP20 <- MODC.GL.minDP20.clean
+imiss_MODC.GL.minDP20[imiss_MODC.GL.minDP20=="0.333333"] <- NA
+MODC.indiv.propNA <- colMeans(is.na(imiss_MODC.GL.minDP20))*100  ##calculates the proportion of NA in each column, i.e. for each individual
+melt.MODC.indiv.propNA <- melt(MODC.indiv.propNA)                ##plotting is easier with long data
+melt.MODC.indiv.propNA$Indiv <- rownames(melt.MODC.indiv.propNA)
+melt.MODC.indiv.propNA.new <- melt.MODC.indiv.propNA[seq(4, nrow(melt.MODC.indiv.propNA),3),]  ##get rid of the first 3 lines, and keep only one row per indiv.
+melt.MODC.indiv.propNA.new[which(melt.MODC.indiv.propNA.new$value>20),]
+
+[1] value Indiv
+<0 rows> (or 0-length row.names)
+```
+
+### MUS
+```
 imiss_MUS.GL.minDP20 <- MUS.GL.minDP20
 imiss_MUS.GL.minDP20[imiss_MUS.GL.minDP20=="0.333333"] <- NA
 
@@ -121,7 +158,7 @@ MUS.loci.propNA <- rowMeans(is.na(imiss_MUS.GL.minDP20))*100  ##calculates the p
 melt.MUS.loci.propNA <- melt(MUS.loci.propNA)
 melt.MUS.loci.propNA$marker <- MUS.GL.minDP20$marker 
 dim(melt.MUS.loci.propNA[which(melt.MUS.loci.propNA$value>20),])  #loci with >20% missingness
-[1] 2042187       2    ##This is basically all the loci! Let's plot the missingness to see if some indivs are the problem.
+[1] 2042187       2    ##This is basically all the loci! But we're just trying to draw a PCA, so 50k SNPs should be enough. We'll have to see how many overlap with MODC and MODE in the final dataset. What will be our min cut-off here? This is just one chr so we could include markers from all chrs? But this will be a computational nightmare when the dataset gets bigger (and is arguably unnecessary for a PCA...)
 
 MUS.markerstoremove <- (melt.MUS.loci.propNA[which(melt.MUS.loci.propNA$value>20),])
 MUS.GL.minDP20.clean <- MUS.GL.minDP20[which(!MUS.GL.minDP20$marker %in% MUS.markerstoremove$marker),]  #remove problematic loci
