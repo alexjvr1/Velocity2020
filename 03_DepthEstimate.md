@@ -606,7 +606,7 @@ MODC (N=36/38)	57k (36%)		49k			8.9k			13.5			13.5k
 MUS (N=24/48)	11k (7%)					351			691			691			
 
 
-LR761675 (len=6,196 kb)
+LR761675 (len=6.2 Mb)
 		Total sites analyzed	setminDPInd2	minDP36.minInd18	minDP20.minInd10		GATK
 MODE (N=33/40) 	5.7M (93%)					5.0M			5.3M			5.3M (87%)
 
@@ -615,6 +615,11 @@ MODC (N=36/38)	5.7M (93%)					4.7M			5.2M			5.2M (85%)
 MUS (N=24/48)	4.7M (77%)		4.7M			0.1M			2.1M			2.1M (34%)
 
 ```
+
+#### What is the distribution of missingness in these new datasets? 
+
+Use the methods described [here](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md) to estimate missingness
+
 
 
 #### GL models GATK vs Samtools
@@ -667,8 +672,18 @@ And same for the MODC:MODE LRxx75 dataset
 ```
 ~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MODE.LR75.minDP20.minInd10.sfs
 
-~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.LR75.minDP20.minInd10.sfs -fold 1 -fstout MODC.MODE.LR75.minDP20.minInd10.persite
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.LR761675.1.minDP20.MinIND10.fold.sfs -fold 1 -fstout MODC.MODE.LR75.minDP20.minIND10.fstout
 
-#using 5,092,713 sites from each pop
+
+~/bin/angsd/misc/realSFS fst stats  MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming idxname:MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming .fst.gz file: MODC.MODE.LR75.minDP20.minIND10.fstout.fst.gz
+	-> FST.Unweight[nObs:5092573]:0.015304 Fst.Weight:0.131845
+0.015304	0.131845
+
+
+#using 5,092,713 sites from each pop (of 6196582bp = 82% coverage)
+
+
 ```
 
