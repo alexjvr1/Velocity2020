@@ -115,7 +115,7 @@ imiss_MODC.GL.minDP20 <- MODC.GL.minDP20
 imiss_MODC.GL.minDP20[imiss_MODC.GL.minDP20=="0.333333"] <- NA
 
 mean(is.na(imiss_MODC.GL.minDP20)) ##calculates the overall proportion of missingness
-
+[1] 0.2608227
 
 MODC.loci.propNA <- rowMeans(is.na(imiss_MODC.GL.minDP20))*100  ##calculates the proportion of NA in each row, i.e. for each locus
 
@@ -123,12 +123,12 @@ MODC.loci.propNA <- rowMeans(is.na(imiss_MODC.GL.minDP20))*100  ##calculates the
 melt.MODC.loci.propNA <- melt(MODC.loci.propNA)
 melt.MODC.loci.propNA$marker <- MODC.GL.minDP20$marker 
 dim(melt.MODC.loci.propNA[which(melt.MODC.loci.propNA$value>20),])  #loci with >20% missingness
-
+[1] 2982476       2   ##about 50% of the loci
 
 MODC.markerstoremove <- (melt.MODC.loci.propNA[which(melt.MODC.loci.propNA$value>20),])
 MODC.GL.minDP20.clean <- MODC.GL.minDP20[which(!MODC.GL.minDP20$marker %in% MODC.markerstoremove$marker),]  #remove problematic loci
 dim(MODC.GL.minDP20.clean)
-
+[1] 2222509     111
 
 
 #Check which indivs have >20% missingness in the clean dataset
@@ -140,8 +140,9 @@ melt.MODC.indiv.propNA$Indiv <- rownames(melt.MODC.indiv.propNA)
 melt.MODC.indiv.propNA.new <- melt.MODC.indiv.propNA[seq(4, nrow(melt.MODC.indiv.propNA),3),]  ##get rid of the first 3 lines, and keep only one row per indiv.
 melt.MODC.indiv.propNA.new[which(melt.MODC.indiv.propNA.new$value>20),]
 
-[1] value Indiv
-<0 rows> (or 0-length row.names)
+         value Indiv   ##two indivs with just over 20% missing data. We'll keep these in for now
+Ind27 20.49279 Ind27
+Ind29 20.97013 Ind29
 ```
 
 ### MUS
@@ -163,7 +164,7 @@ dim(melt.MUS.loci.propNA[which(melt.MUS.loci.propNA$value>20),])  #loci with >20
 MUS.markerstoremove <- (melt.MUS.loci.propNA[which(melt.MUS.loci.propNA$value>20),])
 MUS.GL.minDP20.clean <- MUS.GL.minDP20[which(!MUS.GL.minDP20$marker %in% MUS.markerstoremove$marker),]  #remove problematic loci
 dim(MUS.GL.minDP20.clean)
-
+[1] 51626    75
 
 
 #Check which indivs have >20% missingness in the clean dataset
@@ -175,6 +176,42 @@ melt.MUS.indiv.propNA$Indiv <- rownames(melt.MUS.indiv.propNA)
 melt.MUS.indiv.propNA.new <- melt.MUS.indiv.propNA[seq(4, nrow(melt.MUS.indiv.propNA),3),]  ##get rid of the first 3 lines, and keep only one row per indiv.
 melt.MUS.indiv.propNA.new[which(melt.MUS.indiv.propNA.new$value>20),]
 
-[1] value Indiv
-<0 rows> (or 0-length row.names)
+[1] value Indiv        ###7 indivs with around 20% missing data. 
+Ind1  22.80440  Ind1
+Ind5  22.65138  Ind5
+Ind7  21.08627  Ind7
+Ind11 21.16763 Ind11
+Ind13 23.55015 Ind13
+Ind22 23.30221 Ind22
+Ind23 22.38794 Ind23
+```
+
+#### Combine cleaned data together
+
+Create a new beagle file by combining all the cleaned data together. Join by site and allele (ie. if different alleles are present in the different populations we're ignoring these data for now). 
+
+```
+library(dplyr)
+
+#Find markers that occur in all three datasets
+MODE.marker <- as.data.frame(MODE.GL.minDP20$marker)
+colnames(MUS.marker) <- "marker"
+
+MODC.marker <- as.data.frame(MODC.GL.minDP20$marker)
+colnames(MUS.marker) <- "marker"
+
+MUS.marker <- as.data.frame(MUS.GL.minDP20$marker)
+colnames(MUS.marker) <- "marker"
+
+POP3clean.markers <- intersect(MUS.marker, MODE.marker, MODC.marker)
+dim(POP3clean.markers)
+[1] 46677     1
+
+##Join datasets together
+3pops.clean <- 
+
+
+##Keep only the markers that occur in all three
+
+
 ```
