@@ -155,10 +155,16 @@ dev.off()
 multiplot(p1.MODC.GlobalDepth,p2.MODE.GlobalDepth,p3.MUS.GlobalDepth)
 ```
 
+** Why does LR50 (Z) have higher coverage than the other chromosomes? There is a bit of variance between chromosomes, but the Z seems to have much higher mean depth than the other chromosomes. Could this have something to do with over-clustering due to mis-assembly of the reference Z-chr? 
+
+LR50 is quite large, but isn't the largest chrs. Do we expect gene duplications here which could lead to mis-assembly of the ref? Or mis-mapping?
+
 
 ![alt_txt][Global.depth]
 
 [Global.depth]:https://user-images.githubusercontent.com/12142475/92648675-b0714c80-f2e1-11ea-8d19-0e1dbe884a8d.png
+
+
 
 
 
