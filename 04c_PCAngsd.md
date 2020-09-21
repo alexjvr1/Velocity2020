@@ -195,10 +195,10 @@ library(dplyr)
 
 #Find markers that occur in all three datasets
 MODE.marker <- as.data.frame(MODE.GL.minDP20$marker)
-colnames(MUS.marker) <- "marker"
+colnames(MODE.marker) <- "marker"
 
 MODC.marker <- as.data.frame(MODC.GL.minDP20$marker)
-colnames(MUS.marker) <- "marker"
+colnames(MODC.marker) <- "marker"
 
 MUS.marker <- as.data.frame(MUS.GL.minDP20$marker)
 colnames(MUS.marker) <- "marker"
