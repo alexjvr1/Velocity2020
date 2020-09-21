@@ -496,8 +496,8 @@ MODE.GL.names$pos <- MODE.GL$marker
 MODE.GL.names$pos <- gsub("CADCXM010000001.1_", "", MODE.GL.names$pos)
 MODE.GL.names$pos <- as.numeric(MODE.GL.names$pos)
 
-MODE.GL.sub <- (semi_join(MODE.GL.names, CDX.fst, by="pos")) #CDX.fst was created previously
-MODE.GL.fstloci <- (semi_join(MODE.GL, MODE.GL.sub, by="marker"))  ##create the file with fst loci and depth
+#MODE.GL.sub <- (semi_join(MODE.GL.names, CDX.fst, by="pos")) #CDX.fst was created previously
+#MODE.GL.fstloci <- (semi_join(MODE.GL, MODE.GL.sub, by="marker"))  ##create the file with fst loci and depth
 
 MODE.fstloci.out <- read.table("../../SFS/MODE.fstloci.out", header=F) 
 head(MODE.fstloci.out)
@@ -533,6 +533,10 @@ Rscript script2.R MODE.CADCXM010000001.1.minDP20.MinIND10.beagle.gz MODE.minDP20
 [1] "maximum 'N_eff' is  32.9684065049473"
 [1] "minimum 'N_eff' is  7.74582069797937"
 
+##R
+library(dplyr)
+library(ggplot2)
+
 MODE.GL <- read.table(gzfile("MODE.CADCXM010000001.1.minDP20.MinIND10.beagle.gz"), header=T)
 
 dim(MODE.GL)
@@ -550,6 +554,8 @@ CDX.fst <- read.table("MODC.MODE.CDX.minDP20minInd10.win1bp.fst") #read in Fst.
 MODE.score <- read.table("MODE.minDP20.scorevec", header=T)
 MODE.score$pos <- MODE.GL.names$pos  
 colnames(MODE.score) <- c("score", "pos")
+
+MODE.GL.sub <- left_join(CDX.fst, MODE.score, by="pos")
 
 ggplot(MODE.GL.sub, aes(y=fst, x=score))+ geom_point()
 ```
