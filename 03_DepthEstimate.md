@@ -773,13 +773,49 @@ MODC:MUS LRxx75 dataset
 
 MODE:MUS LRxx75
 ```
+#create the folded sfs
 ~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODE.MUS.LR75.minDP20.minInd10.fold.sfs
 
-~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODE.MUS.LR75.minDP20.MinInd10.fold.sfs -fold 1 -fstout MODE.MUS.LR75.minDP20.minIND10.fstout
+#index the sfs for window-based Fst estimation
+~/bin/angsd/misc/realSFS fst index MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODE.MUS.LR75.minDP20.minInd10.fold.sfs -fstout MODE.MUS.LR75.minDP20.minIND10.fstout
 
-
+#Global fst estimate
 ~/bin/angsd/misc/realSFS fst stats  MODE.MUS.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming idxname:MODE.MUS.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming .fst.gz file: MODE.MUS.LR75.minDP20.minIND10.fstout.fst.gz
+	-> FST.Unweight[nObs:2079056]:0.041308 Fst.Weight:0.192112
+0.041308	0.192112
+
+
+#window based fst
+~/bin/angsd/misc/realSFS fst stats2 MODE.MUS.LR75.minDP20.minIND10.fstout.fst.idx -win 50000 -step 10000 > MODE.MUS.LR75.minDP20.minInd10.win50k.step10k.fst
+
+win:50000 step:10000
+nSites:2079057
 
 ```
 
 
+### Thetas
+
+Estimate diversity measures for each of the cleaned pops and LR75
+```
+#Estimate the folded sfs for population 
+~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODE/MODE.LR761675.1.minDP20.MinIND10.sfs
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC/MODC.LR761675.1.minDP20.MinIND10.sfs
+~/bin/angsd/misc/realSFS MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MUS/MUS.LR761675.1.minDP20.MinIND10.sfs
+
+
+#prep the saf files
+~/bin/angsd/misc/realSFS saf2theta MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODE/MODE.LR761675.1.minDP20.MinIND10.sfs -outname MODE/MODE.LR761675.1.minDP20.MinIND10
+~/bin/angsd/misc/realSFS saf2theta MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC/MODC.LR761675.1.minDP20.MinIND10.sfs -outname MODC/MODC.LR761675.1.minDP20.MinIND10
+~/bin/angsd/misc/realSFS saf2theta MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MUS/MUS.LR761675.1.minDP20.MinIND10.sfs -outname MUS/MUS.LR761675.1.minDP20.MinIND10
+
+
+#Calculate diversity stats
+
+~/bin/angsd/misc/thetaStat do_stat MODE/MODE.LR761675.1.minDP20.MinIND10.thetas.idx -win 50000 -step 10000  -outnames MODE/MODE.LR761675.1.minDP20.MinIND10.thetasWindow.gz
+~/bin/angsd/misc/thetaStat do_stat MODC/MODC.LR761675.1.minDP20.MinIND10.thetas.idx -win 50000 -step 10000  -outnames MODC/MODC.LR761675.1.minDP20.MinIND10.thetasWindow.gz
+~/bin/angsd/misc/thetaStat do_stat MUS/MUS.LR761675.1.minDP20.MinIND10.thetas.idx -win 50000 -step 10000  -outnames MUS/MUS.LR761675.1.minDP20.MinIND10.thetasWindow.gz
+
+```
