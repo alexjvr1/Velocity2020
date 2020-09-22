@@ -687,9 +687,11 @@ I recovered exactly the same loci for all three datasets (MODC, MODE, MUS) using
 2. Proportion of loci retained after filters? 34% (MUS) and >80% (MOD)
 
 
-#### Create SFS and fst estimates for these new files
+#### Create SFS and hence fst and diversity estimates for these new files
 
 On server 
+
+MODC vs MODE
 ```
 module load languages/gcc-6.1
 
@@ -719,11 +721,46 @@ win:1 step:1
 nSites:11521 (7%)
 ```
 
-And same for the MODC:MUS LRxx75 dataset
+##### same for LR75 dataset
+
+
+And same for the MODC:MODE LRxx75 dataset
+```
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MODE.LR75.minDP20.minInd10.sfs
+
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.LR761675.1.minDP20.MinIND10.fold.sfs -fold 1 -fstout MODC.MODE.LR75.minDP20.minIND10.fstout
+
+
+~/bin/angsd/misc/realSFS fst stats  MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming idxname:MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming .fst.gz file: MODC.MODE.LR75.minDP20.minIND10.fstout.fst.gz
+	-> FST.Unweight[nObs:5092573]:0.015304 Fst.Weight:0.131845
+0.015304	0.131845
+
+
+#using 5,092,713 sites from each pop (of 6196582bp = 82% coverage)
+
+##create fst for each bp 
+
+~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx -win 1 -step 2 > MODC.MODE.LR75.minDP20.minInd10.win1bp.fst 
+
+
+###Create fst output in windows for comparison with previous dataset
+
+~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx -win 50000 -step 10000 > MODC.MODE.LR75.minDP20.minInd10.win50k.step10k.fst
+
+###Create diversity estimate in windows
+
+
+```
+
+
+
+MODC:MUS LRxx75 dataset
 ```
 ~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MUS.LR75.minDP20.minInd10.fold.sfs
 
-~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MUS.LR75.minDP20.MinIND10.fold.sfs -fold 1 -fstout MODC.MUS.LR75.minDP20.minIND10.fstout
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MUS.LR75.minDP20.MinInd10.fold.sfs -fold 1 -fstout MODC.MUS.LR75.minDP20.minIND10.fstout
 
 
 ~/bin/angsd/misc/realSFS fst stats  MODC.MUS.LR75.minDP20.minIND10.fstout.fst.idx
@@ -738,7 +775,7 @@ MODE:MUS LRxx75
 ```
 ~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODE.MUS.LR75.minDP20.minInd10.fold.sfs
 
-~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODE.MUS.LR75.minDP20.MinIND10.fold.sfs -fold 1 -fstout MODE.MUS.LR75.minDP20.minIND10.fstout
+~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODE.MUS.LR75.minDP20.MinInd10.fold.sfs -fold 1 -fstout MODE.MUS.LR75.minDP20.minIND10.fstout
 
 
 ~/bin/angsd/misc/realSFS fst stats  MODE.MUS.LR75.minDP20.minIND10.fstout.fst.idx
