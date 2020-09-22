@@ -478,10 +478,19 @@ time $angsd -b $POP.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 
 
 And plot in R on the mac: 
 ```
-/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/SFS
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/SFS/Score.Mark
 
+Rscript script2.R MODE.CADCXM010000001.1.minDP2.old.beagle.gz MODE.minDP2.old.scorevec
+[1] "number of individuals is  40"
+[1] "maximum 'N_eff' is  34.6517613256096"
+[1] "minimum 'N_eff' is  0.599662013119725"
+
+
+##R
 library(dplyr)
-MODE.GL <- read.table(gzfile("../../SFS/MODE.CADCXM010000001.1.new.beagle.gz"), header=T)
+library(ggplot2)
+
+MODE.GL <- read.table(gzfile("../../SFS/MODE.CADCXM010000001.1.minDP2.old.beagle.gz"), header=T)
 
 head(MODE.GL)
                   marker allele1 allele2     Ind0   Ind0.1   Ind0.2     Ind1
@@ -502,31 +511,22 @@ MODE.GL.names$pos <- MODE.GL$marker
 MODE.GL.names$pos <- gsub("CADCXM010000001.1_", "", MODE.GL.names$pos)
 MODE.GL.names$pos <- as.numeric(MODE.GL.names$pos)
 
-#MODE.GL.sub <- (semi_join(MODE.GL.names, CDX.fst, by="pos")) #CDX.fst was created previously
-#MODE.GL.fstloci <- (semi_join(MODE.GL, MODE.GL.sub, by="marker"))  ##create the file with fst loci and depth
 
-MODE.fstloci.out <- read.table("../../SFS/MODE.fstloci.out", header=F) 
-head(MODE.fstloci.out)
-  V1        V2
-1  1 0.9999390
-2  2 0.9999390
-3  3 0.9999845
-4  4 0.9999695
-5  5 0.9999845
-6  6 0.9998780
+CDX.fst <- read.table("MODE.MODC.CDX01.window1step1.minDP2.old.fst", header=T) #read in Fst. Remember to add "fst" as header in the last column using nano
+colnames(CDX.fst) <- c("index", "marker", "pos", "N", "fst")
 
-colnames(MODE.fstloci.out)<- c("index", "fst")
-MODE.fstloci.out$pos <- as.numeric(gsub("CADCXM010000001.1_", "", MODE.fstloci.out$marker))
+MODE.score <- read.table("MODE.minDP2.old.scorevec", header=T)
+MODE.score$pos <- MODE.GL.names$pos  
+colnames(MODE.score) <- c("score", "pos")
 
-colnames(MODE.fstloci.out) <- c("index", "score", "marker", "pos")
-MODE.MODC.fst3 <- left_join(MODE.MODC.fst.complete, MODE.fstloci.out, by="pos")
+MODE.GL.sub <- left_join(CDX.fst, MODE.score, by="pos")
 
-ggplot(MODE.MODC.fst3, aes(y=fst, x=score))+ geom_point()
+ggplot(MODE.GL.sub, aes(y=fst, x=score))+ geom_point()
 ```
 
 ![alt_txt][score.fig]
 
-[score.fig]:https://user-images.githubusercontent.com/12142475/93469115-eddc6800-f8e7-11ea-83e9-117b3a26f73e.png
+[score.fig]:https://user-images.githubusercontent.com/12142475/93860526-21880b00-fcb7-11ea-8792-7d0ea5bafbfd.png
 
 
 
@@ -555,13 +555,14 @@ MODE.GL.names$pos <- MODE.GL$marker
 MODE.GL.names$pos <- gsub("CADCXM010000001.1_", "", MODE.GL.names$pos)
 MODE.GL.names$pos <- as.numeric(MODE.GL.names$pos)
 
-CDX.fst <- read.table("MODC.MODE.CDX.minDP20minInd10.win1bp.fst") #read in Fst.
+CDX.fst <- read.table("MODC.MODE.CDX.minDP20minInd10.win1bp.fst", header=T) #read in Fst. Remember to add "fst" as final column name in nano
+colnames(CDX.fst) <- c("index", "marker", "pos", "N", "fst")
 
-MODE.score <- read.table("MODE.minDP20.scorevec", header=T)
+MODE.score <- read.table("MODE.minDP20.scorevec", header=T)  ##calculated score
 MODE.score$pos <- MODE.GL.names$pos  
 colnames(MODE.score) <- c("score", "pos")
 
-MODE.GL.sub <- left_join(CDX.fst, MODE.score, by="pos")
+MODE.GL.sub <- left_join(CDX.fst, MODE.score, by="pos")   ##join right hand side df to left and keep all rows that overlap with left df (using pos)
 
 ggplot(MODE.GL.sub, aes(y=fst, x=score))+ geom_point()
 ```
