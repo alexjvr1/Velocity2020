@@ -287,8 +287,14 @@ forPCAmelt <- melt(forPCA, id.vars=c("V1","V2","pop")) #long data for ggplot
 
 e$values #find proportion explained by PC1 and PC2
 
-ggplot(forPCAmelt, aes(x=V1, y=V2, color=pop)) + geom_point()+ ggtitle("PCA:E3 (80% genotyping rate, 25k loci)") + xlab(paste("PC1:", e$values[1],"%", sep=""))+ ylab(paste("PC2: ",e$values[2],"%", sep=""))
+e$values[1]
+[1] 10.456
+e$values[2]
+[1] 4.618
 
+pdf(file="E3.PCA_0.8genotypingrate.pdf")
+ggplot(forPCAmelt, aes(x=V1, y=V2, color=pop)) + geom_point()+ ggtitle("PCA:E3 (80% genotyping rate, 25k loci)") + xlab(paste("PC1: 10.46%"))+ ylab(paste("PC2: 4.62%"))
+dev.off()
 
 
 ```
