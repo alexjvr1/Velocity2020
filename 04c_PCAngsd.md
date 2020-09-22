@@ -192,26 +192,66 @@ Create a new beagle file by combining all the cleaned data together. Join by sit
 
 ```
 library(dplyr)
+#library(compare) #to test if dfs have intersected correctly
 
-#Find markers that occur in all three datasets
-MODE.marker <- as.data.frame(MODE.GL.minDP20$marker)
+#Find markers that occur in all three cleaned datasets
+MODE.marker <- as.data.frame(MODE.GL.minDP20.clean$marker)
 colnames(MODE.marker) <- "marker"
 
-MODC.marker <- as.data.frame(MODC.GL.minDP20$marker)
+MODC.marker <- as.data.frame(MODC.GL.minDP20.clean$marker)
 colnames(MODC.marker) <- "marker"
 
-MUS.marker <- as.data.frame(MUS.GL.minDP20$marker)
+MUS.marker <- as.data.frame(MUS.GL.minDP20.clean$marker)
 colnames(MUS.marker) <- "marker"
 
-POP3clean.markers <- intersect(MUS.marker, MODE.marker, MODC.marker)
+POP2clean.markers <- intersect(MUS.marker, MODE.marker)  ##dplyr can only intersect 2 data frames at a time
+POP3clean.markers <- intersect(POP2clean.markers, MODC.marker)  
+
 dim(POP3clean.markers)
-[1] 46677     1
+[1] 29651     1
+
+#POP3clean.markers.test <- intersect(MUS.marker, MODE.marker, MODC.marker)  #not the same dimension as POPO3clean.markers.test, so this doesn't work correctly. 
+#compare(POP3clean.markers.test, POP3clean.markers) #allowAll=T to ignore col and row order
+#FALSE [FALSE]  
+
+##Subset each dataset to keep only the overlapping markers
+MODC.clean.sub  <- MODC.GL.minDP20.clean[which(MODC.GL.minDP20.clean$marker %in% POP3clean.markers$marker),]  
+MODE.clean.sub  <- MODE.GL.minDP20.clean[which(MODE.GL.minDP20.clean$marker %in% POP3clean.markers$marker),]
+MUS.clean.sub  <- MUS.GL.minDP20.clean[which(MUS.GL.minDP20.clean$marker %in% POP3clean.markers$marker),]
 
 ##Join datasets together
-3pops.clean <- 
+pops2.clean <- left_join(MODC.clean.sub, MODE.clean.sub, by="marker", suffix=c(".c", ".e"))
+pops3.clean <- left_join(pops2.clean, MUS.clean.sub, by="marker", suffix=c(".mod", ".mus"))
+
+##Rename individuals, but rememeber the population oder (MODC, MODE, MUS)
+cols.toremove <- as.data.frame(grep("allele", colnames(pops3.clean)))[-(1:2),] #find all the columns with "allele". We need to remove all but the first two
+[1]   112 113 213 214
+pops3.clean2  <- pops3.clean[-cols.toremove]
+
+ncol(pops3.clean2) #count the number of columns
+[1] 282
+
+#create a new vector with all the colnames. First 3 cols = "marker", "allele1", "allele2". Rest= indivs. The total=(ncol-3)/3
+pops3.names <- paste("Ind", rep((0:((ncol(pops3.clean2)-6)/3)), each=3), sep="")  #total indivs= [ncol(df)-6 (first 3 cols+ -3 because Ind name starts at 0)] % 3 (3 GLs for each indiv)
+appendix.pop3 <- paste(".",rep((as.character(c("0","1","2"))), times=93), sep="")  #we need to append .1 and .2 to the second and third col for each indiv
+pop3.names2 <- paste(pops3.names, appendix.pop3, sep="")  #append 
+pop3.names2 <- gsub(".0$", "", pop3.names2) #remove .0 from the first col for each indiv
+
+colnames(pops3.clean2) <- c("marker", "allele1", "allele2", pop3.names2) #rename colnames of the cleaned dataset
+
+colnames(pops3.clean2)  #check that this has worked
+  [1] "marker"  "allele1" "allele2" "Ind0"    "Ind0.1"  "Ind0.2"  "Ind1"   
+  [8] "Ind1.1"  "Ind1.2"  "Ind2"    "Ind2.1"  "Ind2.2"  "Ind3"    "Ind3.1" 
+ [15] "Ind3.2"  "Ind4"    "Ind4.1"  "Ind4.2"  "Ind5"    "Ind5.1"  "Ind5.2" 
+
+dim(pops3.clean2)
+[1] 29651   282
+
+write.table(pops3.clean2, "POPS3.clean.beagle", quote=F, sep="\t")
+
+ 
 
 
-##Keep only the markers that occur in all three
 
 
 ```
