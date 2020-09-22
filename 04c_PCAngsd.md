@@ -247,10 +247,47 @@ colnames(pops3.clean2)  #check that this has worked
 dim(pops3.clean2)
 [1] 29651   282
 
-write.table(pops3.clean2, "POPS3.clean.beagle", quote=F, sep="\t")
+write.table(pops3.clean2, "POPS3.clean.beagle", quote=F, sep="\t", row.names=F)
 
- 
+```
 
+
+# Run PCAdapt
+
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst
+
+module load languages/python-anaconda3-5.2.0
+
+python ~/software/pcangsd/pcangsd.py -h
+
+##gzip beagle file
+gzip *beagle
+
+
+##calculate the covariance matrix
+python ~/software/pcangsd/pcangsd.py -beagle *beagle.gz -o test1 -threads 10
+
+#download to mac and plot in R
+
+pwd /Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/PCAngsd/PCA.minInd10.minDP20
+
+scp bluecp:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/test1.cov .
+
+#open R
+library(reshape2)
+library(ggplot2)
+
+C <- as.matrix(read.table("test1.cov"))
+e <- eigen(C)
+
+forPCA <- as.data.frame(e$vectors)
+forPCA$pop <- paste(rep(c("MODC", "MODE", "MUS"), times=c(36, 33,24)))  #popnames - get numbers and order from beagle files and order in which they were combined above
+forPCAmelt <- melt(forPCA, id.vars=c("V1","V2","pop")) #long data for ggplot
+
+e$values #find proportion explained by PC1 and PC2
+
+ggplot(forPCAmelt, aes(x=V1, y=V2, color=pop)) + geom_point()+ ggtitle("PCA:E3 (80% genotyping rate, 25k loci)") + xlab(paste("PC1:", e$values[1],"%", sep=""))+ ylab(paste("PC2: ",e$values[2],"%", sep=""))
 
 
 
