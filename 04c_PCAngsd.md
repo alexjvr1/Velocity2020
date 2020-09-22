@@ -298,3 +298,7 @@ dev.off()
 
 
 ```
+
+![alt_txt][PCA]
+
+[PCA]:https://user-images.githubusercontent.com/12142475/93890552-5d849580-fce2-11ea-8919-80c4bf7d59e9.png
