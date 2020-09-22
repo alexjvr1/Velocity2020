@@ -760,7 +760,7 @@ MODC:MUS LRxx75 dataset
 ```
 ~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MUS.LR75.minDP20.minInd10.fold.sfs
 
-~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MUS.LR75.minDP20.MinInd10.fold.sfs -fold 1 -fstout MODC.MUS.LR75.minDP20.minIND10.fstout
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MUS.LR75.minDP20.minInd10.fold.sfs -fstout MODC.MUS.LR75.minDP20.minIND10.fstout
 
 
 ~/bin/angsd/misc/realSFS fst stats  MODC.MUS.LR75.minDP20.minIND10.fstout.fst.idx
