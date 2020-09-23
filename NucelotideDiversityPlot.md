@@ -73,5 +73,26 @@ MUS.div$tW.rat <- MUS.div$tW/MUS.div$nSites
 ##combine into one dataset and melt to plot with ggplot
 library(dplyr)
 
-Pop3.NucDiv <- left_join()
+Pop3.NucDiv <- left_join(MODE.div, MODC.div, by="WinCenter", suffix=c(".e", ".c"))
+Pop3.NucDiv <- left_join(Pop3.NucDiv, MUS.div, by="WinCenter", suffix=c(".mod", ".mus"))
+NucDiv.melt <- melt(Pop3.NucDiv, id.vars=c("WinCenter", "tW.rat.c", "tW.rat.e", "tW.rat"))
+colnames(NucDiv.melt) <- c("WinCenter", "MODC", "MODE", "MUS", "variable", "value")
+NucDiv.melt2 <- (melt(NucDiv.melt[,2:4]))
+
+pdf("E3.tW.minDP20.minInd10.pdf")
+ggplot(NucDiv.melt2, aes(x=value, fill=variable)) + geom_histogram(alpha=0.6, bins=30) + scale_fill_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))+ggtitle("Watterson's theta for Ringlet: LR75")+xlab("Watterson's theta")+ylab("frequency")
+dev.off()
+
+```
+
+![alt_txt][tW]
+
+[tW]:https://user-images.githubusercontent.com/12142475/94013602-368d9880-fda2-11ea-8b04-70e9d4c29a9a.png
+
+
+```
+##And plot tW across the chromosome for each population
+
+
+
 ```
