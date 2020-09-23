@@ -824,4 +824,56 @@ Estimate diversity measures for each of the cleaned pops and LR75
 ~/bin/angsd/misc/thetaStat do_stat MODC/MODC.LR761675.1.minDP20.MinIND10.thetas.idx -win 50000 -step 10000  -outnames MODC/MODC.LR761675.1.minDP20.MinIND10.thetasWindow.gz
 ~/bin/angsd/misc/thetaStat do_stat MUS/MUS.LR761675.1.minDP20.MinIND10.thetas.idx -win 50000 -step 10000  -outnames MUS/MUS.LR761675.1.minDP20.MinIND10.thetasWindow.gz
 
+#And to plot against depth: 
+~/bin/angsd/misc/thetaStat do_stat MODE/MODE.LR761675.1.minDP20.MinIND10.thetas.idx -win 1 -step 1  -outnames MODE/MODE.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz
+~/bin/angsd/misc/thetaStat do_stat MODC/MODC.LR761675.1.minDP20.MinIND10.thetas.idx -win 1 -step 1  -outnames MODC/MODC.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz
+~/bin/angsd/misc/thetaStat do_stat MUS/MUS.LR761675.1.minDP20.MinIND10.thetas.idx -win 1 -step 1  -outnames MUS/MUS.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz
+
+
 ```
+
+
+
+Plot against depth 
+```
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/M*.LR761675.1.minDP20.MinIND10.pos.gz  .
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/M*win1.step1.thetasWindow.gz.pestPG  .
+##Delete after using as they're really big files
+
+
+##R
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+
+MUS.count <- read.table(gzfile("MUS.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MODE.count <- read.table(gzfile("MODE.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MODC.count <- read.table(gzfile("MODC.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+
+#remember to remove the #from the header in nano to read the headers into  R
+#If the file is very big it'll be better to use sed:
+#sed -i 's/^#//' *pestPG
+MUS.div <- read.table("MUS*pestPG", header=T)
+MODC.div <- read.table("MODC.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=T)
+MODE.div <- read.table("MODE.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=T)
+
+MUS <- left_join(MUS.div, MUS.count, by="pos")
+MODC <- left_join(MODC.div, MODC.count, by="pos")
+MODE <- left_join(MODE.div, MODE.count, by="pos")
+
+pdf("E3.tWvsDepth.pdf")
+ggplot(MUS[1:100000,], aes(x=totDepth, y=tW))+geom_point()+ggtitle("tW vs Depth, 1M loci: MUS")
+ggplot(MODC[1:100000,], aes(x=totDepth, y=tW))+geom_point()+ggtitle("tW vs Depth, 1M loci: MODC")
+ggplot(MODE[1:100000,], aes(x=totDepth, y=tW))+geom_point()+ggtitle("tW vs Depth, 1M loci: MODE")
+dev.off()
+```
+
+
+![alt_txt][tWvsDepth.MUS]
+
+[tWvsDepth.MUS]:https://user-images.githubusercontent.com/12142475/94028045-6a24ee80-fdb3-11ea-817a-6f0f822bf4c5.png
+
+Low depth does not seem to be a problem. But I need to adjust my maxDP filter. 
+
+
+
