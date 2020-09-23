@@ -701,7 +701,7 @@ module load languages/gcc-6.1
 ~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.minDP20.MinIND10.saf.idx MODE/MODE.CADCXM010000001.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MODE.CDX.minDP20.minInd10.sfs
 
 #Use the folded SFS and unfolded SAFs to prepare inputs for Fst calculation
-#realSFS fst index pop1.unfolded.saf.idx pop2.unfolded.saf.idx -sfs folded.sfs -fold 1 -fstout persite
+#realSFS fst index pop1.unfolded.saf.idx pop2.unfolded.saf.idx -sfs folded.sfs -fstout persite
 
 ~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.minDP20.MinIND10.saf.idx MODE/MODE.CADCXM010000001.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.CDX.minDP20.minInd10.sfs -fold 1 -fstout MODC.MODE.CDX.minDP20.minInd10.persite
 
@@ -728,7 +728,7 @@ And same for the MODC:MODE LRxx75 dataset
 ```
 ~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MODE.LR75.minDP20.minInd10.sfs
 
-~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.LR761675.1.minDP20.MinIND10.fold.sfs -fold 1 -fstout MODC.MODE.LR75.minDP20.minIND10.fstout
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MODE.LR761675.1.minDP20.MinIND10.fold.sfs -fstout MODC.MODE.LR75.minDP20.minIND10.fstout
 
 
 ~/bin/angsd/misc/realSFS fst stats  MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx
@@ -749,9 +749,7 @@ And same for the MODC:MODE LRxx75 dataset
 
 ~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx -win 50000 -step 10000 > MODC.MODE.LR75.minDP20.minInd10.win50k.step10k.fst
 
-###Create diversity estimate in windows
-
-
+#using 5,092,713 sites from each pop (of 6196582bp = 82% coverage)
 ```
 
 
@@ -760,13 +758,21 @@ MODC:MUS LRxx75 dataset
 ```
 ~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC.MUS.LR75.minDP20.minInd10.fold.sfs
 
-~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MUS.LR75.minDP20.minInd10.fold.sfs -fstout MODC.MUS.LR75.minDP20.minIND10.fstout
+#index for fst calculation
+~/bin/angsd/misc/realSFS fst index MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -sfs MODC.MUS.LR75.minDP20.minInd10.fold.sfs -fstout MODC.MUS.LR75.minDP20.minIND10.fstout
 
-
+#global fst
 ~/bin/angsd/misc/realSFS fst stats  MODC.MUS.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming idxname:MODC.MUS.LR75.minDP20.minIND10.fstout.fst.idx
+	-> Assuming .fst.gz file: MODC.MUS.LR75.minDP20.minIND10.fstout.fst.gz
+	-> FST.Unweight[nObs:2084592]:0.018912 Fst.Weight:0.074859
+0.018912	0.074859
 
 
-#using 5,092,713 sites from each pop (of 6196582bp = 82% coverage)
+#window based fst
+~/bin/angsd/misc/realSFS fst stats2 MODC.MUS.LR75.minDP20.minIND10.fstout.fst.idx -win 50000 -step 10000 > MODC.MUS.LR75.minDP20.minInd10.win50k.step10k.fst
+
+#using 2,084,592 sites from each pop (of 6196582bp = 33% coverage)
 
 
 ```
@@ -791,7 +797,7 @@ MODE:MUS LRxx75
 ~/bin/angsd/misc/realSFS fst stats2 MODE.MUS.LR75.minDP20.minIND10.fstout.fst.idx -win 50000 -step 10000 > MODE.MUS.LR75.minDP20.minInd10.win50k.step10k.fst
 
 win:50000 step:10000
-nSites:2079057
+nSites:2079057 (~33% coverage of genome)
 
 ```
 
