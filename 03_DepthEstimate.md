@@ -365,7 +365,7 @@ colnames(MODC.MUS.fst)[4]<- "fst"
 
 MODE.MUS.fst <- read.table("MODE.MUS.LR75.minDP20.minIND10.win1.step2.fst", header=T)
 colnames(MODE.MUS.fst)[2]<- "pos" #change headers so that "pos" header is in all files
-colnames(MODE.MUS.fst)[2]<- "fst"
+colnames(MODE.MUS.fst)[4]<- "fst"
 
 MUS <- read.table(gzfile("../DiversityVsDepth/MUS.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
 MODE <- read.table(gzfile("../DiversityVsDepth/MODE.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
@@ -376,27 +376,107 @@ MODC$pop <- "MODC"
 MUS$pop <- "MUS"
 
 ##MODC.MODE
+#df1
+MODE.MODC <- bind_rows(MODE, MODC) ##use dplyr to join the two tables together
+MODE.MODC1.fst <- left_join(MODE.MODC, MODC.MODE.fst, by="pos")
+MODE.MODC1.fst <- MODE.MODC1.fst[complete.cases(MODE.MODC1.fst),]
+
+#df2
 MODC.MODE2 <- left_join(MODC, MODE, by="pos", suffix=c(".C", ".E")) ##use dplyr to join the two tables together
 MODC.MODE2.fst <- left_join(MODC.MODE2, MODC.MODE.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
 
-#MODC.MODE2.fst <- MODC.MODE2.fst[complete.cases(MODC.MODE2.fst),]
 
 
 #Plot depth vs fst
-#plot fst and depth across the contig
+ggplot(MODE.MODC1.fst[which(MODE.MODC1.fst$pos<100000&MODE.MODC1.fst$totDepth<300),], aes(x=totDepth, y=fst, color=pop))+geom_point()
+
+#Plot fst and depth across the contig
 #First I'm plotting fst vs pos for each pop, and colouring by depth. 
 
-ggplot(MODC.MODE2.fst[1:10000,], aes(x=pos, y=fst, col=totDepth.E))+geom_point()
+ggplot(MODC.MODE2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.E))+geom_point()
 par(new=TRUE)
-ggplot(MODC.MODE2.fst[1:10000,], aes(x=pos, y=fst, col=totDepth.C))+geom_point()
+ggplot(MODC.MODE2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.C))+geom_point()
+
 
 ##MODC.MUS
-MODC.MUS.fst <- read.table("", header=T)
-colnames(MODC.MUS.fst)<- c("region", "chr", "pos", "Nsites", "fst") #change headers so that "pos" header is in all files
+#df1
+MODC.MUS <- bind_rows(MODC, MUS) ##use dplyr to join the two tables together
+MODC.MUS1.fst <- left_join(MODC.MUS, MODC.MUS.fst, by="pos")
+MODC.MUS1.fst <- MODC.MUS1.fst[complete.cases(MODC.MUS1.fst),]
 
+#df2
+MODC.MUS2 <- left_join(MODC, MUS, by="pos", suffix=c(".C", ".M")) ##use dplyr to join the two tables together
+MODC.MUS2.fst <- left_join(MODC.MUS2, MODC.MUS.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
+
+
+
+#Plot depth vs fst
+ggplot(MODC.MUS1.fst[which(MODC.MUS1.fst$pos<100000&MODC.MUS1.fst$totDepth<100),], aes(x=totDepth, y=fst, color=pop))+geom_point()
+
+#Plot fst and depth across the contig
+#First I'm plotting fst vs pos for each pop, and colouring by depth. 
+
+ggplot(MODC.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.C))+geom_point()
+par(new=TRUE)
+ggplot(MODC.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.M))+geom_point()
 
 ##MODE.MUS
+#df1
+MODE.MUS <- bind_rows(MODE, MUS) ##use dplyr to join the two tables together
+MODE.MUS1.fst <- left_join(MODE.MUS, MODE.MUS.fst, by="pos")
+MODE.MUS1.fst <- MODE.MUS1.fst[complete.cases(MODE.MUS1.fst),]
+
+#df2
+MODE.MUS2 <- left_join(MODE, MUS, by="pos", suffix=c(".E", ".M")) ##use dplyr to join the two tables together
+MODE.MUS2.fst <- left_join(MODE.MUS2, MODE.MUS.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
+
+
+
+#Plot depth vs fst
+ggplot(MODE.MUS1.fst[which(MODE.MUS1.fst$pos<100000&MODE.MUS1.fst$totDepth<150),], aes(x=totDepth, y=fst, color=pop))+geom_point()
+
+#Plot fst and depth across the contig
+#First I'm plotting fst vs pos for each pop, and colouring by depth. 
+
+ggplot(MODE.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.E))+geom_point()
+par(new=TRUE)
+ggplot(MODE.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.M))+geom_point()
+
 ```
+
+![alt_txt][fst.depth.plot1]
+
+[fst.depth.plot1]:https://user-images.githubusercontent.com/12142475/94037206-08698200-fdbd-11ea-82eb-9ea3a9942abc.png
+
+![alt_txt][fst.depth.plot2]
+
+[fst.depth.plot2]:https://user-images.githubusercontent.com/12142475/94038070-f2a88c80-fdbd-11ea-823a-ac954e9ccf44.png
+
+![alt_txt][fst.depth.plot3]
+
+[fst.depth.plot3]:https://user-images.githubusercontent.com/12142475/94038089-f76d4080-fdbd-11ea-9f69-b79fb9e4ad32.png
+
+
+![alt_txt][fst.depth.plot4]
+
+[fst.depth.plot4]:https://user-images.githubusercontent.com/12142475/94038194-12d84b80-fdbe-11ea-98e9-9ece4d1f3fc9.png
+
+![alt_txt][fst.depth.plot5]
+
+[fst.depth.plot5]:https://user-images.githubusercontent.com/12142475/94038421-52069c80-fdbe-11ea-816a-32a2ee7a2200.png
+
+![alt_txt][fst.depth.plot6]
+
+[fst.depth.plot6]:https://user-images.githubusercontent.com/12142475/94038430-5468f680-fdbe-11ea-8627-d89661e5172e.png
+
+
+![alt_txt][fst.depth.plot7]
+
+[fst.depth.plot7]:https://user-images.githubusercontent.com/12142475/94038945-03a5cd80-fdbf-11ea-8cf3-9bd45dbca6e8.png
+
+![alt_txt][fst.depth.plot8]
+
+[fst.depth.plot8]:https://user-images.githubusercontent.com/12142475/94038956-056f9100-fdbf-11ea-8124-863e39c02193.png
 
 
 #### 2. nucleotide diversity
