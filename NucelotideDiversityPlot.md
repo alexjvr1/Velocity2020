@@ -108,6 +108,6 @@ ggplot(NucDiv.melt2, aes(x=WinCenter, y=value, color=variable))+geom_line()+scal
 dev.off()
 ```
 
-![alt_txt][tW]
+![alt_txt][tW2]
 
-[tW]:https://user-images.githubusercontent.com/12142475/94015633-0b587880-fda5-11ea-8581-b4fa275dffbd.png
+[tW2]:https://user-images.githubusercontent.com/12142475/94015633-0b587880-fda5-11ea-8581-b4fa275dffbd.png
