@@ -333,6 +333,72 @@ It looks like <50x produces Fst > 0.4. I need to rerun SFS estimates with:
 2) Problematic indivs removed
 
 
+##### Fst vs Depth for filtered dataset: LR75
+
+```
+#On server: calculate fst per bp
+
+~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.LR75.minDP20.minIND10.fstout.fst.idx  -win 1 -step 2 > MODC.MODE.LR75.minDP20.minIND10.win1.step2.fst 
+~/bin/angsd/misc/realSFS fst stats2 MODC.MUS.LR75.minDP20.minIND10.fstout.fst.idx -win 1 -step 2 > MODC.MUS.LR75.minDP20.minIND10.win1.step2.fst 
+~/bin/angsd/misc/realSFS fst stats2 MODE.MUS.LR75.minDP20.minIND10.fstout.fst.idx -win 1 -step 2 > MODE.MUS.LR75.minDP20.minIND10.win1.step2.fst
+
+
+
+##On Mac
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DepthEstimates/FstVsDepth
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/*step2.fst .
+
+
+#In R
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+
+#Read in all data
+MODC.MODE.fst <- read.table("MODC.MODE.LR75.minDP20.minIND10.win1.step2.fst", header=T)
+colnames(MODC.MODE.fst)[2]<- "pos" #change headers so that "pos" header is in all files
+colnames(MODC.MODE.fst)[4]<- "fst"
+
+MODC.MUS.fst <- read.table("MODC.MUS.LR75.minDP20.minIND10.win1.step2.fst", header=T)
+colnames(MODC.MUS.fst)[2]<- "pos" #change headers so that "pos" header is in all files
+colnames(MODC.MUS.fst)[4]<- "fst"
+
+MODE.MUS.fst <- read.table("MODE.MUS.LR75.minDP20.minIND10.win1.step2.fst", header=T)
+colnames(MODE.MUS.fst)[2]<- "pos" #change headers so that "pos" header is in all files
+colnames(MODE.MUS.fst)[2]<- "fst"
+
+MUS <- read.table(gzfile("../DiversityVsDepth/MUS.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MODE <- read.table(gzfile("../DiversityVsDepth/MODE.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MODC <- read.table(gzfile("../DiversityVsDepth/MODC.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+
+MODE$pop <- "MODE"
+MODC$pop <- "MODC"
+MUS$pop <- "MUS"
+
+##MODC.MODE
+MODC.MODE2 <- left_join(MODC, MODE, by="pos", suffix=c(".C", ".E")) ##use dplyr to join the two tables together
+MODC.MODE2.fst <- left_join(MODC.MODE2, MODC.MODE.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
+
+#MODC.MODE2.fst <- MODC.MODE2.fst[complete.cases(MODC.MODE2.fst),]
+
+
+#Plot depth vs fst
+#plot fst and depth across the contig
+#First I'm plotting fst vs pos for each pop, and colouring by depth. 
+
+ggplot(MODC.MODE2.fst[1:10000,], aes(x=pos, y=fst, col=totDepth.E))+geom_point()
+par(new=TRUE)
+ggplot(MODC.MODE2.fst[1:10000,], aes(x=pos, y=fst, col=totDepth.C))+geom_point()
+
+##MODC.MUS
+MODC.MUS.fst <- read.table("", header=T)
+colnames(MODC.MUS.fst)<- c("region", "chr", "pos", "Nsites", "fst") #change headers so that "pos" header is in all files
+
+
+##MODE.MUS
+```
+
+
 #### 2. nucleotide diversity
 
 Estimate thetas for each population (Still using CADX..01)
