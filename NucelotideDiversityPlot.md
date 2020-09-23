@@ -103,7 +103,9 @@ head(NucDiv.melt2)
 5     75000     MODC 0.005200878
 6     85000     MODC 0.005375766
 
+pdf("E3.tW_linegraph.pdf")
 ggplot(NucDiv.melt2, aes(x=WinCenter, y=value, color=variable))+geom_line()+scale_color_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))+ggtitle("Watterson's theta for Ringlet: LR75")+xlab("LR75 position (bp)")+ylab("Watterson's theta")
+dev.off()
 ```
 
 ![alt_txt][tW]
