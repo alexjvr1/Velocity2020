@@ -110,4 +110,4 @@ dev.off()
 
 ![alt_txt][tW]
 
-[tW]:https://user-images.githubusercontent.com/12142475/94015478-d5b38f80-fda4-11ea-8553-3c73f2df3a1d.png
+[tW]:https://user-images.githubusercontent.com/12142475/94015633-0b587880-fda5-11ea-8581-b4fa275dffbd.png
