@@ -111,3 +111,11 @@ dev.off()
 ![alt_txt][tW2]
 
 [tW2]:https://user-images.githubusercontent.com/12142475/94015633-0b587880-fda5-11ea-8581-b4fa275dffbd.png
+
+### Use Adobe Illustrator to turn these into a pretty plot
+
+![alt_txt][E3.tWFig]
+
+[E3.tWFig]:https://user-images.githubusercontent.com/12142475/94018753-d77f5200-fda8-11ea-85e6-ce7b1c51f24d.png
+
+
