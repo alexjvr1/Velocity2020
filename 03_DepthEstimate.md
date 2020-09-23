@@ -442,6 +442,14 @@ ggplot(MODE.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.E))+geom_point()
 par(new=TRUE)
 ggplot(MODE.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.M))+geom_point()
 
+
+#Adjust dataset to see if lower depth affects Fst
+MODE.MUS2.fst.sub <- MODE.MUS2.fst[which(MODE.MUS2.fst$totDepth.E<150),]
+ggplot(MODE.MUS2.fst.sub[1:100000,], aes(x=pos, y=fst, col=totDepth.E))+geom_point()
+
+MODE.MUS2.fst.sub <- MODE.MUS2.fst[which(MODE.MUS2.fst$totDepth.M<50),]
+ggplot(MODE.MUS2.fst.sub[1:100000,], aes(x=pos, y=fst, col=totDepth.M))+geom_point()
+
 ```
 
 ![alt_txt][fst.depth.plot1]
@@ -477,6 +485,13 @@ ggplot(MODE.MUS2.fst[1:100000,], aes(x=pos, y=fst, col=totDepth.M))+geom_point()
 ![alt_txt][fst.depth.plot8]
 
 [fst.depth.plot8]:https://user-images.githubusercontent.com/12142475/94038956-056f9100-fdbf-11ea-8124-863e39c02193.png
+
+
+##### Lower Depth plots
+
+![alt_txt][fst.depth.plot9]
+
+[fst.depth.plot9]:https://user-images.githubusercontent.com/12142475/94039898-34d2cd80-fdc0-11ea-8e0d-60b361bd52b3.png
 
 
 #### 2. nucleotide diversity
