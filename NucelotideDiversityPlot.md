@@ -105,3 +105,7 @@ head(NucDiv.melt2)
 
 ggplot(NucDiv.melt2, aes(x=WinCenter, y=value, color=variable))+geom_line()+scale_color_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))+ggtitle("Watterson's theta for Ringlet: LR75")+xlab("LR75 position (bp)")+ylab("Watterson's theta")
 ```
+
+![alt_txt][tW]
+
+[tW]:https://user-images.githubusercontent.com/12142475/94015287-8ff6c700-fda4-11ea-85d4-dd866291d682.png
