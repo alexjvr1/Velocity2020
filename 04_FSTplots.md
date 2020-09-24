@@ -83,13 +83,13 @@ library(dplyr)
 fstALL <- bind_rows(fstMODC.MODE, fstMODC.MUS)
 fstALL <- bind_rows(fstALL, fstMODE.MUS)
 
-ggplot(fstALL[which(fstALL$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_line() + scale_color_manual(values=setNames(c("#2E8B57", "#DAA520", "#B0C4DE"), c("MODC.MODE", "MODC.MUS", "MODE.MUS")))+ggtitle("ModC vs Exp and MUS. LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+ggplot(fstALL[which(fstALL$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_line() + scale_color_manual(values=setNames(c("#2E8B57", "#DAA520", "#B0C4DE"), c("MODC.MODE", "MODC.MUS", "MODE.MUS")))+ggtitle("Ringlet population pairwise Fst: LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
 
 ```
 
 ![alt_txt][Fst.all]
 
-[Fst.all]:https://user-images.githubusercontent.com/12142475/94145450-78821180-fe6a-11ea-9e66-321fa5aff7de.png
+[Fst.all]:https://user-images.githubusercontent.com/12142475/94160912-0ff06000-fe7d-11ea-878d-141d50295df9.png
 
 
 
