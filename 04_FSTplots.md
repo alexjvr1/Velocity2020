@@ -20,6 +20,8 @@ See [Initial Test plots](https://github.com/alexjvr1/Velocity2020/blob/master/04
 
 ## Initial test plots
 
+These plots were made using the previous filters (min global depth 2X and no minInd filter)
+
 ```
 alexjvr/2020.postdoc/Velocity/E3/Test.ANGSDstats/
 ```
