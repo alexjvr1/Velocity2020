@@ -60,15 +60,29 @@ fstMODE.MUS <- read.table("MODE.MUS.LR75.minDP20.minInd10.win50k.step10k.fst", h
 ggplot(fstMODE.MUS[which(fstMODE.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_point() + scale_fill_manual(values=c("#2E8B57", "#DAA520"))+ ggtitle("Mod Exp vs Museum LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
 ```
 
+Comparison with previous plots
+
+![][]
+
+[]:
+
+
+
 
 ### E3ALL
 ```
-library(ggplot2)
+library(dplyr)
 
-fstMODE.MUS <- read.table("MODE.MUS.LR75.minDP20.minInd10.win50k.step10k.fst", header=T)
+fstALL <- bind_rows(fstMODC.MODE, fstMODC.MUS)
+fstALL <- bind_rows(fstALL, fstMODE.MUS)
 
-ggplot(fstMODE.MUS[which(fstMODE.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_point() + scale_fill_manual(values=c("#2E8B57", "#DAA520"))+ ggtitle("Mod Exp vs Museum LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+ggplot(fstALL[which(fstALL$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_line() + scale_color_manual(values=setNames(c("#2E8B57", "#DAA520", "#B0C4DE"), c("MODC.MODE", "MODC.MUS", "MODE.MUS")))+ggtitle("ModC vs Exp and MUS. LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+
 ```
+
+![alt_txt][Fst.all]
+
+[Fst.all]:https://user-images.githubusercontent.com/12142475/94145450-78821180-fe6a-11ea-9e66-321fa5aff7de.png
 
 
 
