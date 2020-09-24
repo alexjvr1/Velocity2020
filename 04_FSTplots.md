@@ -1,7 +1,21 @@
 # Plot Space vs time
 
-Initial 
+Plotting for three comparisons: 
 
+1: [MODC:MODE]()
+
+2: [MODC:MUS]()
+
+3. [MODE:MUS]()
+
+See [Initial Test plots](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#initial-test-plots) below
+
+
+## MODC:MODE
+
+## MODC:MUS
+
+## MODE:MUS
 
 
 ## Initial test plots
