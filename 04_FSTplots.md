@@ -62,10 +62,17 @@ ggplot(fstMODE.MUS[which(fstMODE.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst, 
 
 Comparison with previous plots
 
-![][]
+Top = new, filtered dataset. Bottom = previous plots (minDP 2x)
 
-[]:
+![alt_txt][MODCvsMODE.old]
 
+[MODCvsMODE.old]:https://user-images.githubusercontent.com/12142475/94155559-f9dfa100-fe76-11ea-8371-255c2e0c0a48.png
+
+
+
+![alt_txt][MODCvsMUS.old]
+
+[MODCvsMUS.old]:https://user-images.githubusercontent.com/12142475/94155693-25fb2200-fe77-11ea-8554-618176a24dbf.png
 
 
 
