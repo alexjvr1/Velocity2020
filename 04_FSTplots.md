@@ -4,7 +4,7 @@ Initial
 
 
 
-### Initial test plots
+## Initial test plots
 
 ```
 alexjvr/2020.postdoc/Velocity/E3/Test.ANGSDstats/
