@@ -2,11 +2,11 @@
 
 Plotting for three comparisons: 
 
-1: [MODC:MODE]()
+1: [MODC:MODE](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#modcmode)
 
-2: [MODC:MUS]()
+2: [MODC:MUS](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#modcmus)
 
-3. [MODE:MUS]()
+3. [MODE:MUS](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#modemus)
 
 See [Initial Test plots](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#initial-test-plots) below
 
