@@ -1,5 +1,17 @@
 # Plot Space vs time
 
+Initial 
+
+
+
+### Initial test plots
+
+```
+alexjvr/2020.postdoc/Velocity/E3/Test.ANGSDstats/
+```
+
+
+
 MOD core vs exp
 ```
 p2 <- ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761674.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("Mod Core vs Mus LR761674.1 - PX02") +  theme(axis.title.x = element_blank())
