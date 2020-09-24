@@ -2,6 +2,8 @@
 
 Plotting for three comparisons: 
 
+Filtered Fst plots: 
+
 1. [MODC:MODE](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#modcmode)
 
 2. [MODC:MUS](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#modcmus)
@@ -11,11 +13,64 @@ Plotting for three comparisons:
 See [Initial Test plots](https://github.com/alexjvr1/Velocity2020/blob/master/04_FSTplots.md#initial-test-plots) below
 
 
-## MODC:MODE
 
-## MODC:MUS
+## Filtered Fst plots
 
-## MODE:MUS
+Plots based on min global depth 20X and minInd 10X (ie mnin 2X each)
+
+On mac
+```
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/FstPlots
+
+
+##copy sliding window fst from the server 
+
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/*10k.fst .
+
+#Add "fst" to header in each file
+```
+
+
+### MODC:MODE
+
+```
+library(ggplot2)
+
+fstMODC.MODE <- read.table("MODC.MODE.LR75.minDP20.minInd10.win50k.step10k.fst", header=T)
+
+ggplot(fstMODC.MODE[which(fstMODC.MODE$chr=="LR761675.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("Mod Core vs Expanding LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+```
+
+### MODC:MUS
+```
+library(ggplot2)
+
+fstMODC.MUS <- read.table("MODC.MUS.LR75.minDP20.minInd10.win50k.step10k.fst", header=T)
+
+ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst)) + geom_point() + ggtitle("Mod Core vs Museum LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+```
+
+
+### MODE:MUS
+```
+library(ggplot2)
+
+fstMODE.MUS <- read.table("MODE.MUS.LR75.minDP20.minInd10.win50k.step10k.fst", header=T)
+
+ggplot(fstMODE.MUS[which(fstMODE.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_point() + scale_fill_manual(values=c("#2E8B57", "#DAA520"))+ ggtitle("Mod Exp vs Museum LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+```
+
+
+### E3ALL
+```
+library(ggplot2)
+
+fstMODE.MUS <- read.table("MODE.MUS.LR75.minDP20.minInd10.win50k.step10k.fst", header=T)
+
+ggplot(fstMODE.MUS[which(fstMODE.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_point() + scale_fill_manual(values=c("#2E8B57", "#DAA520"))+ ggtitle("Mod Exp vs Museum LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
+```
+
+
 
 
 ## Initial test plots
