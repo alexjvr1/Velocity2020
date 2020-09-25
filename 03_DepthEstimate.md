@@ -213,6 +213,8 @@ I've set a minDepth per individual at a locus (2x), but no minInd filter for thi
 
 ANGSD calculates Fst in windows. To correlate to depth per position I'll make the windows really small. 
 
+For when to use -fold see [here](https://github.com/ANGSD/angsd/issues/259) 
+
 ```
 #GLs and SAF have previously been estimated for the whole genome. 
 #Data on bluecrystal:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/
@@ -221,10 +223,12 @@ ANGSD calculates Fst in windows. To correlate to depth per position I'll make th
 module load languages/gcc-6.1
 
 #call realSFS from ANGSD to estimate 2D-SFS
-~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx > MODC.MODE.CDX01.ml
+#we need to calculate the FOLDED sfs and then specify folded SFS for the fst index. 
+
+~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -fold 1 > MODC.MODE.CDX01.ml
 
 #prepare for window-based analysis by indexing
-~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -sfs MODC.MODE.CDX01.ml -fstout CDX01.here
+~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -sfs MODC.MODE.CDX01.ml -fold 1 -fstout CDX01.here
 
 #The global Fst is similar to that found for LR75 (unw:0.020322; w:0.126046)
 ~/bin/angsd/misc/realSFS fst stats CDX01.here.fst.idx 
