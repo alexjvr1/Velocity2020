@@ -213,7 +213,11 @@ I've set a minDepth per individual at a locus (2x), but no minInd filter for thi
 
 ANGSD calculates Fst in windows. To correlate to depth per position I'll make the windows really small. 
 
-For when to use -fold see [here](https://github.com/ANGSD/angsd/issues/259) 
+For when to use -fold see [here](https://github.com/ANGSD/angsd/issues/259). 
+
+We need to use -fold when 1) calculating the 2Dsfs AND 2) the fst (fst index pop1.saf.idx pop2.saf.idx -sfs 2Dsfs.idx -fold 1 -fstout pop1.pop2.fold.fst)
+
+Leaving -fold 1 out in the second part changes the final Fst. 
 
 ```
 #GLs and SAF have previously been estimated for the whole genome. 
