@@ -1046,3 +1046,20 @@ Low depth does not seem to be a problem. But I need to adjust my maxDP filter.
 
 
 
+## MaxDepth
+
+I need a filter for maxDP as well.
+
+The maxDP cut-off I usually use is meanDP + (2xSD of depth). 
+
+Heng Li has found a correlation between depth and site quality [preprint here](http://arxiv.org/pdf/1404.0929.pdf), and a full blog post on Blue Collar Bioinformatics [here](http://bcb.io/2014/05/12/wgs-trio-variant-evaluation/). 
+
+"In short, with whole genome samples, it was found that high coverage can lead to inflated locus quality scores. Heng proposed that for read depths greater than the mean depth plus 2-3 times the square root of mean depth that the quality score will be twice as large as the depth in real variants and below that value for false variants."
+quoted from the [ddocent site by Jonathan Puritz](http://bcb.io/2014/05/12/wgs-trio-variant-evaluation/)
+
+To check that my filters are appropriate I'll plot depth vs sequence quality: 
+
+```
+
+
+```
