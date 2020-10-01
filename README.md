@@ -641,30 +641,13 @@ ANGSD estimates depth using the -doCounts 1 -doDepth 1 -dumpCounts 2
 
 .counts.gz = depth per individual per site. Columns = indivs, Rows = sites
 .pos.gz = totalDepth per site across all indivs. 
-```
-
-```
 
 
-Mean depth per sample
-```
-
-```
-
-Mean depth per site
-```
-
-
-```
-
-###### 2. Plot
-```
-
-```
+See [03_DepthEstimate.md](https://github.com/alexjvr1/Velocity2020/blob/master/03_DepthEstimate.md) for my estimates of depth across the different datasets and how I chose my minDP and maxDP filters. 
 
 
 
-#### 3b. Call GL
+#### 2. Call GL
 
 Test dataset: 
 GL are called using the samtools method (GL1), and we're only allowing SNPs with a p-value of 0.001 for modern samples, and 0.05 for museum samples. 
@@ -744,11 +727,7 @@ module load languages/gcc-6.1
 ~/bin/angsd/misc/realSFS cat BA.HOD.*idx -outnames MUS.MERGED
 ```
 
-
-#### 4d. Compare downsampled data to full dataset for modern pops (SFS and GL)
-
-
-#### 3d. ISSUES
+#### 2d. ISSUES
 
 ##### *1. Input bam files*
 
@@ -776,6 +755,8 @@ Or it could be problem with this program regSize=0 notDone=0
 
 The developers have fixed a bug in the program. In addition I need to change the -only_proper_pairs flag to 0 as there are improperly paired reads in the merged file (i.e. reads located on different scaffolds). 
 
+
+#### 3. Compare downsampled data to full dataset for modern pops (SFS and GL)
 
 
 ### 4. ANALYSES
