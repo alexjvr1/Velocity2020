@@ -282,7 +282,7 @@ C <- as.matrix(read.table("test1.cov"))
 e <- eigen(C)
 
 forPCA <- as.data.frame(e$vectors)
-forPCA$pop <- paste(rep(c("MODC", "MODE", "MUS"), times=c(36, 33,24)))  #popnames - get numbers and order from beagle files and order in which they were combined above
+forPCA$pop <- paste(rep(c("MODC", "MODE1", "MODE2", "MUS"), times=c(36, 33,24)))  #popnames - get numbers and order from beagle files and order in which they were combined above
 forPCAmelt <- melt(forPCA, id.vars=c("V1","V2","pop")) #long data for ggplot
 
 e$values #find proportion explained by PC1 and PC2
@@ -293,8 +293,9 @@ e$values[2]
 [1] 4.618
 
 pdf(file="E3.PCA_0.8genotypingrate.pdf")
-ggplot(forPCAmelt, aes(x=V1, y=V2, color=pop)) + geom_point()+ ggtitle("PCA:E3 (80% genotyping rate, 25k loci)") + xlab(paste("PC1: 10.46%"))+ ylab(paste("PC2: 4.62%"))
+ggplot(forPCAmelt, aes(x=V1, y=V2, color=pop)) + geom_point()+ ggtitle("PCA:E3 (80% genotyping rate, 25k loci)") + xlab(paste("PC1: 10.46%"))+ ylab(paste("PC2: 4.62%"))+scale_color_manual(values=setNames(c("#2E8B57", "#46CC7C", "#46CC7C", "#DAA520"), c("MODC", "MODE1", "MODE2", "MUS")))+scale_shape_manual(values=c(16, 15, 17,16))
 dev.off()
+
 
 
 ```
