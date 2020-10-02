@@ -80,6 +80,10 @@ Top = new, filtered dataset. Bottom = previous plots (minDP 2x)
 ```
 library(dplyr)
 
+fstMODC.MODE$pop <- "MODC.MODE"
+fstMODC.MUS$pop <- "MODC.MUS"
+fstMODE.MUS$pop <- "MODE.MUS"
+
 fstALL <- bind_rows(fstMODC.MODE, fstMODC.MUS)
 fstALL <- bind_rows(fstALL, fstMODE.MUS)
 
@@ -89,7 +93,7 @@ ggplot(fstALL[which(fstALL$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop
 
 ![alt_txt][Fst.all]
 
-[Fst.all]:https://user-images.githubusercontent.com/12142475/94160912-0ff06000-fe7d-11ea-878d-141d50295df9.png
+[Fst.all]:https://user-images.githubusercontent.com/12142475/94908585-d1b8f900-0499-11eb-831b-b68b783eeed1.png
 
 
 
