@@ -586,7 +586,88 @@ Fig1: Wattersons theta vs depth
 Fig2. Wattersons theta across the contig. This shows the biggest variance in theta around the biggest Fst peak, which is also where we have a big variance in sequencing depth. 
 
 
-#### 2. GL
+
+##### Nucleotide Diversity with LR75
+
+
+Copy pestPG for win1step1 (i.e. calculated for every bp) for LR75 from bluecrystal to mac
+
+```
+pwd
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates
+
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/*LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG .
+
+
+##In R (see previous section for Fst tables)
+
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+
+MODC.theta <- read.table("MODC.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=F)
+colnames(MODC.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
+
+MODE.theta <- read.table("MODE.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=F)
+colnames(MODE.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
+
+MUS.theta <- read.table("MUS.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=F)
+colnames(MUS.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
+
+MODE.MODC.theta <- left_join(MODE.theta, MODC.theta, by="pos", suffix=c(".E", ".C"))
+MODE.MODC.theta <- MODE.MODC.theta[complete.cases(MODE.MODC.theta),]
+dim(MODE.MODC.theta)
+[1] 5092711      27
+
+MODE.MODC.theta.depth <- left_join(MODE.MODC.theta, MODC.MODE2, by="pos")
+MODE.MODC.theta.depth <- MODE.MODC.theta.depth[complete.cases(MODE.MODC.theta.depth),]
+
+dim(MODE.MODC.theta.depth)
+[1] 36017    33
+
+#Check if theta is correlated with depth
+ggplot(MODE.MODC.theta.depth, aes(x=totDepth.C, y=tW.C))+ geom_point()
+ggplot(MODE.MODC.theta.depth, aes(x=totDepth.E, y=tW.E))+ geom_point()
+
+#This shows quite a strange pattern of 0 and 0.2 Wattersons theta. Why would it be so binary? 
+#There is some indication that low Depth results in more noise in the estimates.
+
+#Check if the high Wtheta is concentrated around the Fst peak: 
+ggplot(MODE.MODC.theta.depth, aes(x=pos, y=tW.E))+ geom_point()
+ggplot(MODE.MODC.theta.depth, aes(x=pos, y=tW.C))+ geom_point()
+
+```
+
+
+
+#### Nucleotide Diversity
+
+For LR75
+
+The log scaled diversity estimates can be obtained using ANGSD
+
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst
+
+module load languages/gcc-6.1
+
+~/bin/angsd/misc/thetaStat print MODC/MODC.LR761675.1.minDP20.MinIND10.thetas.idx > MODC/MODC.LR761675.1.minDP20.minIND10.thetas.HumanReadable
+
+~/bin/angsd/misc/thetaStat print MODE/MODE.LR761675.1.minDP20.MinIND10.thetas.idx > MODE/MODE.LR761675.1.minDP20.minIND10.thetas.HumanReadable
+
+~/bin/angsd/misc/thetaStat print MUS/MUS.LR761675.1.minDP20.MinIND10.thetas.idx > MUS/MUS.LR761675.1.minDP20.minIND10.thetas.HumanReadable
+
+
+
+```
+
+Draw the same plots for Nucleotide diversity as for Watterson's theta. See scripts [here](https://github.com/alexjvr1/Velocity2020/blob/master/NucelotideDiversityPlot.md) 
+
+
+
+
+
+## 2. GL
 
 ### "ESS" vs Fst
 
