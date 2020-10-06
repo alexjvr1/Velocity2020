@@ -131,3 +131,9 @@ On Dropbox:
 
 
 
+Tajima's D
+
+![alt_txt][TajD]
+
+[TajD]:https://user-images.githubusercontent.com/12142475/95207692-0998a700-07e0-11eb-820c-3961f79ecac3.png
+
