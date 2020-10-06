@@ -119,6 +119,12 @@ dev.off()
 [E3.tWFig]:https://user-images.githubusercontent.com/12142475/94018753-d77f5200-fda8-11ea-85e6-ce7b1c51f24d.png
 
 
+And similarly for nucleotide diversity
+
+![alt_txt][nucDiv]
+
+[nucDiv]:https://user-images.githubusercontent.com/12142475/95187939-adc02500-07c3-11eb-9001-5256a6b121d1.png
+
 On Dropbox:
 ```
 ~/Dropbox/NERC\ leps\ 2015/Velocity\ WP1\ analysis/1_RingletMS_2020/E3_Fig2_DiversityStats.pdf
