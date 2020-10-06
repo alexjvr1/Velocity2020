@@ -598,6 +598,7 @@ pwd
 
 scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/*LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG .
 
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/*LR761675.1.minDP20.MinIND10.pos.gz .
 
 ##In R (see previous section for Fst tables)
 
@@ -605,29 +606,39 @@ library(dplyr)
 library(reshape2)
 library(ggplot2)
 
+##MODC
 MODC.theta <- read.table("MODC.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=F)
 colnames(MODC.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
 
+MODC <- read.table(gzfile("MODC.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MODC$pop <- "MODC"
+
+MODC1 <- left_join(MODC.theta, MODC, by="pos")
+
+##MODE
 MODE.theta <- read.table("MODE.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=F)
 colnames(MODE.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
 
+MODE <- read.table(gzfile("MODE.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MODE$pop <- "MODE"
+
+MODE1 <- left_join(MODE.theta, MODE, by="pos")
+
+
+##MUS
 MUS.theta <- read.table("MUS.LR761675.1.minDP20.MinIND10.win1.step1.thetasWindow.gz.pestPG", header=F)
 colnames(MUS.theta) <- c("region", "chr", "pos", "tW","tP","tF","tH","tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
 
-MODE.MODC.theta <- left_join(MODE.theta, MODC.theta, by="pos", suffix=c(".E", ".C"))
-MODE.MODC.theta <- MODE.MODC.theta[complete.cases(MODE.MODC.theta),]
-dim(MODE.MODC.theta)
-[1] 5092711      27
+MUS <- read.table(gzfile("MUS.LR761675.1.minDP20.MinIND10.pos.gz"), header=T)
+MUS$pop <- "MUS"
 
-MODE.MODC.theta.depth <- left_join(MODE.MODC.theta, MODC.MODE2, by="pos")
-MODE.MODC.theta.depth <- MODE.MODC.theta.depth[complete.cases(MODE.MODC.theta.depth),]
+MUS1 <- left_join(MUS.theta, MUS, by="pos")
 
-dim(MODE.MODC.theta.depth)
-[1] 36017    33
-
+##plots
 #Check if theta is correlated with depth
-ggplot(MODE.MODC.theta.depth, aes(x=totDepth.C, y=tW.C))+ geom_point()
-ggplot(MODE.MODC.theta.depth, aes(x=totDepth.E, y=tW.E))+ geom_point()
+ggplot(MODC[10000,], aes(x=totDepth, y=tW))+ geom_point() + ggtitle("MODC, LR75")
+ggplot(MODE[10000,], aes(x=totDepth, y=tW))+ geom_point()+ gg_title("MODE, LR75")
+ggplot(MUS[10000,], aes(x=totDepth, y=tW))+ geom_point()+ gg_title("MUS, LR75")
 
 #This shows quite a strange pattern of 0 and 0.2 Wattersons theta. Why would it be so binary? 
 #There is some indication that low Depth results in more noise in the estimates.
