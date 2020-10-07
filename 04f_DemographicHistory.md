@@ -17,6 +17,31 @@ The package readme and download can be found [here](https://sites.google.com/sit
 
 Requirements: java1.7 or higher
 
+No installation needed - just unzip the download and load java
+
 ```
 module load languages/java-jdk-11.0.3
+```
+
+Create the folded SFS for each population 
+
+```
+#On the server
+
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst
+
+
+
+```
+
+
+Visualise the SFS in R using heatmaps
+```
+
+```
+
+
+Modify the stairway plot blueprint file for this run
+```
+/newhome/aj18951/software/
 ```
