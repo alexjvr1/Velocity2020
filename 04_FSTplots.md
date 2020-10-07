@@ -14,9 +14,41 @@ See [Initial Test plots](https://github.com/alexjvr1/Velocity2020/blob/master/04
 
 
 
+## Bhatia's Fst: 3pops
+
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst
+
+##calculate folded 2D sfs
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx -fold 1 > MODC.MODE.LR75.ml
+~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.saf.idx MUS/MUS.LR761675.1.saf.idx -fold 1 > MODC.MUS.LR75.ml
+~/bin/angsd/misc/realSFS MUS/MUS.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx -fold 1 > MUS.MODE.LR75.ml
+
+# Index and calculate sliding window Fst
+
+~/bin/angsd/misc/realSFS fst index MODC/MODC.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx -sfs MODC.MODE.LR75.ml -whichFst 1 -fold 1 -fstout MODC.MODE.LR75.Bhatia.here
+
+~/bin/angsd/misc/realSFS fst index MODC/MODC.LR761675.1.saf.idx MUS/MUS.LR761675.1.saf.idx -sfs MODC.MUS.LR75.ml -whichFst 1 -fold 1 -fstout MODC.MUS.LR75.Bhatia.here
+
+~/bin/angsd/misc/realSFS fst index MUS/MUS.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx -sfs MUS.MODE.LR75.ml -whichFst 1 -fold 1 -fstout MUS.MODE.LR75.Bhatia.here
+
+~/bin/angsd/misc/realSFS fst stats2 MODC.MODE.LR75.Bhatia.here.fst.idx -win 50000 -step 10000 > MODC.MODE.LR75.Bhatia.win50k.step10k.fst
+~/bin/angsd/misc/realSFS fst stats2 MODC.MUS.LR75.Bhatia.here.fst.idx -win 50000 -step 10000 > MODC.MUS.LR75.Bhatia.win50k.step10k.fst
+~/bin/angsd/misc/realSFS fst stats2 MUS.MODE.LR75.Bhatia.here.fst.idx -win 50000 -step 10000 > MUS.MODE.LR75.Bhatia.win50k.step10k.fst
+
+
+#Or Index all three pops for window-based analysis. Make sure the populations are in the correct order
+~/bin/angsd/misc/realSFS fst index MODC/MODC.LR761675.1.saf.idx MODE/MODE.LR761675.1.saf.idx MUS/MUS.LR761675.1.saf.idx -sfs MODC.MODE.LR75.ml -sfs MODC.MUS.LR75.ml -sfs MUS.MODE.LR75.ml -whichFst 1 -fold 1 -fstout 3pop.LR75.Bhatia.here
+
+~/bin/angsd/misc/realSFS fst stats2 3pop.LR75.Bhatia.here.fst.idx -win 50000 -step 10000 > 3pop.LR75.win50k.step10k.fst
+
+```
+
+
+
 ## Filtered Fst plots
 
-Plots based on min global depth 20X and minInd 10X (ie mnin 2X each)
+Plots based on min global depth 20X and minInd 10X (ie min 2X each)
 
 On mac
 ```
