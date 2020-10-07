@@ -87,7 +87,7 @@ ggplot(fstMODC.MUS[which(fstMODC.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst))
 ```
 library(ggplot2)
 
-fstMODE.MUS <- read.table("MUS.MODE.LR75.Bhatia.win50k.step10k.fst ", header=T)
+fstMODE.MUS <- read.table("MUS.MODE.LR75.Bhatia.win50k.step10k.fst", header=T)
 
 ggplot(fstMODE.MUS[which(fstMODE.MUS$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop)) + geom_point() + scale_fill_manual(values=c("#2E8B57", "#DAA520"))+ ggtitle("Mod Exp vs Museum LR761675.1 - PX11") +  theme(axis.title.x = element_blank())
 ```
@@ -104,7 +104,7 @@ Top = new, filtered dataset. Bottom = previous plots (minDP 2x)
 
 ![alt_txt][MODCvsMUS.old]
 
-[MODCvsMUS.old]:https://user-images.githubusercontent.com/12142475/94908214-42abe100-0499-11eb-8a04-10575530045d.png
+[MODCvsMUS.old]:https://user-images.githubusercontent.com/12142475/95355334-57371180-08bd-11eb-8204-23ea943dc64d.png
 
 
 
