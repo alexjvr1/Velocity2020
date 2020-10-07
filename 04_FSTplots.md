@@ -123,9 +123,15 @@ ggplot(fstALL[which(fstALL$chr=="LR761675.1"),], aes(x=midPos, y=fst, colour=pop
 
 ```
 
-![alt_txt][Fst.all]
+Bhatia et al. 2013 Fst estimator is more robust to differences in sample sizes between populations than the standard W&C estimator which is the default used in ANGSD. Here I compare the two: 
 
-[Fst.all]:https://user-images.githubusercontent.com/12142475/94908585-d1b8f900-0499-11eb-831b-b68b783eeed1.png
+Top=Bhatia
+
+Bottom=W&C
+
+![alt_txt][Fst.all2]
+
+[Fst.all2]:https://user-images.githubusercontent.com/12142475/95356013-1c81a900-08be-11eb-85d0-fa1a9e2e9934.png
 
 
 
