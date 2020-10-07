@@ -219,6 +219,8 @@ We need to use -fold when 1) calculating the 2Dsfs AND 2) the fst (fst index pop
 
 Leaving -fold 1 out in the second part changes the final Fst. 
 
+I'm using Bhatia's Fst ([Bhatia et al. 2013](https://pubmed.ncbi.nlm.nih.gov/23861382/); -whichFst 1) as suggested by the [ANGSD developers](https://github.com/ANGSD/angsd/issues/239), as this Fst is more robust to differences in sample size. 
+
 ```
 #GLs and SAF have previously been estimated for the whole genome. 
 #Data on bluecrystal:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_FINAL/SFS_and_Fst/
@@ -230,21 +232,57 @@ module load languages/gcc-6.1
 #we need to calculate the FOLDED sfs and then specify folded SFS for the fst index. 
 
 ~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -fold 1 > MODC.MODE.CDX01.ml
+~/bin/angsd/misc/realSFS MODC/MODC.CADCXM010000001.1.saf.idx MUS/MUS.CADCXM010000001.1.saf.idx -fold 1 > MODC.MUS.CDX01.ml
+~/bin/angsd/misc/realSFS MUS/MUS.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -fold 1 > MUS.MODE.CDX01.ml
+
 
 #prepare for window-based analysis by indexing
-~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -sfs MODC.MODE.CDX01.ml -fold 1 -fstout CDX01.here
+~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx -sfs MODC.MODE.CDX01.ml -whichFst 1 -fold 1 -fstout CDX01.Bhatia.here
+
+
+#Or for all three populations simultaneously
+~/bin/angsd/misc/realSFS fst index MODC/MODC.CADCXM010000001.1.saf.idx MODE/MODE.CADCXM010000001.1.saf.idx MUS/MUS.CADCXM010000001.1.saf.idx -sfs MODC.MODE.CDX01.ml -sfs MODC.MUS.CDX01.ml -sfs MUS.MODE.CDX01.ml -whichFst 1 -fold 1 -fstout 3pop.CDX01.Bhatia.here
+
+~/bin/angsd/misc/realSFS fst stats2 3pop.CDX01.Bhatia.here.fst.idx -win 50000 -step 10000 > 3pop.win50k.step10k.fst
+
 
 #The global Fst is similar to that found for LR75 (unw:0.020322; w:0.126046)
 ~/bin/angsd/misc/realSFS fst stats CDX01.here.fst.idx 
-	-> Assuming idxname:CDX01.here.fst.idx
-	-> Assuming .fst.gz file: CDX01.here.fst.gz
-	-> FST.Unweight[nObs:36019]:0.040754 Fst.Weight:0.106320
-0.040754	0.106320
+	-> Assuming idxname:CDX01.Bhatia.here.fst.idx
+	-> Assuming .fst.gz file: CDX01.Bhatia.here.fst.gz
+	-> FST.Unweight[nObs:35958]:0.037287 Fst.Weight:0.108665
+0.037287	0.108665
 
 
+##Estimate Fst in windows: 
 #create two window-based outputs to plot: 10bp and 1bp "windows", non-overlapping
-~/bin/angsd/misc/realSFS fst stats2 CDX01.here.fst.idx -win 10 -step 10 > CDX01.window10step10.fst
-~/bin/angsd/misc/realSFS fst stats2 CDX01.here.fst.idx -win 1 -step 1 > CDX01.window1step1.fst
+~/bin/angsd/misc/realSFS fst stats2 CDX01.Bhatia.here.fst.idx -win 10 -step 10 > CDX01.window10step10.Bhatia.fst
+
+##If you need to estimate Fst for e.g. a specific gene or part of the chromosome, print the per site fst
+#then calc the weighted fst for the regions by calculating the ratio between the sum of As and the sum of B:
+#Colnames are: Chr, pos, A = alpha from the reynolds 1983 (or Bhatia), B = alpha + beta
+
+~/bin/angsd/misc/realSFS fst print CDX01.Bhatia.here.fst.idx > CDX01.Bhatia.here.fst.idx.HR
+	-> Assuming idxname:CDX01.Bhatia.here.fst.idx
+	-> Assuming .fst.gz file: CDX01.Bhatia.here.fst.gz
+	-> Information from index file: nSites:35958 nChrs:1
+	-> Population[0]: MODC/MODC.CADCXM010000001.1.saf.idx
+	-> Population[1]: MODE/MODE.CADCXM010000001.1.saf.idx
+		0	CADCXM010000001.1	35958	8
+choose:1 
+pars->stop:-1 ppos:146558 first:0 last:35958
+CADCXM010000001.1	5917	0.000095	0.001535
+CADCXM010000001.1	5918	0.000095	0.001536
+CADCXM010000001.1	5919	0.000104	0.001603
+CADCXM010000001.1	5920	0.000095	0.001536
+CADCXM010000001.1	5921	0.000095	0.001535
+CADCXM010000001.1	5922	0.000095	0.001535
+CADCXM010000001.1	5923	0.000095	0.001536
+CADCXM010000001.1	5924	0.000095	0.001535
+CADCXM010000001.1	5925	0.000095	0.001535
+CADCXM010000001.1	5926	0.000095	0.001535
+
+
 
 ```
 
@@ -266,7 +304,7 @@ Draw plots in R
 library(dplyr)
 library(ggplot2)
 
-CDX.fst <- read.table("CDX01.window10step10.fst", header=T)
+CDX.fst <- read.table("CDX01.window10step10.Bhatia.fst", header=T)
 colnames(CDX.fst)<- c("region", "chr", "pos", "Nsites", "fst") #change headers so that "pos" header is in all files
 MODE <- read.table(gzfile("MODE.CADCXM010000001.1.pos.gz"), header=T)
 MODC <- read.table(gzfile("MODC.CADCXM010000001.1.pos.gz"), header=T)
@@ -274,14 +312,13 @@ MODC <- read.table(gzfile("MODC.CADCXM010000001.1.pos.gz"), header=T)
 MODE$pop <- "MODE"
 MODC$pop <- "MODC"
 MODE.MODC <- bind_rows(MODE, MODC) ##use dplyr to join the two tables together
-MODE.MODC2 <- left_join(MODE, MODC, by="pos", suffix=c(".E", ".C"))
+MODE.MODC2 <- inner_join(MODE, MODC, by="pos", suffix=c(".E", ".C"))
 
-MODC.MODE2.fst <- left_join(MODC.MODE2, CDX.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
-MODC.MODE2.fst <- MODC.MODE2.fst[complete.cases(MODC.MODE2.fst),]
+MODC.MODE2.fst <- inner_join(MODE.MODC2, CDX.fst, by="pos") ##join fst data. Remember to change the header n the CDX.fst file to match "pos"
 
 
 #Plot depth vs fst
-ggplot(MODE.MODC.fst[complete.cases(MODE.MODC.fst),], aes(y=fst, x=totDepth, colour=pop))+geom_point()
+ggplot(MODC.MODE2.fst, aes(y=fst, x=totDepth, colour=pop))+geom_point()
 
 #plot fst and depth across the contig
 #First I'm plotting fst vs pos for each pop, and colouring by depth. 
@@ -305,10 +342,11 @@ ggplot(MODC.MODE2.fst, aes(x=pos, y=fst, col=totDepth.C))+geom_point()
 We can see that the really high Fst (>0.6) is associated with low coverage. Let's look at these loci: 
 ```
 MODC.MODE2.fst[which(MODC.MODE2.fst$fst>0.6),c("pos", "fst", "totDepth.E", "totDepth.C")]
-        pos      fst totDepth.E totDepth.C
-12823 78265 0.772495         18          9
-13370 78875 0.780562         14         19
-13380 78885 0.783590         13         18
+      pos      fst totDepth.E totDepth.C
+1282 78265 0.718374         18          9
+1337 78875 0.732677         14         19
+1338 78885 0.739345         13         18
+1746 84105 0.636810         11          8
 ```
 
 And let's see if there's an overall correlation between depth and Fst: 
@@ -321,6 +359,40 @@ ggplot(MODE.MODC.fst, aes(x=totDepth, y=fst, col=pop))+geom_point()
 
 ##And zoom in on the 0-150x
 ggplot(MODE.MODC.fst[which(MODE.MODC.fst$totDepth<150),], aes(x=totDepth, y=fst, col=pop))+geom_point()
+
+##Correlation test
+cor.test(MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.E>50),11], MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.E>50),3])
+
+	Pearson's product-moment correlation
+
+data:  MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.E > 50), 11] and MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.E > 50), 3]
+t = -6.3473, df = 1528, p-value = 2.882e-10
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.2087162 -0.1110554
+sample estimates:
+      cor 
+-0.160278 
+
+
+cor.test(MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.C>50),11], MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.C>50),6])
+
+	Pearson's product-moment correlation
+
+data:  MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.C > 50), 11] and MODC.MODE2.fst[which(MODC.MODE2.fst$totDepth.C > 50), 6]
+t = -4.6814, df = 849, p-value = 3.315e-06
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.22345309 -0.09241244
+sample estimates:
+       cor 
+-0.1586313 
+
+##I find highly significant correlations between depth and Fst until ~150x within each population.
+##Depth is negatively correlated with Fst, so we expect higher Fsts for low depth sites. 
+##Check Fst peaks for depth distribution
+#We expect that this will be smoothed out by the window-based approach
+
 ```
 
 ![alt_txt][DP.Fst]
