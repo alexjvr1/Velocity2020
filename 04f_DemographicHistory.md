@@ -33,11 +33,17 @@ Create the folded SFS for each population
 
 ~/bin/angsd/misc/realSFS MODC/MODC.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODC/MODC.LR75.fold.sfs
 ~/bin/angsd/misc/realSFS MUS/MUS.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MUS/MUS.LR75.fold.sfs
+~/bin/angsd/misc/realSFS MODE/MODE.LR761675.1.minDP20.MinIND10.saf.idx -fold 1 > MODE/MODE.LR75.fold.sfs
 
 
 ##While this is running it will output information we need: 
 -> nSites: 5204985   ##MODC
 -> nSites: 2093813   ##MUS
+-> nSites: 5261260   ##MODE
+
+##This info can also be obtained directly from the SFS by summing all the numbers. 
+##Cat 1 = invariant sites, so remove this from the SFS before starting the analysis. There should be n catagories, where n=number of indivs. 
+
 
 
 ##Sample sizes of our filtered pops
