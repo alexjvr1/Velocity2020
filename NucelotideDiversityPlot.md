@@ -131,6 +131,13 @@ On Dropbox:
 ```
 
 
+A comparison of NucDiv from ANGSD and from filtered genotype calls from samtools/bcftools call pipeline
+
+![alt_txt][nucDiv.comp]
+
+[nucDiv.comp]:https://user-images.githubusercontent.com/12142475/95516128-aca31980-09b6-11eb-9805-cac045abbde8.png
+
+
 Tajima's D
 
 ![alt_txt][TajD]
