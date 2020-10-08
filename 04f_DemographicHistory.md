@@ -65,6 +65,12 @@ mu: 2.9 x 10(-9) #Mutation rate as estimated in H.melpomone https://mallet.oeb.h
 year_per_generation: 1 #Ringlet is univoltine
 ```
 
+Parallelise the run on bluecrystal
+```
+#All the commands under Step 1 in the created .sh file 
+
+```
+
 
 Plot the xx.final.summary output
 ```
