@@ -135,6 +135,96 @@ Bottom=W&C
 
 
 
+# Compare Fst catagories: 
+
+For all the significant peaks in each population, calculate deltaFst between datasets. 
+
+e.g. for MODC-MODE vs MODC-MUS (ie. space vs time), we're using the top 1% of loci for the initial test: 
+
+```
+par(mfrow=c(2,1))
+hist(fstMODC.MODE$fst)
+hist(fstMODC.MUS$fst)
+
+
+#Find the top 1% of loci in each dataset
+
+subset(fstMODC.MODE, fst > quantile(fst, prob=1-1/100))
+                                                 region        chr  midPos
+138 (1029003,1060753)(1380000,1429999)(1380000,1430000) LR761675.1 1405000
+139 (1035200,1070650)(1390000,1439999)(1390000,1440000) LR761675.1 1415000
+387 (2943407,2984723)(3870000,3919999)(3870000,3920000) LR761675.1 3895000
+388 (2950041,2987771)(3880000,3923199)(3880000,3930000) LR761675.1 3905000
+389 (2959881,2993662)(3890000,3939640)(3890000,3940000) LR761675.1 3915000
+390 (2969198,3000162)(3900027,3949935)(3900000,3950000) LR761675.1 3925000
+391 (2976795,3005600)(3910236,3959999)(3910000,3960000) LR761675.1 3935000
+    Nsites      fst       pop deltafst
+138  31752 0.292400 MODC.MODE 0.204360
+139  35452 0.275554 MODC.MODE 0.205668
+387  41318 0.269946 MODC.MODE 0.211235
+388  37732 0.287049 MODC.MODE 0.223936
+389  33783 0.331218 MODC.MODE 0.274496
+390  30966 0.372452 MODC.MODE 0.315517
+391  28807 0.325008 MODC.MODE 0.308476
+
+
+subset(fstMODC.MUS, fst > quantile(fst, prob=1-1/100))
+                                             region        chr  midPos Nsites
+50        (7879,8541)(500818,548345)(500000,550000) LR761675.1  525000    664
+95     (13027,13915)(953530,995214)(950000,1000000) LR761675.1  975000    890
+96    (13208,13988)(961825,1008492)(960000,1010000) LR761675.1  985000    782
+97    (13433,14192)(971141,1019488)(970000,1020000) LR761675.1  995000    761
+98    (13747,14192)(981408,1019488)(980000,1030000) LR761675.1 1005000    447
+99    (13779,14259)(993001,1037140)(990000,1040000) LR761675.1 1015000    482
+584 (92147,92384)(5841226,5878539)(5840000,5890000) LR761675.1 5865000    239
+         fst      pop
+50  0.168106 MODC.MUS
+95  0.225792 MODC.MUS
+96  0.243193 MODC.MUS
+97  0.261846 MODC.MUS
+98  0.302631 MODC.MUS
+99  0.320239 MODC.MUS
+584 0.159993 MODC.MUS
+
+#Write the position of each to file 
+
+subsetfstpos <- bind_rows(subset(fstMODC.MODE, fst > quantile(fst, prob=1-1/100),midPos), subset(fstMODC.MUS, fst > quantile(fst, prob=1-1/100),midPos))
+
+#Extract these rows from both files
+
+TimeSpace.fst.top0.01 <- left_join(fstMODC.MUS[fstMODC.MUS$midPos %in% subsetfstpos$midPos,], fstMODC.MODE[fstMODC.MODE$midPos %in% subsetfstpos$midPos,], by="midPos", suffix=c(".time", ".space"))
+
+#Calculate the difference in fst Time-Space
+TimeSpace.fst.top0.01$deltafst.timeminusspace <- TimeSpace.fst.top0.01$fst.time-TimeSpace.fst.top0.01$fst.space
+
+#plot
+ggplot(TimeSpace.fst.top0.01, aes(x=midPos, y=deltafst.timeminusspace))+geom_point()
+
+ggplot(fstMODC.MODE, aes(midPos, deltafst))+ggtitle("delta fst: Time - Space")+ylab("delta fst")+geom_point(aes(colour=cut(deltafst, c(-Inf, -0.1, 0.2, Inf))))+scale_color_manual(name="deltafst", values=c("(-Inf,-0.1]"="green" ,"(-0.1,0.2]"="black","(0.2, Inf]"="orange"), labels=c("Space not Time", "Neutral/Both", "Time not Space"))
+
+
+ggplot(TimeSpace.fst.top0.01, aes(fst.time, fst.space))+ggtitle("Top 1% Fst loci: Time - Space")+ylab("Fst: Space")+ xlab("Fst: Time")+geom_point(aes(colour=cut(deltafst.timeminusspace, c(-Inf, -0.1, 0.2, Inf))))+scale_color_manual(name="deltafst", values=c("(-Inf,-0.1]"="green" ,"(-0.1,0.2]"="black","(0.2, Inf]"="orange"), labels=c("Space not Time", "Both", "Time not Space"))
+```
+
+![alt_txt][hist.fst]
+
+[hist.fst]:https://user-images.githubusercontent.com/12142475/95358065-8ac76b00-08c0-11eb-8f19-0467f9b2d13e.png
+
+
+DeltaFst
+
+![alt_txt][deltaFst]
+
+[deltaFst]:https://user-images.githubusercontent.com/12142475/95445187-a54c2380-0956-11eb-9ca3-c31faf952a13.png
+
+
+Outlier Fsts Time vs Space
+
+![alt_txt][FstvsFst]
+
+[FstvsFst]:https://user-images.githubusercontent.com/12142475/95445078-7d5cc000-0956-11eb-823f-f76bb58780be.png
+
+
 
 ## Initial test plots
 
