@@ -765,7 +765,7 @@ Example papers
 
 [Crested Ibis (Feng et al, Current biology, 2019)](https://www.sciencedirect.com/science/article/pii/S0960982218316099)
 
-[Alpine chipmunts (Bi et al, PLoS Genetics, 2019)](https://journals.plos.org/plosgenetics/article?rev=2&id=10.1371/journal.pgen.1008119)
+[Alpine chipmunks (Bi et al, PLoS Genetics, 2019)](https://journals.plos.org/plosgenetics/article?rev=2&id=10.1371/journal.pgen.1008119)
 
 - Also good example of mapdamage use
 
