@@ -12,6 +12,9 @@ Depth per bam file can be estimated with bedtools:
 ```
 module load apps/bedtools2
 for i in $(ls *bam); do bedtools genomecov -ibam $i -g ../RefGenome/*fna > $i.depth
+
+#And calculate the mean depth per chromosome for each individual
+for i in $(ls *depth); do ls $i && awk -F "\t" '$1 ~ LR761675.1 {mult+=($2*$3); sum+=$3} END {print mult/sum}' $i; done
 ```
 
 
