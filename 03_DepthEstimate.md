@@ -6,6 +6,16 @@ Here I explore these relationships.
 
 ### Estimating depth 
 
+#### BedTools
+
+Depth per bam file can be estimated with bedtools: 
+```
+module load apps/bedtools2
+for i in $(ls *bam); do bedtools genomecov -ibam $i -g ../RefGenome/*fna > $i.depth
+```
+
+
+
 #### ANGSD
 
 Sequencing depth is estimated in ANGSD as a [distribution of depths](http://www.popgen.dk/angsd/index.php/Depth) either per sample or overall (global)
