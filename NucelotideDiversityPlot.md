@@ -7,7 +7,7 @@ Thetas calculated in ANGSD in windows (-win 50kb -step 10kb)
 
 ## Plots in R
 
-Copy diversity estiates to mac
+Copy diversity estimates to mac
 ```
 pwd
 /Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates
