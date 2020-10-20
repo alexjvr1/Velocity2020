@@ -1388,3 +1388,20 @@ ggplot(depth, aes(x=Depth.ANGSD_minusmissing, y=ObsHet, colour=pop))+geom_point(
 
 [depthVShet]:https://user-images.githubusercontent.com/12142475/96591161-dd505080-12de-11eb-892c-fb778a181e99.png
 
+
+Depth vs number of loci recovered
+```
+ggplot(depth, aes(x=Depth.ANGSD_minusmissing, y=NoDups.Loci, colour=pop))+geom_point()+ylab("Number of loci with data in ANGSD (>3X Depth)")+xlab("Mean Depth of filtered ANGSD file")
+
+ggplot(depth, aes(x=Depth.sam, y=NoDups.Loci, colour=pop))+geom_point()+ylab("Number of loci with data in ANGSD (>3X Depth)")+xlab("Mean Depth of filtered BAM file")
+
+```
+
+![alt_txt][ANGSDdepthvsANGSDloci]
+
+[ANGSDdepthvsANGSDloci]:https://user-images.githubusercontent.com/12142475/96593583-91eb7180-12e1-11eb-8b97-e0cd1a62ad3d.png
+
+
+![alt_txt][BAMdepthvsANGSDloci]
+
+[BAMdepthvsANGSDloci]:https://user-images.githubusercontent.com/12142475/96594037-16d68b00-12e2-11eb-9b3e-fa717638e033.png
