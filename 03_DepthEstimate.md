@@ -1305,12 +1305,22 @@ angsd=~/bin/angsd/angsd
 #REGION=$(sed "${PBS_ARRAYID}q;d" regions)
 REGION="LR761675.1"
 INDIV=$(sed "${PBS_ARRAYID}q;d" MUS.24.poplist.dedup)
-NAME=awk -F "bams/" '{print $2}' ${INDIV}
+NAME=`echo ${INDIV} | awk -F "bams/" '{print $2}' | awk -F ".merged" '{print $1}'`
 
 #estimate SAF for modern expanding population using ANGSD
 
 time $angsd -i ${INDIV} -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs $PP -r $REGION \
 -GL 1 -doSaf 1 -anc $SPECIESDIR/RefGenome/*fna -ref $SPECIESDIR/RefGenome/*fna -doCounts 1 -setMinDepthInd $minDP -setMaxDepth $maxDP -doMajorMinor 4\
  -out $SPECIESDIR/04b_ANGSD_FINAL/SFS_and_Fst/OCT19.DeDup.minDP3/$POP.$NAME.$REGION.NoPCRDup.OCT19 -C $C -baq 1 -dumpCounts 2 -doDepth 1 -doGlf 2 -noTrans 1
+```
+
+Estimate the per sample SFS to obtain the individual observed het. The second value is the number of observed heterozygotes
+```
+for i in $(ls *AH*saf.idx); do ~/bin/angsd/misc/realSFS $i > $i.ml; done
+```
+
+And find the proportion for each sample
+```
+for i in $(ls *ml); do awk '{sum+=$1+$2+$3} END {print $2/sum}' $i; done
 ```
 
