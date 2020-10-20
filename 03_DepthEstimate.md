@@ -1306,6 +1306,8 @@ colSums(MUS.t.TIMESCOV[2:nrow(MUS.t.TIMESCOV),],)/colSums(MUS.t[2:nrow(MUS.t),],
 
 ```
 
+# Obs het vs depth
+
 
 We can also estimate the per sample observed heterozygosity by creating saf/sfs for each individual: 
 ```
@@ -1358,5 +1360,31 @@ for i in $(ls *AH*saf.idx); do ~/bin/angsd/misc/realSFS $i > $i.ml; done
 And find the proportion for each sample
 ```
 for i in $(ls *ml); do awk '{sum+=$1+$2+$3} END {print $2/sum}' $i; done
+
+##In R
+library(ggplot2)
+depth <- read.table(LociVsDepth, header=T)
+head(depth)
+          Indiv    Loci Depth.sam pop NoDups.Loci  ObsHet Depth.ANGSD
+1 AH-01-1900-01 1775320       5.6 MUS       59398 0.00077         8.3
+2 AH-01-1900-04  932681       2.3 MUS       27656 0.00073         2.2
+3 AH-01-1900-06 1021676       2.7 MUS       31678 0.00073         2.6
+4 AH-01-1900-08 1018349       2.7 MUS       32190 0.00074         2.7
+5 AH-01-1900-09 1398015       4.0 MUS       46278 0.00081         4.2
+6 AH-01-1900-10  952989       2.2 MUS       26540 0.00065         2.4
+  Depth.ANGSD_minusmissing
+1                      9.8
+2                      5.6
+3                      5.7
+4                      6.0
+5                      6.4
+6                      6.3
+
+ggplot(depth, aes(x=Depth.ANGSD_minusmissing, y=ObsHet, colour=pop))+geom_point()+ylab("Proportion of observed Heterozygote sites from ANGSD (>3X Depth)")+xlab("Mean Depth of filtered ANGSD file")
+
 ```
+
+![alt_txt][depthVShet]
+
+[depthVShet]:https://user-images.githubusercontent.com/12142475/96591161-dd505080-12de-11eb-892c-fb778a181e99.png
 
