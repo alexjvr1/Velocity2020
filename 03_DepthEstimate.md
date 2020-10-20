@@ -1237,3 +1237,80 @@ To check that my filters are appropriate I'll plot depth vs sequence quality:
 
 
 ```
+
+
+
+## Depth vs Number of usable variants
+
+Problem: Finding comparative diversity estimates is proving really difficult because the Museum dataset is not comparable to the Modern datasets. 
+
+I've tried various things to match the data up: 1) filtering to the same mean depth, 2) subsampling to the same number of reads, 3) using only variants we're certain of (e.g. with genotype calls). 
+
+The museum data seems to be of worse quality than the modern data. e.g. if we compare the mean depth of the filtered bam files to the number of loci for which we have data usable by ANGSD
+
+```
+# use the *depthSample outputs from ANGSD
+# This gives the number of sites usable by ANGSD per individual 
+MODC <- read.table("MODC.LR761675.1.NoPCRDup.OCT19.depthSample")
+MODE <- read.table("MODE.LR761675.1.noPCRDUP.OCT19.depthSample")
+MUS <- read.table("MUS.LR761675.1.NoPCRDup.OCT19.depthSample")
+MODC.t <- t(MODC)
+MODE.t <- t(MODE)
+MUS.t <- t(MUS)
+MODC.t <- MODC.t[2:nrow(MODC.t),]
+MODE.t <- MODE.t[2:nrow(MODE.t),]
+MUS.t <- MUS.t[2:nrow(MUS.t),]
+colSums(MODC.t)
+colSums(MUS.t)
+colSums(MODE.t)
+
+
+#Mean depth is estimted with samtools from the filtered bam files. 
+#But we can also estimate depth from the depthSample frequency files
+
+```
+
+
+We can also estimate the per sample observed heterozygosity by creating saf/sfs for each individual: 
+```
+#!/bin/bash
+#PBS -N E3_LR.MUS.SAF  ##job name
+#PBS -l nodes=1:ppn=1  #nr of nodes and processors per node
+#PBS -l mem=16gb #RAM
+#PBS -l walltime=20:00:00 ##wall time.  
+#PBS -j oe  #concatenates error and output files (with prefix job1)
+#PBS -t 1-24 #array job
+
+#Set filters
+N="24"
+MININD="10"
+MINQ="20"
+minMAPQ="20"
+minDP="3"
+maxDP="621"
+POP="MUS"
+C="50"
+POPLIST="MUS.24.poplist.dedup"
+SPECIESDIR="/newhome/aj18951/E3_Aphantopus_hyperantus_2020"
+PP=0 #use all reads. Flag 1 uses only proper pairs, but	MUS has	merged reads. NB to filter for proper pair reads in the bamfiles using samtools before this point
+
+#run job in working directory
+cd $PBS_O_WORKDIR 
+
+#load modules
+module load languages/gcc-6.1
+angsd=~/bin/angsd/angsd
+
+#Define variables
+#REGION=$(sed "${PBS_ARRAYID}q;d" regions)
+REGION="LR761675.1"
+INDIV=$(sed "${PBS_ARRAYID}q;d" MUS.24.poplist.dedup)
+NAME=awk -F "bams/" '{print $2}' ${INDIV}
+
+#estimate SAF for modern expanding population using ANGSD
+
+time $angsd -i ${INDIV} -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs $PP -r $REGION \
+-GL 1 -doSaf 1 -anc $SPECIESDIR/RefGenome/*fna -ref $SPECIESDIR/RefGenome/*fna -doCounts 1 -setMinDepthInd $minDP -setMaxDepth $maxDP -doMajorMinor 4\
+ -out $SPECIESDIR/04b_ANGSD_FINAL/SFS_and_Fst/OCT19.DeDup.minDP3/$POP.$NAME.$REGION.NoPCRDup.OCT19 -C $C -baq 1 -dumpCounts 2 -doDepth 1 -doGlf 2 -noTrans 1
+```
+
