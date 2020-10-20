@@ -1268,6 +1268,42 @@ colSums(MODE.t)
 #Mean depth is estimted with samtools from the filtered bam files. 
 #But we can also estimate depth from the depthSample frequency files
 
+##MODE
+MODE <- read.table("MODE.LR761675.1.noPCRDUP.OCT19.depthSample")
+MODE.t <- t(MODE)
+#colnames(MODE.t) <- paste("Indiv", 1:ncol(MODE.t), sep="")
+COV <- 0:(nrow(MODE.t)-1) #create the vector with coverage for each row (1x, 2x, etc)
+MODE.t.TIMESCOV <- MODE.t*COV #multiply read count by coverage class
+colSums(MODE.t.TIMESCOV)/colSums(MODE.t) #mean of a frequency table = sum(frequencies x class)/sum(frequencies). This gives the mean coverage
+
+##The above includes class 0x (i.e. loci for which we don't have data for that individual). We can exclude these: 
+#This gives the mean coverage per indiv for all loci with data
+colSums(MODE.t.TIMESCOV[2:nrow(MODE.t.TIMESCOV),],)/colSums(MODE.t[2:nrow(MODE.t),],) #mean of a frequency table = sum(frequencies x class)/sum(frequencies). 
+
+##MODC
+MODC <- read.table("MODC.LR761675.1.NoPCRDup.OCT19.depthSample")
+MODC.t <- t(MODC)
+#colnames(MODC.t) <- paste("Indiv", 1:ncol(MODC.t), sep="")
+COV <- 0:(nrow(MODC.t)-1) #create the vector with coverage for each row (1x, 2x, etc)
+MODC.t.TIMESCOV <- MODC.t*COV #multiply read count by coverage class
+colSums(MODC.t.TIMESCOV)/colSums(MODC.t) #mean of a frequency table = sum(frequencies x class)/sum(frequencies). This gives the mean coverage
+
+##The above includes class 0x (i.e. loci for which we don't have data for that individual). We can exclude these: 
+#This gives the mean coverage per indiv for all loci with data
+colSums(MODC.t.TIMESCOV[2:nrow(MODC.t.TIMESCOV),],)/colSums(MODC.t[2:nrow(MODC.t),],) #mean of a frequency table = sum(frequencies x class)/sum(frequencies). 
+
+##MUS
+MUS <- read.table("MUS.LR761675.1.NoPCRDup.OCT19.depthSample")
+MUS.t <- t(MUS)
+#colnames(MUS.t) <- paste("Indiv", 1:ncol(MUS.t), sep="")
+COV <- 0:(nrow(MUS.t)-1) #create the vector with coverage for each row (1x, 2x, etc)
+MUS.t.TIMESCOV <- MUS.t*COV #multiply read count by coverage class
+colSums(MUS.t.TIMESCOV)/colSums(MUS.t) #mean of a frequency table = sum(frequencies x class)/sum(frequencies). This gives the mean coverage
+
+##The above includes class 0x (i.e. loci for which we don't have data for that individual). We can exclude these: 
+#This gives the mean coverage per indiv for all loci with data
+colSums(MUS.t.TIMESCOV[2:nrow(MUS.t.TIMESCOV),],)/colSums(MUS.t[2:nrow(MUS.t),],) #mean of a frequency table = sum(frequencies x class)/sum(frequencies). 
+
 ```
 
 
