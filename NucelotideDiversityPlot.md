@@ -233,10 +233,39 @@ histogram of log values
 
 ## Same sample sizes
 
+It seems that ANGSD doesn't correct for n (sample size) at each site. So I will run a crude correction based on the sample size, although I know that the genotyping rate is different between the different populations. 
+```
+library(dplyr)
+
+MUS.div$tW.rat <- MUS.div$tW/MUS.div$nSites
+MODC.div$tW.rat <- MODC.div$tW/MODC.div$nSites
+MODE.div$tW.rat <- MODE.div$tW/MODE.div$nSites
+
+#Divided by sample size
+MUS.div$tW.rat.corr <- MUS.div$tW.rat/24
+MODC.div$tW.rat.corr <- MODC.div$tW.rat/36
+MODE.div$tW.rat.corr <- MODE.div$tW.rat/33
+
+#Corrected for genotyping rate (GR). These numbers are based on what I expect the average GR is - 10/24 indivs for MUS, and around 80-90% for the MOD data. 
+MUS.div$tW.rat.corr <- MUS.div$tW.rat*(0.4*24)
+MODC.div$tW.rat.corr <- MODC.div$tW.rat*(0.8*36)
+MODE.div$tW.rat.corr <- MODE.div$tW.rat*(0.8*33)
+
+
+Pop3.NucDiv <- left_join(MODE.div, MODC.div, by="WinCenter", suffix=c(".e", ".c"))
+Pop3.NucDiv <- left_join(Pop3.NucDiv, MUS.div, by="WinCenter", suffix=c(".mod", ".mus"))
+NucDiv.melt3 <- melt(Pop3.NucDiv, id.vars=c("WinCenter", "tW.rat.corr.c", "tW.rat.corr.e", "tW.rat.corr"))
+colnames(NucDiv.melt3) <- c("WinCenter", "MODC", "MODE", "MUS", "variable", "value")
+NucDiv.melt4 <- (melt(NucDiv.melt3[,2:4]))
+
+pdf("E3.tW.corr.pdf")
+ggplot(NucDiv.melt4, aes(x=value, fill=variable)) + geom_histogram(alpha=0.6, bins=30) + scale_fill_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))+ggtitle("Watterson's theta for Ringlet: LR75")+xlab("Watterson's theta")+ylab("frequency")
+dev.off()
+```
+
+![alt_txt][tW.sizeCorr]
+
+[tW.sizeCorr]:
+
+
 I'll reduce the modern datasets to the same sample size as MUS, and reduce missingness in the dataset by accepting min 75% genotyping rate. (i.e. 18/24 individuals)
-
-
-
-```
-
-```
