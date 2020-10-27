@@ -271,3 +271,22 @@ dev.off()
 I'll reduce the modern datasets to the same sample size as MUS, and reduce missingness in the dataset by accepting min 75% genotyping rate. (i.e. 18/24 individuals)
 
 
+## Pixy
+
+[Pixy](https://pixy.readthedocs.io/en/latest/installation.html) has been developed specifically to work with patchy data.
+
+See the preprint paper [here](https://www.biorxiv.org/content/10.1101/2020.06.27.175091v1.full.pdf). 
+
+```
+#Installed pixy on the server
+#bzzjrb/software/pixy
+
+```
+
+We need vcf files with all sites
+```
+
+```
+
+
+
