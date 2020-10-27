@@ -269,3 +269,5 @@ dev.off()
 
 
 I'll reduce the modern datasets to the same sample size as MUS, and reduce missingness in the dataset by accepting min 75% genotyping rate. (i.e. 18/24 individuals)
+
+
