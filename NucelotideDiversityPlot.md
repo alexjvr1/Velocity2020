@@ -285,7 +285,10 @@ See the preprint paper [here](https://www.biorxiv.org/content/10.1101/2020.06.27
 
 We need vcf files with all sites
 ```
+#Change -v to 0 in variant calling submission script to output all sites. 
 
+#The raw bcf files need to be processed to "see" missing data
+for i in $(ls *bcf); do bcftools filter -S . -O u -e 'FMT/DP=0' $i |bcftools view -O b -o $i.withmissing.bcf; done
 ```
 
 
