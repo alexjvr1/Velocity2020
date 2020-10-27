@@ -144,3 +144,99 @@ Tajima's D
 
 [TajD]:https://user-images.githubusercontent.com/12142475/95207692-0998a700-07e0-11eb-820c-3961f79ecac3.png
 
+
+
+
+## Per site vs window-based estimates
+
+I've calculated Watterson's theta from ANGSD as the cumulative window based estimate (tW) divided by the number of sites with data in that window (nsites). 
+
+To see if this tallys with ANGSDs per site estimates, I will manually calculate Watterson's theta from the per site estimates. 
+
+Per site estimates can be obtained from [ANGSD](http://www.popgen.dk/angsd/index.php/Thetas,Tajima,Neutrality_tests)
+```
+pwd
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates/OCT26
+
+##R
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+
+MODC.HR <- read.table("../MODC.head1Mil.HumanReadable", header=T)
+MODE.HR <- read.table("../MODE.head1Mil.HumanReadable", header=T)
+MUS.HR <- read.table("../MUS.head1Mil.HumanReadable", header=T)
+
+pop12 <- left_join(MODE.HR, MODC.HR, by="Pos")
+pop123 <- left_join(pop12, MUS.HR, by="Pos")
+pop123 <- pop123[complete.cases(pop123),]
+pop123.m <- melt(pop123, id=c("Pos", "Watterson.x", "Watterson.y", "Watterson"))
+colnames(pop123.m) <- c("Pos", "MODC", "MODE", "MUS", "variable", "value")
+
+#log values are reported. Here I change them to real values
+pop123.m$MODC.exp <- exp(pop123.m$MODC)
+pop123.m$MODE.exp <- exp(pop123.m$MODE)
+pop123.m$MUS.exp <- exp(pop123.m$MUS)
+
+#To calculate window-based estimates: 
+##This isn't exactly right because the windows should be from pos x+50k, not the first 50k datapoints. BUT it gives us an idea of the trend in the data. 
+require(zoo)
+test <- rollapply(pop123.m$MODE.exp, width=50000, by=10000, FUN=mean)
+test.t <- as.data.frame(test)
+colnames(test.t)[1] <- "MODE"
+test.t$MUS <- rollapply(pop123.m$MUS.exp, width=50000, by=10000, FUN=mean)
+test.t$MODC <- rollapply(pop123.m$MODC.exp, width=50000, by=10000, FUN=mean)
+test.t.melt <- melt(test.t, id="POS")
+head(test.t.melt)
+ggplot(test.t.melt, aes(x=POS, y=value, by=variable))+geom_line()
+
+
+#Here we want to look at the distribution of values comparing all three populations
+pop123.mm <- melt(pop123.m[1:4],id="Pos")
+pop123.mm$exp <- exp(pop123.mm$value) #log values are reported. Here I change them to real values
+#With invariant sites
+ggplot(pop123.mm, aes(x=exp, fill=variable))+geom_histogram()+ scale_fill_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))
+
+#And without the invariant sites
+ggplot(pop123.mm[which(pop123.mm$exp>0.01),], aes(x=exp, fill=variable))+geom_histogram()+ scale_fill_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))
+
+#Log scores
+ggplot(pop123.mm, aes(x=value, fill=variable))+geom_histogram()+ scale_fill_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))
+
+```
+
+Window-based estimates from single site tW
+
+![alt_txt][SS_window_tW]
+
+[SS_window_tW]:https://user-images.githubusercontent.com/12142475/97296461-9c10f100-1848-11eb-8981-bda851e9c4e6.png
+
+
+tW per site for all sites
+![alt_txt][SS_all]
+
+[SS_all]:https://user-images.githubusercontent.com/12142475/97296023-01181700-1848-11eb-9a64-fcb22ea6cba4.png
+
+
+tW per site excluding invariant sites
+![alt_txt][SS_variantsonly]
+
+[SS_variantsonly]:https://user-images.githubusercontent.com/12142475/97296073-13925080-1848-11eb-846b-f12eb9159c18.png
+
+
+histogram of log values
+![alt_txt][Hist.log]
+
+[Hist.log]:https://user-images.githubusercontent.com/12142475/97295879-cc0bc480-1847-11eb-8719-c119c60f7013.png
+
+
+
+## Same sample sizes
+
+I'll reduce the modern datasets to the same sample size as MUS, and reduce missingness in the dataset by accepting min 75% genotyping rate. (i.e. 18/24 individuals)
+
+
+
+```
+
+```
