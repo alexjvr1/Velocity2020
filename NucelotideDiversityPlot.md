@@ -303,7 +303,45 @@ Estimate depth from the bam files (I calculated this before using samtools depth
 
 Use these data to plot number of variants vs depth. 
 ```
-scp bzzjrb
+pwd
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates/OCT26
 
+scp bzzjrbxx/newhome/bzzjrb/E3/03_variants/*imiss .
+
+head vcf.totalsites
+Indiv	Loci	Depth.sam	pop	NoDups.Loci	ObsHet	Depth.ANGSD	Depth.ANGSD_minusmissing	Variants	TotalSites
+AH-01-1900-01	1775320	5.6	MUS	59398	0.00077	8.3	9.8	148326	3599207
+AH-01-1900-04	932681	2.3	MUS	27656	0.00073	2.2	5.6	94013	2232132
+AH-01-1900-06	1021676	2.7	MUS	31678	0.00073	2.6	5.7	104071	2484876
+AH-01-1900-08	1018349	2.7	MUS	32190	0.00074	2.7	6.0	101351	2419390
+AH-01-1900-09	1398015	4.0	MUS	46278	0.00081	4.2	6.4	132229	3190913
+AH-01-1900-10	952989	2.2	MUS	26540	0.00065	2.4	6.3	94058	2234742
+AH-01-1900-11	1181275	3.2	MUS	39958	0.00079	3.4	6.0	115635	2756403
+AH-01-1900-13	1030830	2.6	MUS	28073	0.00071	2.4	6.0	103704	2477715
+AH-01-1900-14	967191	2.0	MUS	30263	0.00064	2.4	5.6	89469	2105816
+
+R
+library(ggplot2)
+
+data <- read.table("vcf.totalsites", header=T)
+pdf("E3.rawvcf_plots.26Oct2020.pdf")
+ggplot(data, aes(x=Depth.sam, y=TotalSites, group=pop))+geom_point(aes(colour=pop))+ggtitle("Total sites in raw vcf file")
+ggplot(data, aes(x=Depth.sam, y=Variants, group=pop))+geom_point(aes(colour=pop))+ggtitle("Variants in raw vcf file")
+ggplot(data, aes(x=Depth.sam, y=propVars, group=pop))+geom_point(aes(colour=pop))+ggtitle("Proportion of sites that are SNPs")
+dev.off()
 ```
+
+![alt_txt][fig1]
+
+[fig1]:https://user-images.githubusercontent.com/12142475/97458835-02723e00-1933-11eb-81d5-cd498dfcf077.png
+
+
+![alt_txt][fig2]
+
+[fig2]:https://user-images.githubusercontent.com/12142475/97458934-1d44b280-1933-11eb-9955-d108d5dd34bc.png
+
+
+![alt_txt][fig3]
+
+[fig3]:https://user-images.githubusercontent.com/12142475/97459070-42d1bc00-1933-11eb-873c-60e472aeaa8a.png
 
