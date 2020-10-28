@@ -283,7 +283,7 @@ See the preprint paper [here](https://www.biorxiv.org/content/10.1101/2020.06.27
 
 ```
 
-We need vcf files with all sites
+We need vcf files with all sites. 
 ```
 #Change -v to 0 in variant calling submission script to output all sites. 
 
@@ -291,5 +291,19 @@ We need vcf files with all sites
 for i in $(ls *bcf); do bcftools filter -S . -O u -e 'FMT/DP=0' $i |bcftools view -O b -o $i.withmissing.bcf; done
 ```
 
+Use vcftools to find the number of variants within each individual by finding the proportion of missingness for each individual. 
+```
+module load apps/vcftools-0.1.12b
 
+vcftools --bcf file.bcf --missing-indv
+
+```
+
+Estimate depth from the bam files (I calculated this before using samtools depth)
+
+Use these data to plot number of variants vs depth. 
+```
+scp bzzjrb
+
+```
 
