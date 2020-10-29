@@ -354,5 +354,59 @@ To verify if this pattern holds true across chromosomes, I will estimate prop va
 ```
 LR761672-74
 
+#These numbers are for the full dataset; i.e. with all indivs included
+
+Number of sites
+
+        LR72      LR73        LR74       LR75
+MODE   7592213    6794090     6228061    5698793
+
+MODC   7649355    6846041     6255121    5720701
+
+MUS    7013370    5935074     5728727    5071269 
 
 ```
+
+
+For each dataset we'll estimate the mean depth per individual with vcftools from the raw dataset which includes all sites: 
+```
+#e.g
+vcftools --bcf job0001.sites.raw.bcf.withmissing.bcf --depth
+
+#use the idepth file to generate depth per indiv for each chromosome
+```
+
+And the missingness for the sits and variants bcf files
+```
+for i in $(ls *withmissing.bcf); do vcftools --bcf $i --missing-indv; done
+
+```
+
+Copy all the data into a table on my computer: 
+```
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates/OCT26/MultiChrs_vcfstats
+
+R
+
+library(ggplot2)
+data <- read.table("MultiChrs_vcfstats", header=T)
+
+pdf("E3.4Chrs_vcfout.plots.29Oct2020.pdf")
+ggplot(data, aes(x=MeanDP, y=Sites, group=POP))+geom_point(aes(colour=POP, pch=CHR))+ggtitle("Total sites in raw vcf file")
+ggplot(data, aes(x=MeanDP, y=Sites, color=CHR))+geom_point(aes(pch=POP))+ ggtitle("Total sites in raw vcf file")
+
+ggplot(data, aes(x=MeanDP, y=Variants, group=POP))+geom_point(aes(colour=POP, pch=CHR))+ggtitle("Variants in raw vcf file")
+ggplot(data, aes(x=MeanDP, y=Variants, group=CHR))+geom_point(aes(colour=CHR, pch=POP))+ggtitle("Variants in raw vcf file")
+
+ggplot(data, aes(x=MeanDP, y=PropVars, group=POP))+geom_point(aes(colour=POP, pch=CHR))+ggtitle("Proportion of sites that are SNPs")
+ggplot(data, aes(x=MeanDP, y=PropVars, group=CHR))+geom_point(aes(colour=CHR, pch=POP))+ggtitle("Proportion of sites that are SNPs")
+
+dev.off()
+
+
+```
+
+
+![alt_txt][MultiChr1]
+
+[MultiChr1]:
