@@ -46,6 +46,21 @@ MODE.TsTv.summary
 1.13964
 MUS.TsTv.summary
 1.13316
+```
+I think this is the same because I'm using the intersect. 
 
+If I estimate Ti/Tv for each population from the raw data: 
+```
+vcftools --vcf MODE.LR75.raw.withmissing.33.recode.vcf --TsTv-summary
+
+Ts/Tv ratio: 1.109
+
+vcftools --vcf MUS.LR75.raw.withmissing.24.recode.vcf --TsTv-summary
+
+Ts/Tv ratio: 1.288
+
+vcftools --vcf MODC.LR75.raw.withmissing.vcf --TsTv-summary
+
+Ts/Tv ratio: 1.123
 
 ```
