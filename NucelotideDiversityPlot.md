@@ -345,3 +345,14 @@ dev.off()
 
 [fig3]:https://user-images.githubusercontent.com/12142475/97459070-42d1bc00-1933-11eb-873c-60e472aeaa8a.png
 
+
+
+### Verify with more chromosomes
+
+To verify if this pattern holds true across chromosomes, I will estimate prop vars for 3 more chromosomes: 
+
+```
+LR761672-74
+
+
+```
