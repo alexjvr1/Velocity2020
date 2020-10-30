@@ -64,3 +64,16 @@ vcftools --vcf MODC.LR75.raw.withmissing.vcf --TsTv-summary
 Ts/Tv ratio: 1.123
 
 ```
+
+### Estimate ROH for modern data
+
+```
+module load languages/gcc-6.1
+
+/newhome/aj18951/software/rohan/src/rohan 
+```
+
+For best results we need minDP >5x for modern data, and > 7x for museum data. 
+
+We'll create map files to identify these sites. 
+
