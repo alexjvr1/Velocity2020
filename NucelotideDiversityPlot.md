@@ -289,11 +289,10 @@ We need vcf files with all sites. See below
 
 Load modules 
 ```
+#Callum installed pixy in my home directory from source. This should now run once I've loaded python3
 module load languages/python-anaconda3-5.2.0
 
-cd /newhome/bzzjrb/Software/pixy
-
-pip3 install pixy 
+pixy --version
 ```
 
 
