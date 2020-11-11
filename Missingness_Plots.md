@@ -239,4 +239,89 @@ We're creating two datasets
 
 # Missingness in SAF files used by Mark
 
-I 
+Find the sites in the subset file
+```
+##On Mac
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/SFS/ForMark
+
+awk -F "\t" '{print $2}' MUS.subset4527.saf >> MUS.sites
+awk -F "\t" '{print $2}' MODC.subset4527.saf >> MODC.sites
+#these should be exactly the same. Use diff to check
+diff MUS.sites MODC.sites 
+
+
+#copy to server
+scp MUS.sites bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/MUS/
+scp MODC.sites bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/MODC/
+
+
+#subset the corresponding beagle file to comprise only these sites
+grep -w -F -f MUS.sites MUS.LR761675.1.minDP20.MinIND10.beagle >> MUS.subset.saf.beagle
+grep -w -F -f MODC.sites MODC.LR761675.1.minDP20.MinIND10.beagle >> MODC.subset.saf.beagle
+
+#Check that these are both the correct length
+wc -l MUS.subset.saf.beagle
+wc -l MODC.subset.saf.beagle
+
+#copy to Mac
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/MUS/MUS.subset.saf.beagle .
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/MUS/MUS.subset.saf.beagle .
+```
+
+
+Read into R and check the level of missingness in each population: 
+```
+library(varhandle)
+library(gplots)
+library(RColorBrewer)
+
+MUS.GL <- read.table("MUS.subset.saf.beagle", header=T)
+bloc.MUS <- MUS.GL[,4:ncol(MUS.GL)] #The first three cols are 1) Chr name and position, 2) allele 1, 3) allele 2
+bloc3.MUS <- as.matrix(unfactor(bloc.MUS))
+#bloc4 <- bloc3[1:5,] #test subset of data on plot
+#bloc4.MUS <- bloc3.MUS[1:500,] # We can look at just a subset of the loci to get an idea of the patchiness of the data
+
+#Change all the extra Ind labels to NA
+labCol.MUS <- colnames(bloc3.MUS)
+labCol.MUS <- gsub("Ind\\d{1}\\.1", "NA", labCol.MUS)
+labCol.MUS <- gsub("Ind\\d{2}\\.1", "NA", labCol.MUS)
+labCol.MUS <- gsub("Ind\\d{2}\\.2", "NA", labCol.MUS)
+labCol.MUS <- gsub("Ind\\d{1}\\.2", "NA", labCol.MUS)
+labCol.MUS[labCol.MUS=="NA"] <- NA
+
+p3.MUS <- heatmap.2(bloc4.MUS, trace="none", col=brewer.pal(11,"RdBu"),scale="none", Colv=F, Rowv=T, dendrogram="none", labCol=labCol.MUS, adjCol=c(0.5,1))
+```
+
+The proportion missingness per locus is max 56% for the museum loci. But this is because I filtered for missingness in these saf files. 
+
+If I look at the previous data I used to estimate missingness within each population I can find the saf profile for missing data: 
+```
+#On Mac
+#/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/GenotypeLikelihoods
+
+R
+
+##See above for all the objects in this R project
+
+MODC.imiss_perlocus <- imiss_MODC.GL
+MODC.imiss_perlocus$PropMiss <- rowMeans(is.na(imiss_MODC.GL))*100
+
+summary(MODC.imiss_perlocus$PropMiss)
+
+  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00   30.77   35.90   36.43   43.59   51.28 
+   
+MODC.imiss_perlocus[which(MODC.imiss_perlocus$PropMiss>50),]
+
+
+MUS.imiss_perlocus <- imiss_MUS.GL
+MUS.imiss_perlocus$PropMiss <- rowMeans(is.na(imiss_MUS.GL))*100
+
+summary(MUS.imiss_perlocus$PropMiss)
+
+ Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  12.24   53.06   57.14   55.34   59.18   61.22 
+
+MUS.imiss_perlocus[which(MUS.imiss_perlocus$PropMiss>50),]
+
+```
