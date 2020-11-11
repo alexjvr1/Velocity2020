@@ -50,7 +50,9 @@ Mark is working on a method to attribute a significance to the Fst outliers from
 
 *ToDo:* 
 
-- Which loci are missing in the test saf files Mark is using? 
+- Which loci are missing in the test saf files is using? 
+
+See [here](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md#missingness-in-saf-files-used-by-mark)
 
 
 
