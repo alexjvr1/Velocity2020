@@ -24,4 +24,7 @@ We're using a script from the Lohse lab found [here](https://github.com/DRL/gIMb
 
 
 
+## 1. Extract genes using gff file
+
+.gff file found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/111886/100/GCF_902806685.1_iAphHyp1.1/)
 
