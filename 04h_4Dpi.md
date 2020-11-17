@@ -28,3 +28,10 @@ We're using a script from the Lohse lab found [here](https://github.com/DRL/gIMb
 
 .gff file found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/111886/100/GCF_902806685.1_iAphHyp1.1/)
 
+Downloaded 16 Nov 2020
+
+Use bedtools2 to intersect gff and bam files mask and extract only exon sequences
+```
+
+
+```
