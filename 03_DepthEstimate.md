@@ -1428,11 +1428,20 @@ Fastq format presents a sequence and associated info across 4 lines, so split ne
 
 wc -l *fastq
 
-# xx/100 = xx lines in each file. This is divisible by 4
+332743332 C15.cutadapt_filtered_R1.fastq
+332743332 C15.cutadapt_filtered_R2.fastq
 
-split -l xx *fastq C15.fastq
+# The files should have the same number of lines. 
+# 332743332/4 = 83,185,833 loci or sequences in each file. If we split the data to have 831,859 loci in each of 99 files and the remainder in the 100th, we can include all the data in 100 fastq files. 
+#831859*4=3,327,436
 
+split -l 3327436 C15.cutadapt_filtered_R1.fastq C15_R1.fastq
+split -l 3327436 C15.cutadapt_filtered_R2.fastq C15_R2.fastq
 
+#compress all the fastq files and list
+gzip *fastq*
+ls *R1.fastq*gz > REF.R1.fastq.names
+ls *R2.fastq*gz > REF.R2.fastq.names
 
 ```
 
