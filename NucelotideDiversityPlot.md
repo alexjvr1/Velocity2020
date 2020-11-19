@@ -429,3 +429,26 @@ dev.off()
 
 # Pixy estimates
 
+Installed on server: 
+```
+module load languages/python-anaconda3-5.2.0
+
+#e.g. calculate for full MUS dataset
+/cm/shared/languages/Anaconda3-5.2.0/bin/pixy --stats pi --vcf /newhome/bzzjrb/E3/03_variants/LR75/MUS.LR75.raw.withmissing.vcf --zarr_path /newhome/bzzjrb/E3/pixy/ --reuse_zarr yes --variant_filter_expression 'DP>=10' --invariant_filter_expression 'DP>=10' --outfile_prefix ./MUS.48 --populations /newhome/bzzjrb/MUS.48.names --window_size 10000
+
+/cm/shared/languages/Anaconda3-5.2.0/bin/pixy --stats pi --vcf /newhome/bzzjrb/E3/03_variants/LR75/MODE.LR75.raw.withmissing.33.recode.vcf --zarr_path /newhome/bzzjrb/E3/pixy/ --reuse_zarr yes --variant_filter_expression 'DP>=10' --invariant_filter_expression 'DP>=10' --outfile_prefix ./MODE.test --populations /newhome/bzzjrb/MODE.names --window_size 10000
+
+/cm/shared/languages/Anaconda3-5.2.0/bin/pixy --stats pi --vcf /newhome/bzzjrb/E3/03_variants/LR75/MODC.LR75.raw.withmissing.36.recode.vcf --zarr_path /newhome/bzzjrb/E3/pixy/ --reuse_zarr yes --variant_filter_expression 'DP>=10' --invariant_filter_expression 'DP>=10' --outfile_prefix ./MODC.test --populations /newhome/bzzjrb/MODC.names --window_size 10000
+```
+
+copy to mac and plot
+```
+
+```
+
+Filter vcf files and recalculate
+```
+#If I filter for 50% missingness I lose most of the loci in the MUS dataset - we end up with 10% of the marker density compared to modern populations. 
+
+
+```
