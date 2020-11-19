@@ -516,3 +516,51 @@ After filtering, kept 3527 out of a possible 5071269 Sites
 
 ```
 
+Run pixy
+```
+
+```
+
+
+Mean diversity estimates for MODE and MODC are similar. But 10 fold less for MUS. 
+```
+#MODE
+#How many windows with no data: 
+
+awk -F "\t" '{sum+=$5} END {print sum/(621-0)}' MODE.filtered_pi.txt 
+0.00468793
+
+
+#MODC
+#Windows with no data
+awk -F "\t" '{print $5}' MODC.filtered_pi.txt |grep NA |wc -l
+546
+
+awk -F "\t" '{sum+=$5} END {print sum/(617-546)}' MODC.filtered_pi.txt 
+0.0071652
+
+#MUS
+#Windows with no data
+awk -F "\t" '{print $5}' MUS.filtered_pi.txt |grep NA |wc -l
+570
+
+#10kb windows = 614, 24 indivs
+awk -F "\t" '{sum+=$5} END {print sum/(614-570)}' MUS.filtered_pi.txt 
+
+
+#50kb windows = 124 (wc -l MUS.filtered_pi.txt)
+awk -F "\t" '{sum+=$5} END {print sum/(124-89)}' MUS.filtered_pi.txt 
+0.0117212
+
+```
+
+
+Copy to mac and plot
+```
+cd /Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates/PIXY
+scp bzzjrb@bluecrystalp3.acrc.bris.ac.uk:/newhome/bzzjrb/*txt .
+
+
+```
+
+
