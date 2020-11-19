@@ -1405,3 +1405,34 @@ ggplot(depth, aes(x=Depth.sam, y=NoDups.Loci, colour=pop))+geom_point()+ylab("Nu
 ![alt_txt][BAMdepthvsANGSDloci]
 
 [BAMdepthvsANGSDloci]:https://user-images.githubusercontent.com/12142475/96594037-16d68b00-12e2-11eb-9b3e-fa717638e033.png
+
+## Ground Truth: Reference dataset
+
+We're using the individual sequenced to create the reference to estimate the "true" diversity from this high coverage sample.
+
+Raw demultiplexed data obtained from CGR
+```
+wget -r -np -nH --cut-dirs=2 http://cgr.liv.ac.uk/illum/LIMS13545p1_1cee479a4f552c34/
+```
+
+There are 4 indivs in this file - identify using the field codes in the shared sample google sheet
+
+C15 = Ringlet
+
+Remove any remaining adapter sequence using cutadapt. These files are much larger than we usually work with (16gb compressed vs ~300-400Mb). So I'll split the fastq files before mapping. We can run 100 jobs in parallel so we can create 100 files. 
+
+Fastq format presents a sequence and associated info across 4 lines, so split needs to be on multiples of 4
+```
+#Split uncompressed fastq.gz files (it takes a long time to uncompress these large files)
+#/newhome/aj18951/E3_Aphantopus_hyperantus_2020/01a_REFERENCE_cutadapt_reads
+
+wc -l *fastq
+
+# xx/100 = xx lines in each file. This is divisible by 4
+
+split -l xx *fastq C15.fastq
+
+
+
+```
+
