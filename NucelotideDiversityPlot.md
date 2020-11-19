@@ -560,6 +560,33 @@ Copy to mac and plot
 cd /Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DiversityEstimates/PIXY
 scp bzzjrb@bluecrystalp3.acrc.bris.ac.uk:/newhome/bzzjrb/*txt .
 
+#####
+## R
+#####
+
+library(ggplot2)
+library(dplyr)
+library(reshape2)
+
+MODE <- read.table("MODE.filtered_pi.txt", head=T)
+MODC <- read.table("MODC.filtered_pi.txt", head=T)
+
+#Plot pixy pi for modern populations
+MOD <- bind_rows(MODC, MODE)
+ggplot(MOD, aes(x=window_pos_1, y=avg_pi, color=pop))+geom_line()+scale_color_manual(values=c("#2E8B57", "#46CC7C"))+ggtitle("Pixy pi: Modern, unfiltered vcf (meanDP10x)")
+
+#Plot difference in pi for modern populations
+MOD2 <- left_join(MODC, MODE, by="window_pos_1", suffix=c(".c", ".e"))
+MOD2$diff <- MOD2$avg_pi.c-MOD2$avg_pi.e
+ggplot(MOD2, aes(x=window_pos_1, y=diff))+geom_line()+ggtitle("Pixy pi: Difference in modern pi (meanDP10x)")
+
+
+MUS <- read.table("MUS.filtered_pi.txt", header=T)
+POP3 <- bind_rows(MOD, MUS)
+
+#There's a weird MUS point with pi of 1 and some with 0 that probably aren't true. Second plot removes these
+ggplot(POP3, aes(x=window_pos_1, y=avg_pi, color=pop))+geom_line()+scale_color_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))+ggtitle("Pixy pi: meanDP10x only")
+ggplot(POP3[which(POP3$avg_pi<1&POP3$avg_pi>0),], aes(x=window_pos_1, y=avg_pi, color=pop))+geom_line()+scale_color_manual(values=c("#2E8B57", "#46CC7C", "#DAA520"))+ggtitle("Pixy pi: meanDP10x only")
 
 ```
 
