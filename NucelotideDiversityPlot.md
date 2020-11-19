@@ -509,6 +509,7 @@ After filtering, kept 5778 out of a possible 5071269 Sites
 
 vcftools --vcf MUS.LR75.raw.withmissing.vcf --minQ 25 --min-meanDP 6 --max-missing 0.2 --recode --recode-INFO-all --out FILTERED/MUS.LR75.48.filtered.withmissing
 
+
 After filtering, kept 48 out of 48 Individuals
 Outputting VCF file...
 After filtering, kept 3527 out of a possible 5071269 Sites
