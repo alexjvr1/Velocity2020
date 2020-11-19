@@ -590,4 +590,6 @@ ggplot(POP3[which(POP3$avg_pi<1&POP3$avg_pi>0),], aes(x=window_pos_1, y=avg_pi, 
 
 ```
 
+![alt_txt][pixy2]
 
+[pixy2]:https://user-images.githubusercontent.com/12142475/99698697-fdfbf980-2a88-11eb-92d1-c0dc9adc1355.png
