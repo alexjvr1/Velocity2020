@@ -433,6 +433,8 @@ Installed on server:
 ```
 module load languages/python-anaconda3-5.2.0
 
+/newhome/bzzjrb/
+
 #e.g. calculate for full MUS dataset
 /cm/shared/languages/Anaconda3-5.2.0/bin/pixy --stats pi --vcf /newhome/bzzjrb/E3/03_variants/LR75/MUS.LR75.raw.withmissing.vcf --zarr_path /newhome/bzzjrb/E3/pixy/ --reuse_zarr yes --variant_filter_expression 'DP>=10' --invariant_filter_expression 'DP>=10' --outfile_prefix ./MUS.48 --populations /newhome/bzzjrb/MUS.48.names --window_size 10000
 
@@ -482,6 +484,32 @@ ggplot(POP3[which(POP3$avg_pi<1&POP3$avg_pi>0),], aes(x=window_pos_1, y=avg_pi, 
 Filter vcf files and recalculate
 ```
 #If I filter for 50% missingness I lose most of the loci in the MUS dataset - we end up with 10% of the marker density compared to modern populations. 
+#Using the datasets with poorly sequenced indivs removed, filter for quality, depth and missingness. 
+#Pixy calculations
+
+vcftools --vcf MODE.LR75.raw.withmissing.33.recode.vcf --minQ 25 --min-meanDP 6 --max-missing 0.3 --recode --recode-INFO-all --out FILTERED/MODE.LR75.33.filtered.withmissing
+
+After filtering, kept 33 out of 33 Individuals
+Outputting VCF file...
+After filtering, kept 985263 out of a possible 5698793 Sites
+Run Time = 180.00 seconds
+
+vcftools --vcf MODC.LR75.raw.withmissing.36.recode.vcf --minQ 25 --min-meanDP 6 --max-missing 0.3 --recode --recode-INFO-all --out FILTERED/MODC.LR75.36.filtered.withmissing
+
+After filtering, kept 36 out of 36 Individuals
+Outputting VCF file...
+After filtering, kept 45749 out of a possible 5720701 Sites
+
+vcftools --vcf MUS.LR75.raw.withmissing.24.recode.vcf --minQ 25 --min-meanDP 6 --max-missing 0.42 --recode --recode-INFO-all --out FILTERED/MUS.LR75.24.filtered.withmissing
+
+After filtering, kept 24 out of 24 Individuals
+Outputting VCF file...
+After filtering, kept 5778 out of a possible 5071269 Sites
 
 
+vcftools --vcf MUS.LR75.raw.withmissing.vcf --minQ 25 --min-meanDP 6 --max-missing 0.2 --recode --recode-INFO-all --out FILTERED/MUS.LR75.48.filtered.withmissing
+
+After filtering, kept 48 out of 48 Individuals
+Outputting VCF file...
+After filtering, kept 3527 out of a possible 5071269 Sites
 ```
