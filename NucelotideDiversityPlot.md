@@ -391,7 +391,7 @@ vcftools --bcf job0001.sites.raw.bcf.withmissing.bcf --depth
 #use the idepth file to generate depth per indiv for each chromosome
 ```
 
-And the missingness for the sits and variants bcf files
+And the missingness for the sites and variants bcf files
 ```
 for i in $(ls *withmissing.bcf); do vcftools --bcf $i --missing-indv; done
 
@@ -425,3 +425,7 @@ dev.off()
 ![alt_txt][MultiChr1]
 
 [MultiChr1]:
+
+
+# Pixy estimates
+
