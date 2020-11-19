@@ -1440,8 +1440,8 @@ split -l 3327436 C15.cutadapt_filtered_R2.fastq C15_R2.fastq
 
 #compress all the fastq files and list
 gzip *fastq*
-ls *R1.fastq*gz > REF.R1.fastq.names
-ls *R2.fastq*gz > REF.R2.fastq.names
+ls *R1.fastq*gz > C15_REF.R1.fastq.names
+ls *R2.fastq*gz > C15_REF.R2.fastq.names
 
 ```
 
