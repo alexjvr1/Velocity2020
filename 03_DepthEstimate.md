@@ -1549,6 +1549,7 @@ LR75.4.melt[is.na(LR75.4.melt)] <- 1000
 6   6 totDepth.mode  1000
 
 FULL <- LR75.4.melt[which(LR75.4.melt$value==1000),]  #select only the loci with missing data
+FULL$value <- FULL$value/1000  ##to turn into counts of positions without data in the windows that we'll plot
 ggplot(FULL, aes(pos, colour=variable))+geom_histogram(bins=60) #each bin is ~100kb
 ```
 
