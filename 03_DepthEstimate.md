@@ -1556,3 +1556,13 @@ ggplot(FULL, aes(pos, colour=variable))+geom_histogram(bins=60) #each bin is ~10
 ![alt_txt][depth.distrib]
 
 [depth.distrib]:https://user-images.githubusercontent.com/12142475/100252279-9980e480-2f37-11eb-9b71-67cfe6a27a5e.png
+
+
+Let's check if these are low complexity regions: 
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/02a_modern_mapped/01a_modern_cutadapt_reads
+
+samtools view AH-01-2017-29_mod.core_R1.fastq.gz.bam.flt.bam "LR761675.1:5000000-5100000" |less
+```
+Yes - lots of poly-T and AT-rich regions. 
+
