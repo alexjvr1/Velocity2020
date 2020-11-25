@@ -1445,3 +1445,31 @@ ls *R2.fastq*gz > C15_REF.R2.fastq.names
 
 ```
 
+
+
+## Distribution of Depth across the chromosome
+
+We want to make sure that the missingness is distributed evenly or randomly across the chromosome. I'll plot depth in windows across LR75 for each of the populations. 
+
+
+Estimate depth for each sample per position in ANGSD using [--dumpCounts 2](http://www.popgen.dk/angsd/index.php/Allele_Counts)
+```
+#On Mac
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DepthEstimates/DepthPerBP
+
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/*OCT14.pos.gz .
+scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_and_Fst/M*/*OCT14.counts.gz .
+
+
+#R
+library(ggplot2)
+library(dplyr)
+
+pop2 <- inner_join(MUS.pos, MODC.pos, by=c("chr"="chr", "pos"= "pos"), suffix=c(".mus", ".modc"))
+pop3 <- inner_join(pop2, MODE.pos, by=c("chr"="chr", "pos"= "pos"))
+
+
+
+```
+
+
