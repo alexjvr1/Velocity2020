@@ -497,7 +497,7 @@ Other possible filters:
 
 -setMinDepth : Discard site if total depth (across all indivs) is below [int]. Use -doCounts to determine the distribution of depths
 
--setMaxDepth : Discard site if total depth (across all indivs) is above [int]
+-setMaxDepth : Discard site if total depth (across all indivs) is above [int]  ##I'll use mean + 2*SD
 
 -setMinDepthInd 2 : Minimum depth for a locus for an individual. This is only applicable for analyses using counts (-doCounts obligatory)
 
@@ -511,6 +511,35 @@ Other possible filters:
 
 -checkBamHeaders 1 : check that the bam headers are compatable for all files.
 
+#### MaxDepth
+
+To estimate the setMaxDepth filter per population, I first need to write the depth per site in ANGSD. 
+Using the prepared SFS script add in the following: 
+
+```
+-dumpCounts 1 ##This will write global depth count per site in a .pos file
+```
+
+Calculate the mean and SD 
+```
+pwd
+/Users/alexjvr/2020.postdoc/Velocity/E3/ANGSD_FINAL/DepthEstimates/DepthPerBP
+MODE.LR761675.1.OCT14.pos.gz
+MODC.LR761675.1.OCT14.pos.gz
+MUS.LR761675.1.OCT14.pos.gz
+
+#R
+MODC.pos <- read.table(gzfile("MODC.LR761675.1.OCT14.pos.gz"), header=T)
+MODE.pos <- read.table(gzfile("MODE.LR761675.1.OCT14.pos.gz"), header=T)
+MUS.pos <- read.table(gzfile("MUS.LR761675.1.OCT14.pos.gz"), header=T)
+
+mean(MODC.pos$totDepth)+(2*(sd(MODC.pos$totDepth)))
+[1] 179.6283
+mean(MODE.pos$totDepth)+(2*(sd(MODE.pos$totDepth)))
+[1] 293.1328
+mean(MUS.pos$totDepth)+(2*(sd(MUS.pos$totDepth)))
+[1] 80.07606
+```
 
 
 #### 3a. ANGSD filters for SFS
