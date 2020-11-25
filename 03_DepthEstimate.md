@@ -1464,12 +1464,94 @@ scp bluecp3:/newhome/aj18951/E3_Aphantopus_hyperantus_2020/04b_ANGSD_FINAL/SFS_a
 #R
 library(ggplot2)
 library(dplyr)
+library(reshape2)
 
 pop2 <- inner_join(MUS.pos, MODC.pos, by=c("chr"="chr", "pos"= "pos"), suffix=c(".mus", ".modc"))
 pop3 <- inner_join(pop2, MODE.pos, by=c("chr"="chr", "pos"= "pos"))
 
+pop3.melt <- melt(pop3, id.vars=c("chr", "pos"))
+ggplot(pop3.melt, aes(x=pos, y=totDepth))+geom_line()
+```
 
+![alt_txt][depth.LR75.distribution]
+
+[depth.LR75.distribution]:https://user-images.githubusercontent.com/12142475/100247704-87507780-2f32-11eb-9efe-49251298e6bb.png
+
+There are some high depth regions that I need to filter out in the ANGSD calls.
+
+To get a better idea of where the gaps in the dataset are I need to find all the sites with no or very little data. 
+
+What are the total number of sites in LR75? From the .fai: 6196582
+```
+summary(MODE.pos)
+         chr               pos             totDepth     diff.mode        
+ LR761675.1:5080956   Min.   :     28   Min.   : 20   Min.   :-150.0000  
+                      1st Qu.:1538246   1st Qu.:134   1st Qu.: -36.0000  
+                      Median :3062804   Median :180   Median :  10.0000  
+                      Mean   :3040029   Mean   :170   Mean   :  -0.0427  
+                      3rd Qu.:4531290   3rd Qu.:208   3rd Qu.:  38.0000  
+                      Max.   :6196545   Max.   :621   Max.   : 451.0000  
+> summary(MODC.pos)
+         chr               pos             totDepth     diff.modc       
+ LR761675.1:4937332   Min.   :     60   Min.   : 20   Min.   :-83.0000  
+                      1st Qu.:1569270   1st Qu.: 81   1st Qu.:-22.0000  
+                      Median :3087722   Median :103   Median :  0.0000  
+                      Mean   :3063222   Mean   :103   Mean   :  0.0002  
+                      3rd Qu.:4553434   3rd Qu.:123   3rd Qu.: 20.0000  
+                      Max.   :6196524   Max.   :621   Max.   :518.0000  
+> summary(MUS.pos)
+         chr               pos             totDepth         diff.mus       
+ LR761675.1:2093804   Min.   :     41   Min.   : 20.00   Min.   :-23.0000  
+                      1st Qu.:1669834   1st Qu.: 32.00   1st Qu.:-11.0000  
+                      Median :3143665   Median : 40.00   Median : -3.0000  
+                      Mean   :3096610   Mean   : 42.66   Mean   : -0.3392  
+                      3rd Qu.:4550012   3rd Qu.: 48.00   3rd Qu.:  5.0000  
+                      Max.   :6196561   Max.   :620.00   Max.   :577.0000  
 
 ```
 
+We'll create a table with that many rows, then add each population by "pos", and fill in the missing rows with NA. 
 
+```
+LR75 <- as.data.frame(1:6196582)
+head(LR75)
+  1:6196582
+1         1
+2         2
+3         3
+4         4
+5         5
+6         6
+colnames(LR75) <- "pos"
+
+LR75.2 <- left_join(LR75, MODE.pos, by="pos")
+colnames(LR75.2) <- c("pos", "chr", "totDepth.mode", "diff.mode")
+LR75.3 <- left_join(LR75.2, MODC.pos, by="pos")
+summary(LR75.3)
+LR75.3 <- LR75.3[,c(1,3,6)]
+colnames(LR75.3)[3] <- "totDepth.modc"
+LR75.4 <- left_join(LR75.3, MUS.pos, by="pos")
+LR75.4 <- LR75.4[,c(1,2,3,5)]
+colnames(LR75.4)[4] <- "totDepth.mus"
+
+LR75.4.melt <- melt(LR75.4, id.vars="pos")
+
+##To find the sites that have no data (NA), I will replace all NA with 1000 and plot
+
+LR75.4.melt[is.na(LR75.4.melt)] <- 1000
+> head(LR75.4.melt)
+  pos      variable value
+1   1 totDepth.mode  1000
+2   2 totDepth.mode  1000
+3   3 totDepth.mode  1000
+4   4 totDepth.mode  1000
+5   5 totDepth.mode  1000
+6   6 totDepth.mode  1000
+
+FULL <- LR75.4.melt[which(LR75.4.melt$value==1000),]  #select only the loci with missing data
+ggplot(FULL, aes(pos, colour=variable))+geom_histogram(bins=60) #each bin is ~100kb
+```
+
+![alt_txt][depth.distrib]
+
+[depth.distrib]:https://user-images.githubusercontent.com/12142475/100252279-9980e480-2f37-11eb-9b71-67cfe6a27a5e.png
