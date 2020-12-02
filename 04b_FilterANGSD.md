@@ -20,5 +20,9 @@ This is tested by comparing the proportion of mismatched bases in all bases alig
 I've asked Stefanos to look at this. 
 
 
-## 2. Filtering at contig level
+## 2. Filtering at contig level - Not necessary with chromosome level Reference genome
+
+## 3. Filtering at site level
+
+
 
