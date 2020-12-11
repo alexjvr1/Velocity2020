@@ -39,6 +39,24 @@ Files start with the population (MUS/MODC/MODE), followed by the chromosome name
 
 ## 2. ANGSD
 
+Depth estimated in ANGSD [here](https://github.com/alexjvr1/Velocity2020/blob/1dfabf272901cc963ac2f59174e409ffada37244/03_DepthEstimate.md#angsd) 
 
-## 3. 
+Observed heterozygosity vs depth [here](https://github.com/alexjvr1/Velocity2020/blob/1dfabf272901cc963ac2f59174e409ffada37244/03_DepthEstimate.md#obs-het-vs-depth)
+
+Missingness in the raw datasets [here](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md)
+
+PCA after removing missing data [here](https://github.com/alexjvr1/Velocity2020/blob/master/04c_PCAngsd.md)
+
+Fst estimates using Bhatia method [here](https://github.com/alexjvr1/Velocity2020/blob/1dfabf272901cc963ac2f59174e409ffada37244/03_DepthEstimate.md#1-fst)
+
+Using some basic ANGSD filters I compared theta between datasets [here](https://github.com/alexjvr1/Velocity2020/blob/01406f6b6dba49a140c7499dd703bd8e44b63998/NucelotideDiversityPlot.md#plot-nucleotide-diversity-across-the-genome)
+
+Proportion of variants from called genotypes (vcf files) [here](https://github.com/alexjvr1/Velocity2020/blob/01406f6b6dba49a140c7499dd703bd8e44b63998/NucelotideDiversityPlot.md#vcf-files-allsites)
+
+Missingness in the saf files I generated for Mark [here](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md#missingness-in-saf-files-used-by-mark)
+
+
+## 3. Scripts
+
+
 
