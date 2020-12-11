@@ -60,6 +60,8 @@ Missingness in the saf files I generated for Mark [here](https://github.com/alex
 
 The saf files I've sent were created using the following options: 
 
+** Note I used a global minDP 20 for MUS and MODC, but minIndDP 2 for MODE. This should equate to the same filter (2x minInd depth x 10 indivs = 20x Global depth). 
+
 ```
 time $angsd -b $POP.$N.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 \
 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1 \
@@ -103,19 +105,33 @@ uniqueOnly 1 : only uniquely mapped reads
 
 
 
+
 Create human readable saf files: 
 ```
-
+module load languages/gcc-6.1
+~/bin/angsd/misc/realSFS print MUS.LR761675.1.minDP20.MinIND10.saf.idx > MUS.LR761675.1.minDP20.MinIND10.HumanReadable.saf
 ```
 
 
 Write the first 10k positions to file:
 ```
-
-```
-
-Find the overlap between datasets
+sed -n 1,10000p file.HumanReadable.saf > file.HumanReadable.10k.saf
 ```
 
 
+
+Find the overlap between datasets by extracting sites in MODC.sites from MODExx10k.saf
+```
+awk -F "\t" 'NR==FNR {id[$1]; next} $2 in id' MODC.sites MODE.LR761675.1.minInd10.minDP2.HumanReadable.10k.saf > MODE.subset.saf
+
+##write sites to MODE.sites
+
+awk -F "\t" '{print $2}' > MODE.sites
+wc -l MODE.sites 
+    4522 MODE.sites
+    
+wc -l *4522.saf
+    4522 MODC.subset4522.saf
+    4522 MODE.subset4522.saf
+    4522 MUS.subset4522.saf
 ```
