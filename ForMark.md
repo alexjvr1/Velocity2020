@@ -61,8 +61,33 @@ Missingness in the saf files I generated for Mark [here](https://github.com/alex
 The saf files I've sent were created using the following options: 
 
 ```
-
+time $angsd -b $POP.$N.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 \
+-remove_bads 1 -only_proper_pairs 0 -r LR761675.1 \
+-GL 1 -doSaf 1 -anc $SPECIESDIR/RefGenome/*fna -ref $SPECIESDIR/RefGenome/*fna \
+-doCounts 1 -setMinDepth 20 -setMaxDepth $maxDP -doMajorMinor 4\
+ -out $SPECIESDIR/04b_ANGSD_FINAL/SFS_and_Fst/$POP/$POP.$REGION.minDP20.MinIND10 \
+ -C 50 -baq 1 -dumpCounts 2 -doDepth 1 -doGlf 2 -minInd 10
 ```
+
+minQ 20 : minimum base quality PHRED score of 20
+
+minMapQ 20 : minimum mapping PHRED score of 20
+
+uniqueOnly 1 : only uniquely mapped reads
+
+-remove_bads 1 : remove reads with bad flags in bam file
+
+-only_proper_pairs 0 : use all reads. MUS has merged reads, so I'm using flag 0 here
+
+-r LR761675.1 : region or chromosome to analyse
+
+-GL 1 : use Samtools Genotype likelihood model
+
+-doSaf 1 : 
+
+-anc and -ref : use the reference genome as the ancestral and modern reference. The ancestral reference is used to identify the reference and alternate alleles. I've used this method to be able to compare between populations. 
+
+-doCounts 1 : 
 
 
 Create human readable saf files: 
