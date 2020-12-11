@@ -56,7 +56,28 @@ Proportion of variants from called genotypes (vcf files) [here](https://github.c
 Missingness in the saf files I generated for Mark [here](https://github.com/alexjvr1/Velocity2020/blob/master/Missingness_Plots.md#missingness-in-saf-files-used-by-mark)
 
 
-## 3. Scripts
+## 3. Script
+
+The saf files I've sent were created using the following options: 
+
+```
+
+```
 
 
+Create human readable saf files: 
+```
 
+```
+
+
+Write the first 10k positions to file:
+```
+
+```
+
+Find the overlap between datasets
+```
+
+
+```
