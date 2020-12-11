@@ -83,11 +83,24 @@ uniqueOnly 1 : only uniquely mapped reads
 
 -GL 1 : use Samtools Genotype likelihood model
 
--doSaf 1 : 
+-doSaf 1 : perform multi-sample GL estimation
 
 -anc and -ref : use the reference genome as the ancestral and modern reference. The ancestral reference is used to identify the reference and alternate alleles. I've used this method to be able to compare between populations. 
 
--doCounts 1 : 
+-doCounts 1 : used in depth estimates
+
+-setMinDepth 20 : minimum depth per site
+
+-setMaxDepth : max depth set at 2xmean depth + SD
+
+-baq 1 : estimate base alignment quality using samtools method. BAQ1 and BAQ2 give me very different final variant counts. BAQ1 is more stringent, but could be removing more loci. BAQ2 has a higher number of false positives.
+
+-doDepth 1 : write depth per site
+
+-doGlf 2 : write beagle output 
+
+-minInd 10 : include only sites with data in at least 10 individuals. 
+
 
 
 Create human readable saf files: 
