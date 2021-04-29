@@ -32,6 +32,7 @@ Files start with the population (MUS/MODC/MODE), followed by the chromosome name
 1d. Merge overlapping PE reads in museum data (BBmerge)
 
 2. Map and process
+
 2a. Map museum and modern data to Sanger genome using BWA mem
 
 2b. Correct museum data for possible deamination (MapDamage -> output = corrected bam file)
