@@ -21,6 +21,6 @@ NAME2=$(sed "${PBS_ARRAYID}q;d" R2.museum.names.torepair)
 
 
 ##Run BBRepair
-PREFIX=`echo ${NAME3} |awk -F "_" '{print $1}'`
+PREFIX=`echo ${NAME2} |awk -F "_" '{print $1}'`
 echo "$BBREPAIR in=01a_mus.concat_cutadapt_reads/${NAME1} in2=01a_mus.concat_cutadapt_reads/${NAME2} out=01c_musPERepaired/${PREFIX}.R1.repaired.fastq.gz out2=01c_musPERepaired/${PREFIX}.R2.repaired.fastq.gz overwrite=f tossbrokenreads " >> repair.log
 time $BBREPAIR in=01a_mus.concat_cutadapt_reads/${NAME1} in2=01a_mus.concat_cutadapt_reads/${NAME2} out=01c_musPERepaired/${PREFIX}.R1.repaired.fastq.gz out2=01c_musPERepaired/${PREFIX}.R2.repaired.fastq.gz overwrite=f tossbrokenreads
