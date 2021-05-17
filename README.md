@@ -181,8 +181,8 @@ mv *log logfiles
 
 ##remove all the extra info about lane number and date etc. Final names will bein this format: 
 
-AH-01-1900-01_R1.concat.fastq.gz  AH-01-1900-17_R2.fastq.gz         AH-01-1900-34_R1.concat.fastq.gz
-AH-01-1900-01_R2.concat.fastq.gz  AH-01-1900-18_R1.fastq.gz         AH-01-1900-34_R2.concat.fastq.gz
+AH-01-1900-01_mus_R1.concat.fastq.gz  AH-01-1900-17_R2.fastq.gz         AH-01-1900-34_mus_R1.concat.fastq.gz
+AH-01-1900-01_mus_R2.concat.fastq.gz  AH-01-1900-18_R1.fastq.gz         AH-01-1900-34_mus_R2.concat.fastq.gz
 
 ```
 
