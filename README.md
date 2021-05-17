@@ -251,6 +251,12 @@ sed -i 's:01a_mus.concat_cutadapt_reads/::g' *torepair
 
 This will write all the repaired files to: 01c_musPERepaired
 
+```
+#make the output directory within the species home directory:
+mkdir 01c_musPERepaired 
+```
+
+
 #### 1d Prepare museum data for MapDamage (2.2): Merge overlapping PE reads
 
 ##### *TIME*
