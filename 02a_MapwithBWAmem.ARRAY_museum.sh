@@ -11,7 +11,7 @@ cd $PBS_O_WORKDIR
 
 #Load modules
 module load apps/bwa-0.7.15
-module load apps/samtools-1.8
+module load apps/samtools-1.9.1
 
 #Define variables
 
