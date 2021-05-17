@@ -256,6 +256,13 @@ This will write all the repaired files to: 01c_musPERepaired
 mkdir 01c_musPERepaired 
 ```
 
+Check that the correct number of threads are specified (e.g. 48 indivs: PBS -t 1-48)
+
+And submit:
+```
+qsub 01c_bbtools_repair_museum_ARRAY.sh 
+```
+
 
 #### 1d Prepare museum data for MapDamage (2.2): Merge overlapping PE reads
 
