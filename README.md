@@ -83,10 +83,15 @@ Modern samples arrive demultiplexed by the sequencing facility, but Museum sampl
 
 We're trimming all adapter sequence from the demultiplexed data. We're also removing all sequences that are shorter than 20bp and 3' quality trimmed to remove bases with PHRED quality score of < 20 with Cutadapt.
 
-If you're running this on BlueCrystal, you'll have to install cutadapt locally first. 
-We're using cutadapt version 1.12: 
+If you're running this on BlueCrystal, you'll have to install cutadapt locally first using [these instructions] (https://cutadapt.readthedocs.io/en/stable/installation.html) - see below. 
+We're using cutadapt version 3.4: 
 ```
 module load languages/python-anaconda3-5.2.0
+
+module load tools/cmake-3.8.1
+module load tools/autoconf-2.69
+module load languages/gcc-9.1.0
+
 
 #install cutadapt in your home directory using the web instructions
 pip3 install --user --upgrade cutadapt
