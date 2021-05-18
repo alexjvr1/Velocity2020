@@ -11,7 +11,7 @@ cd $PBS_O_WORKDIR
 
 #Load modules
 module load apps/bwa-0.7.15
-module load apps/samtools-1.8
+module load apps/samtools-1.9.1
 
 #Define variables
 
@@ -38,5 +38,5 @@ fi
 sample_name=`echo ${NAME1} | awk -F "_mod" '{print $1}'`
 echo "[mapping running for] $sample_name"
 printf "\n"
-echo "time bwa mem RefGenome/$REFSEQ ${NAME1} ${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam" >> map.log
-time bwa mem RefGenome/$REFSEQ ${NAME1} ${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam
+echo "time bwa mem RefGenome/$REFSEQ 01a_modern_cutadapt_reads/${NAME1} 01a_modern_cutadapt_reads/${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam" >> map.log
+time bwa mem RefGenome/$REFSEQ 01a_modern_cutadapt_reads/${NAME1} 01a_modern_cutadapt_reads/${NAME2} | samtools sort -o 02a_modern_mapped/${NAME1}.bam
