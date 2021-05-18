@@ -290,6 +290,11 @@ ls 01c_musPERepaired/*R2*gz >> R2.museum.names.repaired
 sed -i 's:01c_musPERepaired/::g' *repaired
 ```
 
+This outputs 3 files for each individual: a merged file and an unmerged R1 and R2 file. We will proceed only with the merged reads at this point.
+
+As these are no longer PE data, we can map as if we had a single read. 
+
+
 ### 2. Map and process
 
 Map museum and modern samples to the Sanger reference genome. Thereafter correct the museum bam files using MapDamage, and downsample the modern data to the same final depth as the corrected museum bam files. 
@@ -317,25 +322,27 @@ bwa index RefGenome/*fasta
 
 
 #Create files with input names
-## museum
-ls 01a_mus.concat_cutadapt_reads/*R1*fastq.gz >> R1.museum.names
-sed -i s:01a_mus.concat_cutadapt_reads/::g R1.museum.names
 
-ls 01a_mus.concat_cutadapt_reads/*R2*fastq.gz >> R2.museum.names
-sed -i s:01a_mus.concat_cutadapt_reads/::g R2.museum.names
+## museum
+##Repaired and merged = 1 file per indiv
+ls 01d_musAll_merged/*repaired.merged*fastq >> merged.museum.names
+
+sed -i s:01d_musAll_merged/::g merged.museum.names
 
 ## modern
-#We're pointing to two input folders so I'll leave the path in the sample names folder
+## Cutadapt and adapter trimmed = 2 files per indiv
 ls 01a_modern_cutadapt_reads/*R1_paired* >> R1.modern.names
 ls 01a_modern_cutadapt_reads/*R2_paired* >> R2.modern.names
 
 sed -i 's:01a_modern_cutadapt_reads/::g' *names
-sed -i 's:01d_musAll_merged/::g' *names
+#Optional 
+#If we want to keep the core and expanding samples in separate folders we can leave the path to the indivs in the *names file
 
 #make output directories. 
 mkdir 02a_museum_mapped
 mkdir 02a_modern_mapped
 
+#Optional
 #Add the additional folders in the 02a_modern_mapped folder when working with an EXPANDING species as the output will be written there. 
 mkdir 02a_modern_mapped/01a_modern_cutadapt_reads
 mkdir 02a_modern_mapped/01a_modern.exp_cutadapt_reads
@@ -352,9 +359,18 @@ mkdir 02a_modern_mapped/01a_modern.exp_cutadapt_reads
 
 Run the submission scripts: 
 
-[02a_MapwithBWAmem.ARRAY_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_museum.sh)
+
 
 [02a_MapwithBWAmem.ARRAY_modern.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_modern.sh)
+
+
+##If we don't merge the museum reads, we can use this script to map the PE reads: 
+
+[02a_MapwithBWAmem.ARRAY_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_museum.sh)
+
+
+
+
 
 Check that everything has mapped correctly by checking the file sizes. If the mapping is cut short (e.g. by exceeding the requested walltime) the partial bam file will look complete and can be indexed. But the bam file size will be small (~500kb) and empty when you look at it.
 ```
