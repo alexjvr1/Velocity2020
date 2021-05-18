@@ -34,6 +34,7 @@ else
 fi
 
 
+
 ##Map with BWA MEM and output sorted bam file
 
 sample_name=`echo ${NAME1} | awk -F ".repaired" '{print $1}'`
