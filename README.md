@@ -325,7 +325,7 @@ bwa index RefGenome/*fasta
 
 ## museum
 ##Repaired and merged = 1 file per indiv
-ls 01d_musAll_merged/*repaired.merged*fastq >> merged.museum.names
+ls 01d_musAll_merged/*repaired.merged*fastq >> mus.merged.names
 
 sed -i s:01d_musAll_merged/::g merged.museum.names
 
