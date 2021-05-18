@@ -16,8 +16,6 @@ module load apps/samtools-1.8
 #Define variables
 
 REFSEQ=GCA_902806685.1_iAphHyp1.1_genomic.fna
-total_files=`find 01a_museum_cutadapt_reads/ -name '_R1_001' | wc -l`
-
 
 NAME1=$(sed "${PBS_ARRAYID}q;d" R1.modern.names)
 NAME2=$(sed "${PBS_ARRAYID}q;d" R2.modern.names)
