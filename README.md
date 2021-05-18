@@ -91,7 +91,7 @@ module load languages/python-anaconda3-5.2.0
 module load tools/cmake-3.8.1
 module load tools/autoconf-2.69
 module load languages/gcc-9.1.0
-
+module add tools/nasm-2.15.05
 
 #install cutadapt in your home directory using the web instructions
 pip3 install --user --upgrade cutadapt
@@ -109,7 +109,7 @@ PATH="$PATH:~/.local/bin/"
 ##Now you can run cutadapt directly
 cutadapt --help
 
-cutadapt version 1.12
+cutadapt version 3.4
 ```
 
 ##### Generate submission script
