@@ -359,7 +359,7 @@ mkdir 02a_modern_mapped/01a_modern.exp_cutadapt_reads
 
 Run the submission scripts: 
 
-
+[02a_MapwithBWAmem.ARRAY_museum.merged.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_museum.merged.sh)
 
 [02a_MapwithBWAmem.ARRAY_modern.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02a_MapwithBWAmem.ARRAY_modern.sh)
 
