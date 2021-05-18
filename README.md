@@ -326,11 +326,8 @@ sed -i s:01a_mus.concat_cutadapt_reads/::g R2.museum.names
 
 ## modern
 #We're pointing to two input folders so I'll leave the path in the sample names folder
-ls 01a_modern_cutadapt_reads/*R1* >> R1.modern.names
-ls 01d_musAll_merged/*R1* >> R1.museum.names 
-
-ls 01a_modern_cutadapt_reads/*R2* >> R2.modern.names
-ls 01d_musAll_merged/*R2* >> R2.museum.names 
+ls 01a_modern_cutadapt_reads/*R1_paired* >> R1.modern.names
+ls 01a_modern_cutadapt_reads/*R2_paired* >> R2.modern.names
 
 sed -i 's:01a_modern_cutadapt_reads/::g' *names
 sed -i 's:01d_musAll_merged/::g' *names
