@@ -383,7 +383,7 @@ module load apps/bcftools-1.8
 bcftools view file.bam | head
 Check the output with samtools flagstat
 
-module load apps/samtools-1.8
+module load apps/samtools-1.9.1
 samtools flagstat file.bam
 
 #make a flagstat log file for all of the samples
