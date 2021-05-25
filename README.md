@@ -418,8 +418,11 @@ This needs to be locally installed on BlueCrystal. Follow the git install instru
 
 As the R libraries are loaded into the tmp memory we need to reinstall this every time we want to use MapDamage (after logging off)
 
+If there are any issues, the easiest thing to do is to reinstall MapDamage. 
+
 ```
 module load languages/R-3.6.3-gcc9.1.0
+languages/python-3.8.5
 
 R
 
