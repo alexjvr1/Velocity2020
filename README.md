@@ -404,10 +404,12 @@ Index the bam files with the script [02a_index.bamfiles.sh](https://github.com/a
 
 [MapDamage2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3694634/) is a package used to estimate and correct for Cytosine deamination (or any other transition/transversion bias in the data). This is a problem anticipated for ancient DNA, and possibly for museum data.
 
-This needs to be locally installed on BlueCrystal. Follow the instructions in the tutorial
+This needs to be locally installed on BlueCrystal. Follow the git install instructions in the tutorial [here](https://ginolhac.github.io/mapDamage/)
+
+We'll also need to install pysam. 
+
 
 MapDamage will be run in the 02a_museum_mapped folder. 
-
 
 1. Create a file listing all the bamfiles
 ```
