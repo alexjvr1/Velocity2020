@@ -27,7 +27,7 @@ module load languages/R-3.0.2
 # Define variables
 mapDamage="$HOME/.local/bin/mapDamage"
 RefSeq="../RefGenome/*fna"
-NAME=$(sed "${PBS_ARRAYID}q;d" bamfiles.mus.names)
+NAME=$(sed "${PBS_ARRAYID}q;d" bamlist)
 
 ##Script
 echo "mapDamage2 started" >> map.log
