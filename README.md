@@ -416,8 +416,20 @@ Index the bam files with the script [02a_index.bamfiles.sh](https://github.com/a
 
 This needs to be locally installed on BlueCrystal. Follow the git install instructions in the tutorial [here](https://ginolhac.github.io/mapDamage/)
 
-We'll also need to install pysam. 
+As the R libraries are loaded into the tmp memory we need to reinstall this every time we want to use MapDamage (after logging off)
 
+```
+module load languages/R-3.6.3-gcc9.1.0
+
+R
+
+install.packages("inline")
+install.packages("gam")
+install.packages("Rcpp")
+install.packages("ggplot2")
+install.packages("RcppGSL")
+
+```
 
 MapDamage will be run in the 02a_museum_mapped folder. 
 
