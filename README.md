@@ -412,10 +412,10 @@ MapDamage will be run in the 02a_museum_mapped folder.
 1. Create a file listing all the bamfiles
 ```
 
-ls *bam > bamfiles.mus.names
+ls *bam > bamlist
 ```
 
-2. Copy the script [02b_mapDamage_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/03a_mapDamage_museum.sh) to the 02a_museum_mapped folder. Change the job name, the number of threads, and check the path to the reference genome.
+2. Copy the script [02b_mapDamage_museum.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02b_mapDamage_museum.sh) to the 02a_museum_mapped folder. Change the job name, the number of threads, and check the path to the reference genome.
 
 Submit to queue.
 
