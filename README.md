@@ -25,10 +25,20 @@ Here I'll curate the variant calling pipeline and analyses undertaken using the 
         
 #### 3. [SNP discovery and filtering](https://github.com/alexjvr1/Velocity2020#3-angsd)
 
-   3a. [ANGSD filters for SFS](README.md#3a-angsd-filters-for-sfs) (ie. no MAF)
+3.1 ANGSD
+
+   3.1.a. [ANGSD filters for SFS](README.md#3a-angsd-filters-for-sfs) (ie. no MAF)
         
-   3b. [ANGSD filters for population genomics]
+   3.1.b. [ANGSD filters for population genomics]
         
+
+3.2 VARIANT CALLING
+
+   3.2.1  [Call variants with bcftools mpileup and call]()
+
+
+
+
 #### 4. Analyses: Outliers
 
    4a. [Outlier analysis in ANGSD]
@@ -458,7 +468,7 @@ Enter these data in the "Rescaled.ProperlyPaired.Q20" column in the Velocity_Map
 Use the [02c_Downsample_mod_ARRAY.sh](https://github.com/alexjvr1/Velocity2020/blob/master/02c_Downsample_mod_ARRAY.sh) script to downsample the modern bam files. Remember to change the job name and the PROP variables and create the input file listing all the modern bams.
 
 
-### 3. ANGSD
+### 3.1. ANGSD
 
 There seem to be improperly paired reads in my final dataset. To deal with this I need to change the ANGSD flag -only_proper_pairs to 0. 
 
@@ -819,6 +829,24 @@ The developers have fixed a bug in the program. In addition I need to change the
 
 
 #### 3. Compare downsampled data to full dataset for modern pops (SFS and GL)
+
+
+### 3.2. CALL VARIANTS
+
+Call SNPs for one chromosome using bcftools mpileup and call
+
+
+1. Index the reference genome
+
+This creates a .fai file that contains chromosome name, length, start and stop positions. 
+```
+module load apps/samtools-1.9.1
+samtools faidx RefGenome/*fna
+```
+
+
+
+
 
 
 ### 4. ANALYSES
