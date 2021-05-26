@@ -449,13 +449,23 @@ Submit to queue.
 
 Move all the new rescaled bam files to a new folder: 
 ```
-mkdir 02b_museum_mapdamage.bams
-mv 02a_museum_processed.mapped/results*/*bam 02b_museum_mapdamage.bams && cd 02b_museum_mapdamage.bams
+mkdir 02b_museum_mapDamage
+mv 02a_museum_processed.mapped/results*/*bam 02b_museum_mapDamage && cd 02b_museum_mapDamage
 
 module load apps/samtools-1.9
 for i in $(ls *bam); do ls $i >> flagstat.log && samtools flagstat $i >> flagstat.log; done
 ```
 
+And index all the bams using the previous indexing script
+```
+cp ../02a_museum_mapped/02a_index.bamfiles.sh
+
+ls *bam > bamlist
+
+qsub 02a_index.bamfiles.sh
+```
+
+##### ->>>  To call variants skip to section 3.2
 
 
 #### 2c. Downsample modern data to the same coverage as in the museum samples
@@ -859,8 +869,50 @@ module load apps/samtools-1.9.1
 samtools faidx RefGenome/*fna
 ```
 
+2. Create a folder for calling variants for each population (modern.exp and modern.core are called together)
+```
+pwd
+$HOME/$SPECIES/
+
+mkdir 03.2_Variant_calling_modern
+mkdir 03.2_Variant_calling_museum
+```
+
+3. Copy the variant calling script to each folder
+
+Script here: [03a_variant_calling_bluecp3.sh](https://github.com/alexjvr1/Velocity2020/blob/master/03a_variant_calling_bluecp3.sh)
+
+a) Edit the variables in the script for each species and population
+
+b) Change permissions to execute this in your home directory. This should change the colour of the script. 
+```
+chmod u+x 03a_variant_calling_bluecp3.sh
+```
+
+c) And run 
+
+```
+./03a_variant_calling_bluecp3.sh
+```
+
+This  will create a regions file with all the chromosomes and scaffolds (obtained from the .fai indexed reference file), and a submission script that we'll submit to the server (*.sh)
+
+d) Check the length of this file. 
+
+Delete all scaffolds (we're only interested in the chromosomes for now). 
+
+And add a header to the file. 
 
 
+e) Change the number of threads in the variant calling script to match the number of chromosomes. 
+
+This script calls variants for all individuals simultaneously per chromosome. 
+
+f) submit to queue and check that it's running properly
+
+```
+qstat -u username -t
+```
 
 
 
