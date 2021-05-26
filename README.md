@@ -630,6 +630,12 @@ The [basic process is](https://github.com/ANGSD/angsd/issues/259):
 
 MUS
 ```
+##Need gcc to be loaded
+module load languages/gcc-9.1.0
+
+##ANGSD located here: 
+/newhome/aj18951/bin/angsd/angsd
+
 /newhome/aj18951/E3_Aphantopus_hyperantus_2020/04a_ANGSD_TESTS/04_SFS/04a_MUS.SAF.sh
 
 /newhome/aj18951/bin/angsd/angsd -b MUS.poplist -checkBamHeaders 1 -minQ 20 -minMapQ 20 -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 0 -r LR761675.1: -GL 1 -doSaf 1 -anc ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -ref ../RefGenome/GCA_902806685.1_iAphHyp1.1_genomic.fna -doCounts 1 -setMinDepthInd 2 -setMaxDepth 144 -doMajorMinor 4 -out MUS -C 50 -baq 1 
