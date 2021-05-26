@@ -6,7 +6,8 @@
 # Last modified: 03/10/2018 15:39:48
 
 # Description:
-# Filter bam files to include only properly paired reads with PHRED > 20. 
+# Filter bam files to include only properly paired reads (-f 2) with PHRED > 20. 
+# Remember that the museum samples are merged, so -f 2 will remove all reads. 
 
 
 #PBS -N E3.Flt.modBam  ##job name
