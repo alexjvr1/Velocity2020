@@ -114,7 +114,6 @@ ddply(depth,.(CHROM), colwise(sd))
 
 #4. Minimum depth of 2 (i.e. remove loci with lower than mean 2x depth)
 
-#5. Remove all loci genotyped in <50% of individuals in each population
 
 vcftools --vcf LR75.step2.recode.vcf --max-meanDP 10 --minDP 2 --max-missing 0.5 --recode --recode-INFO-all --out LR75.step3
 
@@ -125,12 +124,102 @@ After filtering, kept 137088 out of a possible 157949 Sites
 ```
 
 
-
 ```
-
+#5. Remove all loci genotyped in <50% of individuals in each population
 #6. Remove individuals with >60% missingness
 
+#Split the vcffile into MODC and MODE
+
+bcftools query -l LR75.step3.recode.vcf 
+
+##MODE
+
+vcftools --vcf LR75.MODE.recode.vcf --max-missing 0.5 --recode --recode-INFO-all --out LR75.MODE.0.5miss
+After filtering, kept 34 out of 34 Individuals
+Outputting VCF file...
+After filtering, kept 136735 out of a possible 137088 Sites
+Run Time = 16.00 seconds
+
+vcftools --vcf LR75.MODE.0.5miss.recode.vcf --missing-indv
+
+vcftools --vcf LR75.MODE.0.5miss.recode.vcf --remove MODE.remove --recode --recode-INFO-all --out LR75.MODE.FINAL
+Excluding individuals in 'exclude' list
+After filtering, kept 32 out of 34 Individuals
+After filtering, kept 136735 out of a possible 136735 Sites
+
+##MODC
+
+vcftools --vcf LR75.MODC.recode.vcf --max-missing 0.5 --recode --recode-INFO-all --out LR75.MODC.0.5miss
+After filtering, kept 38 out of 38 Individuals
+Outputting VCF file...
+After filtering, kept 113387 out of a possible 137088 Sites
+
+vcftools --vcf LR75.MODC.0.5miss.recode.vcf --remove MODC.remove --recode --recode-INFO-all --out LR75.MODC.FINAL
+
+vcftools --vcf LR75.MODC.0.5miss.recode.vcf --missing-indv
+
+#Remove 8 indivs for >60% missingness
+```
+
+
+Intersect and combine data
+```
+module load apps/samtools-1.9
+module load apps/bcftools-1.8
+module load apps/tabix-0.2.6
+
+bcftools isec -n 2 LR75.MODC.FINAL.recode.vcf.gz LR75.MODE.FINAL.recode.vcf.gz -p E3.LR75.FINAL
+cd E3.LR75.FINAL/
+
+##Had to add header to vcf files to say they're vcf (for bcftools error)
+
+bgzip 0000.vcf
+tabix 0000.vcf.gz
+bgzip 0001.vcf
+tabix 0001.vcf.gz
+
+vcftools --gzvcf 0000.vcf.gz --freq --out MODC.LR75.freq
+vcftools --gzvcf 0001.vcf.gz --freq --out MODE.LR75.freq
+
+awk -F ":" '{print $3}' MODE.LR75.freq.frq > MODE.frq
+awk -F ":" '{print $3}' MODC.LR75.freq.frq > MODC.frq
+
+
+gnuplot << \EOF 
+set terminal dumb size 120, 30
+set autoscale 
+unset label
+set title "SFS: E3.MODE"
+set ylabel "Number of Occurrences"
+set xlabel "SFS"
+binwidth=0.01
+bin(x,width)=width*floor(x/width) + binwidth/2.0
+plot 'MODE.frq' using (bin( $1,binwidth)):(1.0) smooth freq with boxes
+pause -1
+EOF
+
+gnuplot << \EOF 
+set terminal dumb size 120, 30
+set autoscale 
+unset label
+set title SFS: E3.MODC"
+set ylabel "Number of Occurrences"
+set xlabel "SFS"
+binwidth=0.01
+bin(x,width)=width*floor(x/width) + binwidth/2.0
+plot 'MODC.frq' using (bin( $1,binwidth)):(1.0) smooth freq with boxes
+pause -1
+EOF
 
 ```
 
+![alt_txt][MODC.sfs]
+
+[MODC.sfs]:https://user-images.githubusercontent.com/12142475/119901911-6d720a80-bf3e-11eb-9c59-c4475a32df06.png
+
+
+
+![alt_txt][MODE.sfs]
+
+[MODE.sfs]:https://user-images.githubusercontent.com/12142475/119901916-706cfb00-bf3e-11eb-9628-8dcde07c8f7d.png
 
