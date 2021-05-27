@@ -1,0 +1,136 @@
+# Variants called
+
+Called variants using bcftools call on filtered bam files. SNPs were called together for MODC and MODE, and separately for MUS
+
+## E3
+
+MUS
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03.2_Variant_calling_museum
+
+cat job0029.20210526-101529.report.txt
+
+Calling variants for regions: LR761675.1 using samtools/bcftools...
+
+
+Finished.
+
+Merging results for all scaffolds/chromosomes...
+63560 variants called for 48 samples/individuals.
+
+```
+
+MODC & MODE
+```
+/newhome/aj18951/E3_Aphantopus_hyperantus_2020/03.2_Variant_calling/PerChr
+cat job0027.20210525-152341.report.txt
+
+Calling variants for regions: LR761675.1 using samtools/bcftools...
+
+
+Finished.
+
+Merging results for all scaffolds/chromosomes...
+165029 variants called for 78 samples/individuals.
+```
+
+
+# Modern samples: Why are we finding no singletons in the MODE dataset??
+
+We're first having a look at the population structure and diversity estimated from the Modern dataset
+
+
+
+Basic filters
+```
+#1. Remove loci with QUAL < 100 (i.e. Phred confidence in variant site)
+#2. remove all multi-allelic SNPs
+
+vcftools --bcf job0027.variants.raw.bcf --minQ 20 --max-alleles 2 --recode --recode-INFO-all --out LR75.step1
+VCFtools - 0.1.17
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--bcf job0027.variants.raw.bcf
+	--recode-INFO-all
+	--max-alleles 2
+	--minQ 20
+	--out LR75.step1
+	--recode
+
+Using zlib version: 1.2.11
+Warning: Expected at least 2 parts in INFO entry: ID=PV4,Number=4,Type=Float,Description="P-values for strand bias, baseQ bias, mapQ bias and tail distance bias",IDX=21>
+Warning: Expected at least 2 parts in INFO entry: ID=PV4,Number=4,Type=Float,Description="P-values for strand bias, baseQ bias, mapQ bias and tail distance bias",IDX=21>
+Warning: Expected at least 2 parts in INFO entry: ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases",IDX=24>
+Warning: Expected at least 2 parts in INFO entry: ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases",IDX=24>
+After filtering, kept 78 out of 78 Individuals
+Outputting VCF file...
+BCF file contains IDX values in header. These are being removed for conversion to VCF.
+After filtering, kept 157949 out of a possible 165029 Sites
+```
+
+
+Estimate the depth of the remaining loci and calculate the max depth filter
+```
+#calculates the mean depth per indiv
+vcftools --vcf LR75.step1.recode.vcf --depth
+
+#There are 6 indivs in MODE that sequenced badly. We're removing them from the dataset
+cat toremove 
+AH-02-2019-74_mod.exp_R1.fastq.gz.flt
+AH-02-2019-75_mod.exp_R1.fastq.gz.flt
+AH-02-2019-77_mod.exp_R1.fastq.gz.flt
+AH-02-2019-78_mod.exp_R1.fastq.gz.flt
+AH-02-2019-79_mod.exp_R1.fastq.gz.flt
+AH-02-2019-80_mod.exp_R1.fastq.gz.flt
+
+vcftools --vcf LR75.step1.recode.vcf --remove toremove --recode --recode-INFO-all --out LR75.step2
+
+##Depth per locus
+
+
+
+depth <- read.table("out.ldepth.mean", header=T)
+summary(depth$MEAN_DEPTH)
+    Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+  0.01389   2.94444   3.73611   3.65662   4.19444 224.76400 
+  
+library(plyr)
+ddply(depth,.(CHROM), colwise(mean))
+      CHROM     POS MEAN_DEPTH VAR_DEPTH
+1 LR761675.1 3062144   3.656624   16.2482
+
+ddply(depth,.(CHROM), colwise(sd))
+       CHROM     POS MEAN_DEPTH VAR_DEPTH
+1 LR761675.1 1854566   2.925705  232.2034
+```
+
+
+
+
+
+```
+#3. Max mean depth of mean + 2xSD of meanDP (here 10x)
+
+#4. Minimum depth of 2 (i.e. remove loci with lower than mean 2x depth)
+
+#5. Remove all loci genotyped in <50% of individuals in each population
+
+vcftools --vcf LR75.step2.recode.vcf --max-meanDP 10 --minDP 2 --max-missing 0.5 --recode --recode-INFO-all --out LR75.step3
+
+After filtering, kept 72 out of 72 Individuals
+Outputting VCF file...
+After filtering, kept 137088 out of a possible 157949 Sites
+
+```
+
+
+
+```
+
+#6. Remove individuals with >60% missingness
+
+
+```
+
+
