@@ -42,6 +42,14 @@ What is the state of the art with poolseq data? Should we use these approaches i
 
 
 
+## Running Pipeline: 
+
+### 5. Add RG, remove duplicates, local realignment using GATK
+
+
+### 6. Validate with PicardTools ValidateSamFile
+
+
 
 
 
