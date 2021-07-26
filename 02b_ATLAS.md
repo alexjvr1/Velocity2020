@@ -25,7 +25,7 @@ I'm testing the raw data pre-processing and ATLAS pipeline on the UCL server (CS
 
 5. Add RG, remove duplicates, Local realignment using GATK
 
-6. Validate bam file using samtools
+6. Validate bam file using PicardTools ValidateSamFile
 
 7. ATLAS: splitMerge
 
